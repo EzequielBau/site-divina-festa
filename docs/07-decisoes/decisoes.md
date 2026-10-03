@@ -344,4 +344,39 @@ Decisão: **Hospedagem do frontend em Cloudflare Pages** (detalha a DEC-028).
 
 Motivo: Resolver a L-21 com um provedor de hospedagem estática/CDN que publica a partir do GitHub e mantém o site independente da VPS, conforme a DEC-028.
 Impacto: Resolve a L-21. Continuam para a etapa de infraestrutura, com autorização: criação e configuração do projeto no Cloudflare Pages, conexão com o GitHub, registro CNAME de `dev` (depende do acesso ao DNS, L-11), mecanismo de bloqueio de indexação do `dev` e estratégia do domínio principal no lançamento (L-22). **Astro não será instalado e o Cloudflare não será configurado sem nova autorização.**
+Status: Aprovada. Operação do ambiente `dev` detalhada pela **DEC-030**.
+
+## DEC-030
+Data: 03/10/2026
+Decisão: **Operação do ambiente de desenvolvimento no Cloudflare Pages** (detalha a DEC-029).
+
+**DNS**
+- O acesso ao DNS de `divinafesta.com.br`, gerenciado na **Hostinger**, está confirmado.
+
+**Branch e fluxo**
+- Durante a fase de desenvolvimento, **`main` é a branch de publicação do ambiente `dev`**.
+- Fluxo: **commit → push `main` → Cloudflare Pages → `dev.divinafesta.com.br`**.
+- Pode ser alterado antes do lançamento da produção, mediante nova decisão.
+
+**Cloudflare Pages (quando a infraestrutura for autorizada)**
+- Conectar **somente** o repositório GitHub `EzequielBau/site-divina-festa`.
+- Production branch: `main`.
+- Build command previsto: `npm run build`.
+- Build output directory previsto: `dist`.
+- Domínio temporário oficial: `dev.divinafesta.com.br`.
+
+**Indexação do ambiente dev**
+- O `dev` deve ter proteção contra indexação, com **no mínimo**: `<meta name="robots" content="noindex, nofollow">` e o cabeçalho `X-Robots-Tag: noindex, nofollow`.
+- **Não depender apenas do `robots.txt`** para impedir indexação.
+- Se for decidido restringir também o acesso humano, poderá ser usado o **Cloudflare Access** ou mecanismo equivalente.
+
+**DNS do dev (ordem obrigatória)**
+1. Criar o projeto no Cloudflare Pages.
+2. Fazer o primeiro deploy.
+3. Associar `dev.divinafesta.com.br` em **Custom domains**.
+4. Só então criar no DNS da Hostinger o CNAME solicitado pelo Cloudflare, normalmente `dev → <nome-do-projeto>.pages.dev`.
+- **Não criar o CNAME antecipadamente.**
+
+Motivo: Fixar a operação do `dev` antes da etapa de infraestrutura, com uma ordem de configuração que evita apontar o DNS para um projeto inexistente e uma proteção contra indexação que não depende só do `robots.txt`.
+Impacto: Atualiza a L-11 (o acesso ao DNS deixa de ser pendência). Roteiro em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md). Como `main` publica o `dev`, a retirada do `noindex` em produção precisa ser planejada antes do lançamento (L-22). **Cloudflare não configurado, CNAME não criado e Astro não instalado: tudo depende de nova autorização.**
 Status: Aprovada

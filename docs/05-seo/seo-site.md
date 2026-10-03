@@ -100,8 +100,8 @@ Validar com o Rich Results Test e o Schema Markup Validator.
 
 ## 10. Robots
 
-- **Desenvolvimento:** `noindex` + proteção por senha, se possível (o noindex sozinho não impede acesso).
-- **Produção:** remover o noindex no lançamento. É o item nº 1 do checklist.
+- **Desenvolvimento (`dev.divinafesta.com.br`, DEC-030):** no mínimo `<meta name="robots" content="noindex, nofollow">` e o cabeçalho `X-Robots-Tag: noindex, nofollow`. **Não depender só do `robots.txt`**, e não bloquear o rastreamento nele, para que o buscador consiga ler o `noindex`. O noindex não impede o acesso humano; se for decidido restringi-lo, usar Cloudflare Access ou equivalente. Detalhes em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md).
+- **Produção:** remover o noindex no lançamento. É o item nº 1 do checklist. Como `main` publica o `dev` (DEC-030), definir antes do lançamento como o noindex sai da produção sem sair do `dev` (L-22).
 - `robots.txt` enxuto. Não bloquear CSS/JS. Bloquear só áreas administrativas e resultados de busca interna.
 - Decidir conscientemente a política para crawlers de IA (permitir/bloquear) e registrar a escolha em decisões.
 

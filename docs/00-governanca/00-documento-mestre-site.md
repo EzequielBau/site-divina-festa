@@ -1,6 +1,6 @@
 # Documento mestre — novo site Divina Festa
 
-**Versão:** 1.5 — 03/10/2026 (DEC-025 a DEC-029)
+**Versão:** 1.6 — 03/10/2026 (DEC-025 a DEC-030)
 **Função:** índice central do projeto. Resume e organiza o que já está decidido nos documentos-fonte e nas decisões registradas. **Não cria estratégia nova.** Só diverge do Documento Norte quando cita a decisão aprovada que fundamenta a divergência (DEC-025).
 
 ## 0. Natureza deste repositório
@@ -13,11 +13,11 @@ Este repositório é o **projeto paralelo programado** do novo site (DEC-016). A
 - **Frontend:** build estático do Astro em **hospedagem desacoplada da VPS**: inicialmente **Cloudflare Pages** (DEC-029), com deploy a partir do GitHub `EzequielBau/site-divina-festa`, build `npm run build` e saída `dist`. Nginx e VPS **não** são requisitos do frontend, e o site deve poder migrar de provedor sem ser refeito.
 - **Backend:** serviço separado em **Node.js + TypeScript + Fastify**, na **VPS**, no futuro em `api.divinafesta.com.br`. A VPS fica só para formulários, Kommo, Meta CAPI, webhooks, roteamento de WhatsApp e integrações futuras.
 - **Resiliência:** o site institucional **não depende da VPS**. Se ela cair, páginas, imagens, SEO e conteúdo continuam no ar; só as funções da API podem ficar temporariamente indisponíveis.
-- **Desenvolvimento:** antes da troca, o novo site fica em **`dev.divinafesta.com.br`** (CNAME para o projeto Cloudflare Pages), fora da indexação dos buscadores. O **WordPress atual segue em produção até a aprovação final**.
+- **Desenvolvimento (DEC-030):** antes da troca, o novo site fica em **`dev.divinafesta.com.br`**, publicado a partir da branch `main` (commit → push `main` → Cloudflare Pages → dev). Fora da indexação: meta robots e `X-Robots-Tag` `noindex, nofollow`, sem depender só do `robots.txt`. O CNAME no DNS da Hostinger só é criado depois do primeiro deploy e da associação do domínio no Cloudflare. O **WordPress atual segue em produção até a aprovação final**.
 - **HTTPS** em todo ambiente publicado.
 - **Deploy:** inicialmente simples e controlado. CI/CD (GitHub → build → testes → deploy) só no futuro; GitHub Actions não é configurado agora.
 
-Detalhes em [`arquitetura-site.md`](../02-arquitetura/arquitetura-site.md#arquitetura-técnica-dec-026-dec-027-e-dec-028).
+Detalhes em [`arquitetura-site.md`](../02-arquitetura/arquitetura-site.md#arquitetura-técnica-dec-026-dec-027-e-dec-028). Roteiro da infraestrutura do `dev` em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md).
 
 **Ainda não há código.** A implementação só começa com autorização expressa.
 
@@ -187,7 +187,7 @@ Toda seção ou página só é aprovada se passar nas duas listas:
 |---|---|
 | `docs/00-governanca/` | este documento · [divergências e lacunas](divergencias-e-lacunas.md) · [proposta de prevalência](proposta-ordem-prevalencia.md) (aprovada como DEC-025) |
 | `docs/01-estrategia/` | Documento Norte e Síntese Estratégica (`.docx` originais + transcrições `.md`) |
-| `docs/02-arquitetura/` | [arquitetura do site](../02-arquitetura/arquitetura-site.md) (páginas e arquitetura técnica) · [comparativo de stack](../02-arquitetura/proposta-comparativo-stack.md) (base da DEC-026) |
+| `docs/02-arquitetura/` | [arquitetura do site](../02-arquitetura/arquitetura-site.md) (páginas e arquitetura técnica) · [infraestrutura](../02-arquitetura/infraestrutura.md) (Cloudflare Pages, ambiente dev, DNS e indexação) · [comparativo de stack](../02-arquitetura/proposta-comparativo-stack.md) (base da DEC-026) |
 | `docs/03-design-system/` | [design system](../03-design-system/design-system.md) |
 | `docs/04-conteudo/` | [estrutura da Home](../04-conteudo/home-estrutura.md) · wireframe original `Orientacóes para site` |
 | `docs/05-seo/` | [SEO](../05-seo/seo-site.md) |

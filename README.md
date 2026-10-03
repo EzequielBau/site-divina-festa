@@ -15,7 +15,7 @@ site-divina-festa/
 ├── docs/
 │   ├── 00-governanca/      documento mestre (índice central) · divergências e lacunas
 │   ├── 01-estrategia/      Documento Norte · Síntese Estratégica (.docx + transcrição .md)
-│   ├── 02-arquitetura/     mapa do site, prioridades, função de cada página
+│   ├── 02-arquitetura/     mapa do site, prioridades, função de cada página · infraestrutura
 │   ├── 03-design-system/   paleta, tipografia, grid, componentes, regras de imagem
 │   ├── 04-conteudo/        estrutura da Home · wireframe original
 │   ├── 05-seo/             SEO on-page, local, schema, sitemap, robots
@@ -55,11 +55,11 @@ Ordem de prevalência (DEC-025): primeiro vale a decisão posterior aprovada, re
 
 **Etapa 00: organização e governança** (03/10/2026), aprovada. Ainda não há código do site neste repositório. Detalhes em [`docs/08-status/status.md`](docs/08-status/status.md).
 
-> Este repositório é o **projeto paralelo programado** do novo site (DEC-016). **Stack (DEC-026):** Astro em arquitetura static-first, com TypeScript, componentes reutilizáveis e fonte factual centralizada. Formulários e integrações (Kommo, Meta CAPI, webhooks, WhatsApp) ficam em um serviço backend independente na VPS, desacoplado do site. **Execução (DEC-027, refinada pelas DEC-028 e DEC-029):**
+> Este repositório é o **projeto paralelo programado** do novo site (DEC-016). **Stack (DEC-026):** Astro em arquitetura static-first, com TypeScript, componentes reutilizáveis e fonte factual centralizada. Formulários e integrações (Kommo, Meta CAPI, webhooks, WhatsApp) ficam em um serviço backend independente na VPS, desacoplado do site. **Execução (DEC-027, refinada pelas DEC-028 a DEC-030):**
 > - build estático hospedado em **Cloudflare Pages**, com deploy a partir deste repositório no GitHub (`npm run build` → `dist`), desacoplado da VPS. Nginx e VPS não são requisitos do frontend, e o site pode mudar de provedor sem ser refeito;
 > - o site institucional continua no ar mesmo com a VPS indisponível; só as funções da API podem parar;
 > - backend em Node.js + TypeScript + Fastify, na VPS, no futuro em `api.divinafesta.com.br`;
-> - desenvolvimento em `dev.divinafesta.com.br` (CNAME para o Cloudflare Pages), fora da indexação até o lançamento;
+> - desenvolvimento em `dev.divinafesta.com.br`, publicado a partir da branch `main` (commit → push `main` → Cloudflare Pages → dev) e fora da indexação até o lançamento (DEC-030). **Todo push em `main` vai ao ar no `dev`** depois que a infraestrutura for configurada. Roteiro em [`infraestrutura.md`](docs/02-arquitetura/infraestrutura.md);
 > - o WordPress atual segue em produção até a aprovação final;
 > - HTTPS em todo ambiente publicado.
 >

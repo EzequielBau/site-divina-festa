@@ -1,6 +1,6 @@
 # Arquitetura do site
 
-**Versão:** 1.5 — 03/10/2026 (arquitetura técnica: DEC-026 a DEC-029)
+**Versão:** 1.6 — 03/10/2026 (arquitetura técnica: DEC-026 a DEC-030)
 **Fontes:** NORTE §9–14 · SÍNTESE §18, §23, §29 · HANDOFF §8
 **Regra de criação de página:** só existe página quando há **intenção diferente + necessidade diferente + conteúdo diferente + função comercial própria**. Não criar páginas por palavra-chave ou bairro.
 
@@ -134,18 +134,18 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 - Princípio de degradação: se o envio do formulário falhar, o visitante ainda precisa de um caminho de contato (ex.: link direto para o WhatsApp correto). O mecanismo exato será definido na etapa do backend.
 - Segredos (tokens do Kommo e da Meta) só no backend, em variáveis de ambiente. **Nunca no frontend nem no Git.**
 
-### Ambientes (DEC-027 a DEC-029)
+### Ambientes (DEC-027 a DEC-030)
 
 | Ambiente | Endereço | Situação |
 |---|---|---|
 | Produção atual | `divinafesta.com.br` (WordPress) | **Continua no ar até a aprovação final do novo site** |
-| Desenvolvimento do novo site | `dev.divinafesta.com.br` (CNAME → projeto Cloudflare Pages) | Antes de substituir o WordPress. **Fora da indexação** dos buscadores até o lançamento |
+| Desenvolvimento do novo site | `dev.divinafesta.com.br` (Cloudflare Pages, branch `main`; CNAME no DNS da Hostinger) | Antes de substituir o WordPress. **Fora da indexação** até o lançamento: meta robots + `X-Robots-Tag` `noindex, nofollow` (DEC-030) |
 | API (backend) | `api.divinafesta.com.br` (VPS) | Futuro |
 | Produção do novo site | `divinafesta.com.br` (Cloudflare Pages) | Só após aprovação final. Na virada: 301, Search Console, remoção do bloqueio de indexação. Configuração do domínio principal a definir (L-22) |
 
-### Deploy (DEC-027 a DEC-029)
+### Deploy (DEC-027 a DEC-030)
 
-- **Frontend:** Cloudflare Pages publica a partir do GitHub (`npm run build` → `dist`). A configuração fica para a etapa de infraestrutura, com autorização.
+- **Frontend:** Cloudflare Pages publica a partir do GitHub (`npm run build` → `dist`). Na fase de desenvolvimento, **`main` publica o `dev`**: commit → push `main` → Cloudflare Pages → `dev.divinafesta.com.br` (DEC-030; pode mudar antes do lançamento, com nova decisão). A configuração fica para a etapa de infraestrutura, com autorização. Roteiro em [`infraestrutura.md`](infraestrutura.md).
 - **Backend:** no início, processo simples e controlado na VPS.
 - **Futuro:** testes automatizados antes da publicação e pipeline do backend (GitHub → build → testes → deploy na VPS), independente do frontend.
 - **GitHub Actions não será configurado agora.**
@@ -154,12 +154,12 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 
 | Item | Situação |
 |---|---|
-| Criação do projeto no Cloudflare Pages, conexão com o GitHub, branch de produção e branch/ambiente que atende o `dev` | etapa de infraestrutura, com autorização (DEC-029) |
-| Registro CNAME de `dev.divinafesta.com.br` | etapa de infraestrutura; depende do acesso ao DNS (L-11) |
+| Criação do projeto no Cloudflare Pages (só este repositório; Production branch `main`) e primeiro deploy | etapa de infraestrutura, com autorização (DEC-030) |
+| Associação de `dev.divinafesta.com.br` em Custom domains e, **só depois**, CNAME no DNS da Hostinger (L-11) | etapa de infraestrutura, nessa ordem (DEC-030) |
 | Configuração do domínio principal `divinafesta.com.br` no Cloudflare Pages no lançamento (L-22) | etapa de lançamento |
 | Procedimento do deploy inicial do backend na VPS | a definir na etapa do backend |
 | Certificados HTTPS e, na VPS, reverse proxy do backend | a definir na etapa de infraestrutura, com autorização |
-| Mecanismo que mantém `dev.divinafesta.com.br` fora da indexação (noindex, cabeçalho e/ou restrição de acesso) | a definir na etapa de infraestrutura |
+| Implementação da proteção contra indexação do `dev` (meta robots e `X-Robots-Tag` `noindex, nofollow`, no mínimo; não só `robots.txt`). Cloudflare Access ou equivalente só se for decidido restringir o acesso humano | etapa de infraestrutura (DEC-030) |
 | CI/CD (GitHub Actions) | futuro; não configurar agora (DEC-027) |
 | GTM, GA4, Meta Pixel, Consent Mode e demais ferramentas | etapa própria (DEC-026) |
 | Local das imagens otimizadas no projeto Astro (o processamento de imagens do Astro trabalha a partir de `src/`; `public/images/web/` pode ser revisto) | a definir na implementação |
