@@ -1,0 +1,31 @@
+---
+// Página técnica provisória para validar a infraestrutura.
+// Será substituída quando o desenvolvimento visual da Home começar.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title={`${site.business.name} — novo site em desenvolvimento`}
+  description="Ambiente técnico do novo site Divina Festa."
+>
+  <main class="placeholder">
+    <h1>{site.business.name}</h1>
+    <p>Novo site em desenvolvimento.</p>
+    <p class="muted">Ambiente técnico do novo site {site.business.name}.</p>
+  </main>
+</BaseLayout>
+
+<style>
+  .placeholder {
+    max-width: var(--text-max);
+    margin: 0 auto;
+    padding: var(--space-96) var(--gutter);
+    display: grid;
+    gap: var(--space-16);
+  }
+
+  .muted {
+    color: var(--color-text-muted);
+  }
+</style>

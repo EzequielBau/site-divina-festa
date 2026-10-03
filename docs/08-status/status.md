@@ -21,6 +21,7 @@
 - **Hospedagem do frontend decidida: Cloudflare Pages** (DEC-029): deploy a partir do GitHub, build `npm run build`, saída `dist`, `dev.divinafesta.com.br` por CNAME. Nada configurado ainda
 - **Operação do ambiente dev decidida** (DEC-030): acesso ao DNS (Hostinger) confirmado; `main` publica o `dev`; proteção contra indexação com meta robots e `X-Robots-Tag`; CNAME só depois do primeiro deploy e da associação em Custom domains. Roteiro em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md)
 - Revisões de consistência interna da documentação
+- **Etapa 01: base técnica do projeto Astro** (Astro 7.3.5, Node 24): TypeScript `strictest`; fonte factual em `src/data/site.ts`; tokens em `src/styles/tokens.css`; `BaseLayout.astro` com meta robots `noindex, nofollow` por padrão; página técnica provisória. Build sem erros e sem JavaScript no cliente
 - Conteúdo já aprovado na implementação anterior, aproveitado como referência: texto do Hero; copy de Prova rápida, Tipos de evento e Crianças + adultos
 
 ## Em andamento
@@ -29,13 +30,13 @@
 
 ## Próximo (cada item depende de autorização)
 
-1. Inicialização do projeto Astro (estrutura de pastas, TypeScript, fonte factual centralizada)
+1. ~~Inicialização do projeto Astro~~ (feita na Etapa 01)
 2. Design system: validar tokens e o contraste final do dourado escuro (DEC-022)
 3. Header
 4. Footer
 5. Hero (conteúdo já aprovado; implementação nova)
 6. Home seção por seção, começando por **Gastronomia** no conteúdo
-7. Infraestrutura de desenvolvimento, nesta ordem (DEC-030): projeto no Cloudflare Pages (só este repositório, branch `main`) → primeiro deploy com proteção contra indexação → `dev.divinafesta.com.br` em Custom domains → CNAME no DNS da Hostinger
+7. Infraestrutura de desenvolvimento, nesta ordem (DEC-030): projeto no Cloudflare Pages (só este repositório, branch `main`) → primeiro deploy com proteção contra indexação (configurar o `X-Robots-Tag` na hospedagem; a meta robots já está no código) → `dev.divinafesta.com.br` em Custom domains → CNAME no DNS da Hostinger
 8. Etapas próprias e posteriores: backend Fastify (formulários, Kommo, Meta CAPI, webhooks, WhatsApp), tracking (GTM, GA4, Pixel, Consent Mode) e CI/CD
 
 ## Pendências
@@ -67,3 +68,4 @@
 | DIV-12 | Nome "Divina Festa" × "Divina Festa Buffet" (NAP/GBP) |
 | L-22 | Domínio principal no Cloudflare Pages e retirada do noindex em produção, no lançamento |
 | — | Tratamento das duplicatas de imagem |
+| — | Escolhas técnicas da Etapa 01, a ratificar: fontes pela API nativa do Astro (baixadas no build e servidas pelo próprio site, arquivo variável 400–700, subset latin, `font-display: swap`); variável `PUBLIC_ALLOW_INDEXING` como chave da indexação; `astro check` dentro do `npm run build`; peso dos títulos 600 |

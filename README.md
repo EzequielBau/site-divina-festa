@@ -27,7 +27,12 @@ site-divina-festa/
 │   ├── brand/logos/        logos originais
 │   └── images/source/      fotos e materiais originais (somente leitura)
 ├── public/images/web/      versões otimizadas para o site (futuro)
-├── src/                    código do frontend Astro (futuro; ainda sem código)
+├── src/
+│   ├── data/site.ts        fonte factual central (fatos aprovados do negócio)
+│   ├── layouts/            BaseLayout (head, SEO base, noindex no dev)
+│   ├── pages/              páginas (hoje só a página técnica provisória)
+│   └── styles/             tokens.css (design tokens) · global.css
+├── astro.config.mjs        configuração do Astro (estático, fontes, indexação)
 ├── AGENTS.md               regras para assistentes de IA
 └── README.md
 ```
@@ -53,7 +58,7 @@ Ordem de prevalência (DEC-025): primeiro vale a decisão posterior aprovada, re
 
 ## Status
 
-**Etapa 00: organização e governança** (03/10/2026), aprovada. Ainda não há código do site neste repositório. Detalhes em [`docs/08-status/status.md`](docs/08-status/status.md).
+**Etapa 00: organização e governança** (03/10/2026), aprovada. **Etapa 01: base técnica do projeto Astro**, com página técnica provisória; a Home ainda não foi construída. Detalhes em [`docs/08-status/status.md`](docs/08-status/status.md).
 
 > Este repositório é o **projeto paralelo programado** do novo site (DEC-016). **Stack (DEC-026):** Astro em arquitetura static-first, com TypeScript, componentes reutilizáveis e fonte factual centralizada. Formulários e integrações (Kommo, Meta CAPI, webhooks, WhatsApp) ficam em um serviço backend independente na VPS, desacoplado do site. **Execução (DEC-027, refinada pelas DEC-028 a DEC-030):**
 > - build estático hospedado em **Cloudflare Pages**, com deploy a partir deste repositório no GitHub (`npm run build` → `dist`), desacoplado da VPS. Nginx e VPS não são requisitos do frontend, e o site pode mudar de provedor sem ser refeito;
@@ -63,7 +68,7 @@ Ordem de prevalência (DEC-025): primeiro vale a decisão posterior aprovada, re
 > - o WordPress atual segue em produção até a aprovação final;
 > - HTTPS em todo ambiente publicado.
 >
-> A implementação anterior em WordPress/Kadence serve só como referência de conteúdo, UX e decisões aprovadas. **Ainda não há código**; a implementação aguarda autorização.
+> A implementação anterior em WordPress/Kadence serve só como referência de conteúdo, UX e decisões aprovadas. Existe só a base técnica (Etapa 01). Cada etapa seguinte aguarda autorização.
 
 ## Repositório
 

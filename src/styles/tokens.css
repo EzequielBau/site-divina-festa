@@ -1,0 +1,90 @@
+/*
+ * Design tokens — base do design system.
+ * Fonte: docs/03-design-system/design-system.md (DEC-021, DEC-022).
+ * Base pequena de propósito: novos tokens só quando houver uso real.
+ *
+ * Breakpoints conceituais (CSS não aceita variáveis em media queries):
+ *   mobile  < 768px · tablet 768–1024px · desktop > 1024px
+ *   Usar: @media (min-width: 768px) e @media (min-width: 1025px).
+ */
+
+:root {
+  /* Cores institucionais [aprovado] */
+  --color-gold: #b88917; /* acento: ícones, filetes, títulos ≥ 24px em branco/creme. NÃO usar em texto pequeno sobre fundo claro (≈3:1) */
+  --color-gold-dark: #8f6b16; /* texto pequeno, botões, hover (DEC-022). 4,9:1 em branco; 4,43:1 em cream-alt (pendente) */
+  --color-brown: #6f5426;
+  --color-ink-strong: #282120;
+  --color-text: #2f2f2f;
+  --color-text-muted: #6b6b6b; /* não usar sobre ink-strong (2,97:1) */
+  --color-cream: #fff9f2;
+  --color-cream-alt: #f8f3e8;
+  --color-white: #ffffff;
+
+  /* Papéis */
+  --color-bg: var(--color-cream);
+  --color-bg-alt: var(--color-cream-alt);
+  --color-accent: var(--color-gold);
+  --color-accent-text: var(--color-gold-dark); /* sobre cream-alt, usar --color-brown até a validação da DEC-022 */
+  --color-focus: var(--color-ink-strong);
+
+  /* Tipografia — famílias definidas pela API de fontes do Astro (astro.config.mjs) */
+  --font-family-heading: var(--font-heading, sans-serif);
+  --font-family-body: var(--font-body, sans-serif);
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Escala [aprovado — HANDOFF §7]. Valores mobile; tablet e desktop abaixo */
+  --font-size-h1: 2.375rem; /* 38px */
+  --font-size-h2: 1.875rem; /* 30px */
+  --font-size-h3: 1.5rem; /* 24px */
+  --font-size-body: 1rem; /* 16px */
+  --font-size-small: 0.875rem; /* 14px: eyebrow, legenda */
+
+  --line-height-heading: 1.15;
+  --line-height-body: 1.55;
+
+  /* Espaçamento: escala base de 4px */
+  --space-4: 0.25rem;
+  --space-8: 0.5rem;
+  --space-12: 0.75rem;
+  --space-16: 1rem;
+  --space-24: 1.5rem;
+  --space-32: 2rem;
+  --space-48: 3rem;
+  --space-64: 4rem;
+  --space-96: 6rem;
+  --space-128: 8rem;
+
+  /* Layout */
+  --container-max: 75rem; /* 1200px */
+  --text-max: 45rem; /* 720px */
+  --gutter: 1.25rem; /* 20px mobile */
+
+  /* Forma */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --border-width: 1px;
+  /* Única sombra prevista: elementos flutuantes (header sticky, drawer) */
+  --shadow-float: 0 2px 8px rgb(40 33 32 / 0.08);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --font-size-h1: 2.875rem; /* 46px */
+    --font-size-h2: 2.125rem; /* 34px */
+    --font-size-h3: 1.6875rem; /* 27px */
+    --font-size-body: 1.0625rem; /* 17px */
+    --gutter: 2rem; /* 32px */
+  }
+}
+
+@media (min-width: 1025px) {
+  :root {
+    --font-size-h1: 3.5rem; /* 56px */
+    --font-size-h2: 2.5rem; /* 40px */
+    --font-size-h3: 1.875rem; /* 30px */
+    --font-size-body: 1.125rem; /* 18px */
+    --gutter: 2.5rem; /* 40px */
+  }
+}

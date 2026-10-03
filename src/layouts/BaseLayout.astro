@@ -1,0 +1,51 @@
+---
+import { Font } from 'astro:assets';
+import { PUBLIC_ALLOW_INDEXING } from 'astro:env/client';
+import { site } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** URL canônica absoluta. Só é emitida quando informada (domínio final: L-22). */
+  canonical?: string | URL;
+  /** Permite tirar uma página específica do índice mesmo com a indexação liberada. */
+  noindex?: boolean;
+  /** Open Graph: só emitidas quando informadas. */
+  ogImage?: string | URL;
+  ogType?: 'website' | 'article';
+}
+
+const { title, description, canonical, noindex = false, ogImage, ogType = 'website' } = Astro.props;
+
+// Indexação desligada por padrão (DEC-030). O cabeçalho X-Robots-Tag depende
+// da hospedagem: ver docs/02-arquitetura/infraestrutura.md.
+const robots = PUBLIC_ALLOW_INDEXING && !noindex ? 'index, follow' : 'noindex, nofollow';
+const canonicalHref = canonical ? new URL(canonical).href : undefined;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    {canonicalHref && <link rel="canonical" href={canonicalHref} />}
+
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.business.name} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonicalHref && <meta property="og:url" content={canonicalHref} />}
+    {ogImage && <meta property="og:image" content={new URL(ogImage).href} />}
+
+    <Font cssVariable="--font-heading" preload />
+    <Font cssVariable="--font-body" preload />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

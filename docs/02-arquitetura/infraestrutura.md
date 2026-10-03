@@ -59,6 +59,17 @@ O ambiente `dev` deve ficar fora dos mecanismos de busca até o lançamento. Qua
 | Meta tag em todas as páginas | `<meta name="robots" content="noindex, nofollow">` |
 | Cabeçalho HTTP em todas as respostas | `X-Robots-Tag: noindex, nofollow` |
 
+### Situação da implementação (Etapa 01)
+
+| Camada | Situação |
+|---|---|
+| Meta robots | **Implementada** em `src/layouts/BaseLayout.astro`. Padrão `noindex, nofollow`; só vira `index, follow` com a variável `PUBLIC_ALLOW_INDEXING=true` no build (definida em `astro.config.mjs`, padrão `false`). Sem a variável, o site fica fora do índice |
+| `X-Robots-Tag` | **Não implementada no frontend, de propósito.** Cabeçalho HTTP é configuração da hospedagem, não do HTML. Para manter o projeto portável, nada específico do Cloudflare foi criado no código |
+
+**Pendente para a etapa de infraestrutura (com autorização):** configurar o `X-Robots-Tag: noindex, nofollow` em todas as respostas do `dev` e do `<nome-do-projeto>.pages.dev`. Opções no Cloudflare: arquivo `_headers` na saída do build (também aceito pela Netlify) ou regra de cabeçalho de resposta no painel do Cloudflare. A escolha fica para essa etapa. Depois, conferir com `curl -I https://dev.divinafesta.com.br`.
+
+**Na virada para produção (L-22):** definir `PUBLIC_ALLOW_INDEXING=true` apenas no build de produção e retirar o `X-Robots-Tag` só da produção.
+
 Regras:
 - **Não depender só do `robots.txt`.** Ele não impede a indexação de uma URL já descoberta. Além disso, se o `robots.txt` bloquear o rastreamento, o buscador não chega a ler o `noindex` das páginas.
 - A proteção deve valer também para o endereço `<nome-do-projeto>.pages.dev`, que serve o mesmo conteúdo.
