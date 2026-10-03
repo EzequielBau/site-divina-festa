@@ -11,7 +11,7 @@
 :root {
   /* Cores institucionais [aprovado] */
   --color-gold: #b88917; /* acento: ícones, filetes, títulos ≥ 24px em branco/creme. NÃO usar em texto pequeno sobre fundo claro (≈3:1) */
-  --color-gold-dark: #8f6b16; /* texto pequeno, botões, hover (DEC-022). 4,9:1 em branco; 4,43:1 em cream-alt (pendente) */
+  --color-gold-dark: #8f6b16; /* referência da DEC-022. NÃO é a cor definitiva de texto pequeno: 4,43:1 em cream-alt (< AA 4,5:1) */
   --color-brown: #6f5426;
   --color-ink-strong: #282120;
   --color-text: #2f2f2f;
@@ -24,7 +24,9 @@
   --color-bg: var(--color-cream);
   --color-bg-alt: var(--color-cream-alt);
   --color-accent: var(--color-gold);
-  --color-accent-text: var(--color-gold-dark); /* sobre cream-alt, usar --color-brown até a validação da DEC-022 */
+  /* Texto com destaque: provisoriamente o texto escuro (≥ 12:1 em todos os fundos claros).
+     O tom marrom/dourado acessível definitivo será escolhido na etapa de Design System. */
+  --color-accent-text: var(--color-text);
   --color-focus: var(--color-ink-strong);
 
   /* Tipografia — famílias definidas pela API de fontes do Astro (astro.config.mjs) */

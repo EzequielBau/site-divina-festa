@@ -47,6 +47,7 @@ Referência: AA exige 4,5:1 para texto normal e 3:1 para texto grande (≥ 24 px
 1. **`#B88917` continua sendo a cor institucional/acento.** Serve para ícones, detalhes, filetes, títulos grandes (≥ 24 px) sobre branco ou creme principal, e texto sobre o footer `#282120` (4,99). **Não usar** em texto pequeno ou corrido sobre fundos claros. Sobre `#F8F3E8` não atinge nem 3:1.
 2. **Texto pequeno, botões e elementos que exigem contraste WCAG** usam a versão escura, **inicialmente `#8F6B16`**: botão primário com fundo `#8F6B16` e texto branco (≈ 4,9:1); eyebrows em `#8F6B16` ou `#6F5426`.
 3. **Pendente de validação no design system:** `#8F6B16` sobre `#F8F3E8` dá **4,43:1**, abaixo de 4,5:1 para texto pequeno. Opções: usar `#6F5426` nas seções em creme secundário, ou escurecer levemente o dourado escuro. O valor final será validado antes da implementação.
+   **Situação na Etapa 01:** `#8F6B16` **não** foi consolidado como cor de texto pequeno. Em `src/styles/tokens.css`, o token `--color-accent-text` usa provisoriamente `#2F2F2F` (texto escuro, seguro em todos os fundos claros). `#B88917` segue como dourado institucional/acento. O tom marrom/dourado acessível definitivo será escolhido na **etapa de Design System**.
 4. No footer `#282120`, usar branco ou creme para o texto.
 
 ## 3. Tipografia [aprovado]
