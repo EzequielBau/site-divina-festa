@@ -5,6 +5,8 @@
 **Relação:** fundamentou a DEC-026, que resolveu a pendência de stack (DEC-016 / L-19).
 
 > **Diferença entre esta análise e a decisão final:** a recomendação refinada (§6) previa os endpoints dentro do projeto Astro (adapter Node). A DEC-026 adotou um caminho mais desacoplado: frontend **100% estático** e **serviço backend independente na VPS**, para que o site não dependa de um servidor Node permanente e falhas de integração não o afetem. Vale o texto da DEC-026.
+>
+> **Hospedagem (DEC-028):** esta análise e a DEC-027 previam o site na VPS (Nginx). A DEC-028 substituiu esse ponto: o frontend estático fica em **hospedagem desacoplada da VPS** (serviço estático/CDN, provedor a definir em etapa própria), e a VPS fica só para o backend. As menções a "VPS (Nginx + Node)" para o site, abaixo, são registro histórico da análise.
 
 ---
 

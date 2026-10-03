@@ -1,6 +1,6 @@
 # Status do projeto
 
-**Atualizado em:** 03/10/2026 — governança, stack e arquitetura de execução decididas (DEC-025, DEC-026, DEC-027). Implementação ainda não autorizada.
+**Atualizado em:** 03/10/2026 — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-028). Implementação ainda não autorizada.
 
 ## Concluído
 
@@ -16,7 +16,8 @@
 - Decisões canônicas: natureza do projeto (DEC-016), capacidade (DEC-017), telefones (DEC-018), estacionamento privativo (DEC-019), Divina Essência fora da v1 (DEC-020), Familjen Grotesk (DEC-021), contraste do dourado (DEC-022), logo (DEC-023), regras de imagem (DEC-024)
 - **Ordem de prevalência documental aprovada** (DEC-025)
 - **Stack decidida: Astro static-first + backend independente na VPS** (DEC-026)
-- **Arquitetura de execução decidida** (DEC-027): Nginx na VPS servindo o build estático; backend Node.js + TypeScript + Fastify (`api.divinafesta.com.br`, futuro); staging em `staging.divinafesta.com.br`; WordPress atual em produção até a aprovação final; HTTPS; deploy inicial simples, CI/CD no futuro
+- **Arquitetura de execução decidida** (DEC-027): backend Node.js + TypeScript + Fastify na VPS (`api.divinafesta.com.br`, futuro); WordPress atual em produção até a aprovação final; HTTPS; deploy inicial simples, CI/CD no futuro
+- **Frontend estático desacoplado da VPS** (DEC-028, substitui parcialmente a DEC-027): build estático em hospedagem estática/CDN (provedor a definir em etapa própria); Nginx e VPS não são requisitos do frontend; o site continua no ar se a VPS cair; desenvolvimento em `dev.divinafesta.com.br`, fora da indexação
 - Revisões de consistência interna da documentação
 - Conteúdo já aprovado na implementação anterior, aproveitado como referência: texto do Hero; copy de Prova rápida, Tipos de evento e Crianças + adultos
 
@@ -32,7 +33,7 @@
 4. Footer
 5. Hero (conteúdo já aprovado; implementação nova)
 6. Home seção por seção, começando por **Gastronomia** no conteúdo
-7. Infraestrutura de staging: DNS, Nginx e HTTPS em `staging.divinafesta.com.br`, com deploy manual controlado
+7. Escolha do provedor de hospedagem do frontend (L-21) e infraestrutura de desenvolvimento: DNS, HTTPS e bloqueio de indexação em `dev.divinafesta.com.br`, com deploy manual controlado
 8. Etapas próprias e posteriores: backend Fastify (formulários, Kommo, Meta CAPI, webhooks, WhatsApp), tracking (GTM, GA4, Pixel, Consent Mode) e CI/CD
 
 ## Pendências
@@ -42,13 +43,13 @@
 - Origem das fotos Bistrô, café colonial, capas Essência e 15 anos (L-09)
 - Logo em SVG: não há arquivo confirmado. Não vetorizar agora (L-10, DEC-023)
 - Fotos faltantes: equipe, cozinha, estacionamento, corporativo, salão ocupado, adultos + crianças (L-07)
-- Confirmação do subdomínio de staging e acesso ao DNS; GBP, CNPJ, política de privacidade, contas de marketing (L-11 a L-15)
+- Acesso ao DNS de `divinafesta.com.br` (L-11; subdomínio `dev.divinafesta.com.br` já aprovado); provedor de hospedagem do frontend (L-21); GBP, CNPJ, política de privacidade, contas de marketing (L-11 a L-15)
 - Remover manualmente as pastas vazias `Imagens\` e `Documentos norteadores para montar site\` (o Windows negou a exclusão; o Git ignora pastas vazias)
 - Decidir sobre as duplicatas (3 pares). Nada foi apagado
 
 ## Bloqueios
 
-- **Nenhum bloqueio técnico.** Stack e arquitetura de execução resolvidas (DEC-026, DEC-027).
+- **Nenhum bloqueio técnico.** Stack e arquitetura de execução resolvidas (DEC-026, DEC-027, DEC-028).
 - A implementação aguarda **autorização expressa do gestor**. Isso é uma regra de processo, não um impedimento técnico.
 - Pontos que, se não forem resolvidos, vão travar etapas específicas mais adiante:
   - **publicação** de fotos com pessoas ou marca d'água, sem L-08 resolvida;
@@ -62,5 +63,5 @@
 | DIV-06 | Sequência da Home em 12 itens |
 | DIV-07 | Menu do Header × páginas P0 |
 | DIV-12 | Nome "Divina Festa" × "Divina Festa Buffet" (NAP/GBP) |
-| L-11 | Confirmação do subdomínio de staging |
+| L-21 | Provedor de hospedagem do frontend (etapa própria) |
 | — | Tratamento das duplicatas de imagem |

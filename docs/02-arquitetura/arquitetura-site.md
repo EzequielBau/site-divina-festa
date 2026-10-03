@@ -1,6 +1,6 @@
 # Arquitetura do site
 
-**Versão:** 1.3 — 03/10/2026 (arquitetura técnica: DEC-026 e DEC-027)
+**Versão:** 1.4 — 03/10/2026 (arquitetura técnica: DEC-026, DEC-027 e DEC-028)
 **Fontes:** NORTE §9–14 · SÍNTESE §18, §23, §29 · HANDOFF §8
 **Regra de criação de página:** só existe página quando há **intenção diferente + necessidade diferente + conteúdo diferente + função comercial própria**. Não criar páginas por palavra-chave ou bairro.
 
@@ -73,31 +73,34 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 
 - **Divina Essência** (buffet no local do cliente): **linha/produto separado, a avaliar no futuro. Não entra na arquitetura principal da primeira versão** (DEC-020). Nada de página, item de menu ou roteamento de WhatsApp para a Essência na v1. O telefone dela, (41) 9 8535-0605, não é contato do site principal (DEC-018).
 
-## Arquitetura técnica (DEC-026 e DEC-027)
+## Arquitetura técnica (DEC-026, DEC-027 e DEC-028)
 
-**Status:** decidida e documentada. **Nada instalado, configurado ou programado.**
+**Status:** decidida e documentada. **Nada instalado, configurado ou programado.** A DEC-028 substitui parcialmente a DEC-027 nos pontos sobre hospedagem do frontend.
 
 ```text
+  Hospedagem estática / CDN  [provedor a definir em etapa própria]
+  ┌────────────────────────────────────────────────────────────┐
+  │  divinafesta.com.br (após o lançamento)                    │
+  │  dev.divinafesta.com.br (desenvolvimento, fora do índice)  │
+  │     └── arquivos estáticos do build do Astro               │
+  │         HTML · CSS · JS mínimo · imagens                   │
+  └────────────────────────────────────────────────────────────┘
+                 │  só as funções que precisam de servidor
+                 │  (ex.: envio do formulário), via HTTPS
+                 ▼
                          VPS
   ┌────────────────────────────────────────────────────────────┐
-  │                                                            │
-  │   Nginx (HTTPS)                                            │
-  │   ├── divinafesta.com.br / staging.divinafesta.com.br      │
-  │   │      └── arquivos estáticos do build do Astro          │
-  │   │          (sem processo Node para servir páginas)       │
-  │   │                                                        │
-  │   └── api.divinafesta.com.br   [futuro, reverse proxy]     │
-  │          └── Node.js + TypeScript + Fastify                │
-  │              formulários · Kommo · Meta CAPI ·             │
-  │              webhooks · roteamento de WhatsApp ·           │
-  │              integrações adicionais                        │
+  │  api.divinafesta.com.br   [futuro]                         │
+  │     └── Node.js + TypeScript + Fastify                     │
+  │         formulários · Kommo · Meta CAPI · webhooks ·       │
+  │         roteamento de WhatsApp · integrações futuras       │
   └────────────────────────────────────────────────────────────┘
 
-  Astro / Nginx   → site público
-  Node / Fastify  → lógica de servidor e integrações
+  Astro (build estático) → hospedagem estática/CDN → site público
+  Node / Fastify (VPS)   → lógica de servidor e integrações
 ```
 
-A falha do backend não afeta as páginas: o site público é servido só pelo Nginx.
+**Regra de resiliência (DEC-028):** o site institucional não depende da VPS. Se a VPS ficar indisponível, Home, páginas, imagens, SEO e conteúdo continuam no ar; só as funções que dependem da API podem ficar temporariamente indisponíveis.
 
 ### Frontend
 
@@ -110,41 +113,47 @@ A falha do backend não afeta as páginas: o site público é servido só pelo N
 - **Não depende de servidor Node em execução permanente** para servir as páginas.
 - **Sem CMS adicional** por enquanto. Pode ser acrescentado depois sem reconstruir o frontend.
 
-### Hospedagem do frontend (DEC-027)
+### Hospedagem do frontend (DEC-028)
 
-- Produção prevista em **Nginx na VPS**, servindo o build do Astro como **arquivos estáticos**.
+- **Desacoplada da VPS.** O build do Astro é publicado como **arquivos estáticos** em serviço estático/CDN ou hospedagem web adequada.
+- **Provedor a definir em etapa própria** (L-21). Exemplos possíveis: Hostinger, Cloudflare Pages, Netlify, Vercel ou outra hospedagem estática/CDN.
+- **Portabilidade:** o site deve poder migrar entre provedores sem ser refeito. Recursos exclusivos de um provedor não podem ser requisito do frontend.
+- **Nginx e VPS não são requisitos do frontend.**
 - **HTTPS** obrigatório em todo ambiente publicado.
 
-### Backend (DEC-027)
+### Backend (DEC-027, DEC-028)
 
 - **Serviço separado**, em **Node.js + TypeScript**, com **Fastify** como framework inicial previsto.
-- Subdomínio futuro: **`api.divinafesta.com.br`**, publicado pelo Nginx como **reverse proxy**.
+- Roda na **VPS**, que fica reservada ao que exige processamento de servidor.
+- Subdomínio futuro: **`api.divinafesta.com.br`**. O Nginx pode atuar como reverse proxy na VPS; a configuração fica para a etapa de infraestrutura.
 - Responsabilidades futuras: formulários, Kommo, Meta Conversions API, webhooks, roteamento de WhatsApp e integrações adicionais.
 - **Não é requisito para o funcionamento normal das páginas institucionais:** o site continua funcionando mesmo se o backend ou uma integração falhar.
 - Princípio de degradação: se o envio do formulário falhar, o visitante ainda precisa de um caminho de contato (ex.: link direto para o WhatsApp correto). O mecanismo exato será definido na etapa do backend.
 - Segredos (tokens do Kommo e da Meta) só no backend, em variáveis de ambiente. **Nunca no frontend nem no Git.**
 
-### Ambientes (DEC-027)
+### Ambientes (DEC-027, DEC-028)
 
 | Ambiente | Endereço | Situação |
 |---|---|---|
 | Produção atual | `divinafesta.com.br` (WordPress) | **Continua no ar até a aprovação final do novo site** |
-| Staging do novo site | `staging.divinafesta.com.br` (preferencial; ou equivalente aprovado depois) | Antes de substituir o WordPress. Em **noindex** |
-| API (backend) | `api.divinafesta.com.br` | Futuro |
-| Produção do novo site | `divinafesta.com.br` (Nginx na VPS) | Só após aprovação final. Na virada: 301, Search Console, remoção do noindex |
+| Desenvolvimento do novo site | `dev.divinafesta.com.br` (hospedagem estática do frontend) | Antes de substituir o WordPress. **Fora da indexação** dos buscadores até o lançamento |
+| API (backend) | `api.divinafesta.com.br` (VPS) | Futuro |
+| Produção do novo site | `divinafesta.com.br` (hospedagem estática do frontend) | Só após aprovação final. Na virada: 301, Search Console, remoção do bloqueio de indexação |
 
-### Deploy (DEC-027)
+### Deploy (DEC-027, DEC-028)
 
 - **Agora:** processo simples e controlado (sem automação).
-- **Futuro:** CI/CD **GitHub → build → testes → deploy na VPS**.
+- **Futuro:** CI/CD **GitHub → build → testes → deploy**, com pipelines independentes: frontend no provedor de hospedagem escolhido; backend na VPS.
 - **GitHub Actions não será configurado agora.**
 
 ### Fora desta etapa (cada item terá etapa própria)
 
 | Item | Situação |
 |---|---|
-| Procedimento concreto do deploy manual inicial (comandos, usuário e diretórios na VPS) | a definir na etapa de implementação |
-| Configuração de DNS, Nginx e certificados HTTPS | a definir na etapa de infraestrutura, com autorização |
+| Provedor de hospedagem do frontend (L-21) | etapa própria (DEC-028) |
+| Procedimento concreto do deploy manual inicial (frontend no provedor; backend na VPS) | a definir na etapa de implementação |
+| Configuração de DNS, certificados HTTPS e, na VPS, do reverse proxy do backend | a definir na etapa de infraestrutura, com autorização |
+| Mecanismo que mantém `dev.divinafesta.com.br` fora da indexação (noindex, cabeçalho e/ou restrição de acesso) | a definir na etapa de infraestrutura |
 | CI/CD (GitHub Actions) | futuro; não configurar agora (DEC-027) |
 | GTM, GA4, Meta Pixel, Consent Mode e demais ferramentas | etapa própria (DEC-026) |
 | Local das imagens otimizadas no projeto Astro (o processamento de imagens do Astro trabalha a partir de `src/`; `public/images/web/` pode ser revisto) | a definir na implementação |
