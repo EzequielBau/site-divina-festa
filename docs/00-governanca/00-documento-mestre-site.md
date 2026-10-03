@@ -1,0 +1,177 @@
+# Documento mestre — novo site Divina Festa
+
+**Versão:** 1.1 — 03/10/2026 (Etapa 00, revisada após aprovação)
+**Função:** índice central do projeto. Resume e organiza o que já está decidido nos documentos-fonte. **Não cria estratégia nova.** Quando este resumo e a fonte divergirem, vale a fonte, conforme a ordem de prevalência abaixo, salvo decisão registrada em sentido contrário.
+
+## 0. Natureza deste repositório
+
+Este repositório é o **projeto paralelo programado** do novo site. A **stack técnica está a definir antes da implementação** (DEC-016). A implementação anterior em WordPress/Kadence, descrita no handoff de 09/09/2026, **não é obrigação tecnológica** deste projeto. O handoff continua valendo como referência de conteúdo, UX e decisões já aprovadas.
+
+---
+
+## 1. Objetivo do projeto
+
+O site deve funcionar como **parte do funil comercial** do Divina Festa, não só como apresentação institucional. Cada página e cada seção precisam ajudar o visitante a avançar da descoberta até o contato e a proposta, reduzindo dúvidas, aumentando a confiança e mostrando valor de forma concreta. *(NORTE §2)*
+
+Jornada-base: **descoberta → identificação → interesse → adequação → desejo → confiança → redução de risco → contato → proposta.**
+
+## 2. Posicionamento
+
+> Um espaço completo e acolhedor para celebrações em Curitiba, capaz de receber bem diferentes gerações no mesmo evento, integrando gastronomia, estrutura infantil, organização, equipe e atendimento para que o anfitrião também possa aproveitar a celebração. *(NORTE §3)*
+
+- **Benefício emocional central:** tranquilidade. **Mecanismo:** organização. **Experiência:** hospitalidade multigeracional. *(SÍNTESE §10)*
+- **Não é:** buffet infantil que também aceita outros eventos; espaço de luxo genérico; operação de preço baixo. *(NORTE §3; SÍNTESE §15)*
+- **Cinco pilares:** hospitalidade multigeracional · gastronomia demonstrável · organização e tranquilidade · estrutura e conveniência · prova e confiança. *(NORTE §6)*
+
+## 3. Fonte factual vigente
+
+A fonte factual é a tabela do **Documento Norte §5**, **atualizada pelas decisões registradas** (DEC-017 a DEC-019). Nenhum dado pode ser publicado se divergir da tabela abaixo.
+
+| Informação | Valor vigente | Observação |
+|---|---|---|
+| Nome | Divina Festa | ver DIV-12 (uso de "Buffet") |
+| Categoria | Espaço de eventos + buffet | |
+| Endereço | Rua Marcelino Champagnat, 122 — Mercês — Curitiba/PR | |
+| Área | Aproximadamente 700 m² | |
+| Capacidade — **Home** | "até 150 convidados" | DEC-017 |
+| Capacidade — **Espaço e Estrutura** | "até 150 pessoas sentadas ou até 190 em configuração predominantemente em pé, conforme layout e formato do evento" | DEC-017 |
+| Estacionamento | **Privativo** | DEC-019 |
+| Climatização, espaço infantil, acessibilidade, Wi-Fi, segurança, emergência médica | Sim | |
+| Buffet próprio, cozinha própria, decoração, coordenação, equipe incluída | Sim | |
+| Eventos simultâneos | Não — um evento por vez | |
+| Fundação | 2005 | |
+| Eventos realizados | ~200 — **confirmar antes de publicar** | L-02 |
+| Avaliações Google | ~4,7/5, ~500 avaliações — **validar no lançamento** | L-03 |
+| WhatsApp comercial geral | **(41) 99247-0605** | DEC-018 |
+| WhatsApp Royal / corporativo | **(41) 99262-0604** | DEC-018 |
+| Atendimento comercial | 9h às 19h | |
+
+Fora da fonte factual principal: o número **(41) 9 8535-0605** pertence só à linha **Divina Essência** (DEC-018, DEC-020) e não pode aparecer como contato do site principal.
+
+## 4. Ordem de prevalência
+
+Adotada na Etapa 00 (03/10/2026). Ratificação pendente: ver DIV-04.
+
+1. **Documento Norte** mais recente — `docs/01-estrategia/00_DOCUMENTO_NORTE_…docx`
+2. **Síntese Estratégica** — `docs/01-estrategia/01_SINTESE_…docx`
+3. **Handoffs e decisões mais recentes** — `docs/07-decisoes/`
+4. **Documentos de arquitetura** — `docs/02-arquitetura/`, `docs/04-conteudo/`
+5. **Documentos de identidade visual** — `docs/03-design-system/`
+6. **Materiais comerciais e apresentações** — folders em `assets/images/source/Material Publicitário/`
+7. **Pesquisas e benchmarks** — Rodadas 1–5 (não estão no repositório)
+8. **Arquivos antigos e referências** — `docs/99-referencias/`
+
+Regras:
+- Se houver contradição, ela vai para [`divergencias-e-lacunas.md`](divergencias-e-lacunas.md). **Nunca resolver em silêncio.**
+- Uma decisão posterior só se sobrepõe a um documento de nível superior quando estiver **expressamente registrada** em [`decisoes.md`](../07-decisoes/decisoes.md). Mudanças de posicionamento, arquitetura, fonte factual ou conversão também devem ser registradas no NORTE §22.
+
+## 5. Arquitetura geral
+
+Páginas só existem quando há **intenção diferente + necessidade diferente + conteúdo diferente + função comercial própria**. *(NORTE §9)*
+
+Home (P0) · Eventos: Festa Infantil (P0), Aniversários e Eventos Familiares (P0), 15 Anos (P1), Corporativo e Confraternizações (P0/P1), Mini Wedding (P2), Almoços, Jantares e Recepções (P2) · Espaço e Estrutura (P0) · Gastronomia (P0) · Como Funciona (P0/P1) · Eventos Reais (P1) · O Divina (P2) · FAQ (P2/P3) · Localização e Contato (P0).
+
+**Fora da v1:** a linha Divina Essência (buffet no local do cliente) é um produto separado, a avaliar no futuro (DEC-020).
+
+Detalhes em [`../02-arquitetura/arquitetura-site.md`](../02-arquitetura/arquitetura-site.md). A Home está em [`../04-conteudo/home-estrutura.md`](../04-conteudo/home-estrutura.md).
+
+## 6. Princípios de UX
+
+- A Home **orienta, convence e encaminha**. Não é um catálogo. As páginas internas aprofundam. *(NORTE §10)*
+- Cada evento tem jornada própria. **Não reutilizar texto trocando só o nome do evento.** *(NORTE §11)*
+- Menu curto, agrupado por Eventos. *(SÍNTESE §27)*
+- Galerias precisam ter função comercial e contexto. Nada de carrosséis infinitos.
+- Em caso de conflito: clareza > beleza; entendimento > texto criativo; decisão > quantidade; arquitetura simples > mais páginas. *(NORTE §20)*
+
+## 7. Princípios de SEO
+
+- Páginas por **intenção real**, não por variação de palavra-chave ou bairro.
+- Títulos e headings claros, conteúdo original, links internos e localização usada com naturalidade.
+- NAP, horários, capacidade e atributos idênticos entre site e Google Business Profile.
+- Eventos Reais e dúvidas reais como base de conteúdo orgânico. Nada de blog genérico por obrigação.
+- IA/buscadores: ser "extremamente fácil de compreender e extremamente difícil de interpretar errado". Sem técnicas especulativas de GEO. *(NORTE §16–17)*
+
+Detalhes em [`../05-seo/seo-site.md`](../05-seo/seo-site.md).
+
+## 8. Princípios de conversão
+
+- O CTA é **o início do atendimento**, não só um botão. *(NORTE §15)*
+- Fluxo curto e contextual: **tipo de evento → data → convidados → nome → WhatsApp**.
+- Roteamento: comercial geral (41) 99247-0605; Royal/corporativo (41) 99262-0604. São os únicos telefones do site principal (DEC-018).
+- A microcopy deve mostrar que o atendimento começa informado. Nada de formulário longo no primeiro contato. *(SÍNTESE §22; NORTE §21)*
+- Regra de prova: **afirmação → prova → benefício**. Toda afirmação estratégica precisa responder "como provamos isso?". *(NORTE §8)*
+
+## 9. Princípios mobile
+
+- **Mobile-first:** não comprimir o desktop. Repensar hierarquia, CTA, texto, galerias e formulários para a tela pequena. *(NORTE §19)*
+- Botões grandes e claros, sem vários CTAs competindo na mesma dobra. Textos curtos e escaneáveis.
+- Ordem mobile definida seção a seção (ex.: em "Crianças + adultos", texto → CTA → foto). *(HANDOFF §3.4)*
+
+## 10. Princípios de performance
+
+- Velocidade prevalece sobre efeitos (NORTE §20).
+- Sem parallax excessivo, vídeo em autoplay ou animação gratuita.
+- Imagens otimizadas (WebP/AVIF), dimensionadas para o uso e com lazy load fora da primeira dobra. Nunca usar PNG pesado de foto direto no site.
+- Metas sugeridas, a validar na escolha de stack: LCP < 2,5 s, CLS < 0,1 e INP < 200 ms no mobile (Core Web Vitals, faixa "bom").
+
+## 11. Regras para uso de imagens
+
+- **Cada imagem deve provar algo.** Fotografia é argumento comercial. *(NORTE §18)*
+- Fotografia real acima de banco de imagem ou ilustração. Banco de imagem está na blacklist quando houver alternativa real.
+- A Home não pode ficar infantilizada a ponto de afastar adultos, 15 anos e corporativo, nem esconder a vantagem do espaço infantil.
+- Os originais ficam em `assets/images/source/` e não são alterados. As versões web vão para `public/images/web/`.
+- Regras de uso (DEC-024):
+  - fotos com **crianças**: uso condicionado à confirmação de autorização de imagem;
+  - fotos com **marca d'água**: não usar no site final sem autorização e arquivo adequado;
+  - imagens de **banco ou origem incerta**: origem a confirmar; não usar como prova real.
+- Logo: não há SVG confirmado. Não vetorizar nem redesenhar agora (DEC-023).
+- Inventário: [`../99-referencias/inventario-imagens.md`](../99-referencias/inventario-imagens.md).
+
+## 12. Regras para IA
+
+As regras operacionais completas estão em [`/AGENTS.md`](../../AGENTS.md). Em resumo:
+- Trabalhar só neste repositório. Remote único: `git@github-divina:EzequielBau/site-divina-festa.git`.
+- Consultar este documento e a fonte factual antes de qualquer decisão. **Não inventar dados nem claims sem prova.**
+- Trabalhar página por página e seção por seção. Não reabrir decisões já aprovadas sem evidência concreta. *(HANDOFF §11)*
+- Não instalar frameworks nem dependências enquanto a stack não for decidida (DEC-016).
+- Registrar divergências em vez de resolvê-las em silêncio.
+- Não apagar, mover ou sobrescrever originais sem autorização.
+
+## 13. Critérios de aprovação
+
+Toda seção ou página só é aprovada se passar nas duas listas:
+
+**Validação do NORTE §23:** clareza · conversão · mobile · confiança · diferenciação · SEO local · compreensão semântica · velocidade · longevidade estética.
+
+**Filtro da SÍNTESE (apêndice):**
+1. Ajuda o visitante a entender melhor o Divina?
+2. Reduz uma dúvida ou um risco real?
+3. Aumenta o desejo de forma coerente com a realidade?
+4. Facilita o contato ou a proposta?
+5. Funciona bem no celular?
+6. Melhora ou preserva a velocidade?
+7. Cria informação útil para o Google e para mecanismos de IA?
+8. Se sustenta esteticamente por anos?
+9. Acrescenta algo que outra seção ainda não resolve?
+10. Se for removido, o cliente perde informação importante?
+
+**Padrão de entrega por seção** *(HANDOFF §9)*: objetivo → estrutura/wireframe → texto → configuração desktop/tablet/celular → SEO → CTA e função comercial → o que evitar.
+
+**Blacklist permanente** *(NORTE §21)*: claims de "melhor/maior/mais completo/premium/luxo" sem prova · posicionamento por preço · Home infantilizada · Home adulta genérica · páginas duplicadas por keyword/bairro · formulário longo · fotos de banco · galerias sem contexto · vídeo/animação pesada sem função · inconsistência factual · cópia de concorrentes.
+
+> **Regra-mãe:** o site não deve tentar parecer melhor com mais efeitos, mais palavras ou mais páginas. Deve parecer melhor porque explica melhor, prova melhor, recebe melhor e torna mais fácil decidir e entrar em contato. *(NORTE §23)*
+
+## 14. Mapa da documentação
+
+| Pasta | Conteúdo |
+|---|---|
+| `docs/00-governanca/` | este documento · [divergências e lacunas](divergencias-e-lacunas.md) |
+| `docs/01-estrategia/` | Documento Norte e Síntese Estratégica (`.docx` originais + transcrições `.md`) |
+| `docs/02-arquitetura/` | [arquitetura do site](../02-arquitetura/arquitetura-site.md) |
+| `docs/03-design-system/` | [design system](../03-design-system/design-system.md) |
+| `docs/04-conteudo/` | [estrutura da Home](../04-conteudo/home-estrutura.md) · wireframe original `Orientacóes para site` |
+| `docs/05-seo/` | [SEO](../05-seo/seo-site.md) |
+| `docs/06-integracoes/` | [integrações futuras](../06-integracoes/integracoes-futuras.md) · [eventos de tracking](../06-integracoes/eventos-tracking.md) |
+| `docs/07-decisoes/` | [registro de decisões](../07-decisoes/decisoes.md) · handoff 09/09/2026 |
+| `docs/08-status/` | [status do projeto](../08-status/status.md) |
+| `docs/99-referencias/` | [inventário de imagens](../99-referencias/inventario-imagens.md) · [inventário de documentos](../99-referencias/inventario-documentos.md) |

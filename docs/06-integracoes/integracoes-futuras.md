@@ -1,0 +1,80 @@
+# Integrações futuras
+
+**Versão:** 1.0 — 03/10/2026 (Etapa 00)
+**Status:** **arquitetura conceitual. Nada implementado.** Nenhuma integração deve ser feita sem autorização registrada em [`decisoes.md`](../07-decisoes/decisoes.md).
+
+## Objetivo
+
+Preparar o site para medir o funil comercial de ponta a ponta, da visita ao lead, à proposta e ao contrato, sem acoplar ferramentas antes da hora e sem prejudicar a performance ou a privacidade.
+
+## Visão geral do fluxo
+
+```text
+Visitante (UTM / orgânico / direto)
+   │
+   ▼
+Site ──► dataLayer ──► Google Tag Manager ──┬─► GA4
+   │                                        ├─► Google Ads (conversões)
+   │                                        └─► Meta Pixel ─┐
+   │                                                        │ (deduplicação por event_id)
+   ▼                                                        │
+Formulário curto (tipo → data → convidados → nome → WhatsApp)
+   │
+   ├─► Webhook / endpoint ─┬─► Kommo CRM (lead + origem/UTM)
+   │                       └─► Meta Conversions API (server-side) ◄┘
+   │
+   └─► WhatsApp (número conforme roteamento, com mensagem pré-preenchida)
+
+Dashboards ◄── GA4 + Kommo + Ads + Meta + Search Console
+```
+
+## Componentes
+
+| Integração | Papel | Pré-requisitos | Observações |
+|---|---|---|---|
+| **Google Tag Manager** | Contêiner único de tags. Evita código espalhado | Conta/contêiner (L-14) | Toda tag de marketing entra via GTM, nunca hardcoded |
+| **GA4** | Análise de comportamento e funil | Propriedade GA4 | Eventos conforme a [taxonomia](eventos-tracking.md). Marcar `form_submit` e `click_whatsapp` como eventos-chave |
+| **Google Search Console** | Indexação, consultas, Core Web Vitals | Verificação por DNS | Ver SEO |
+| **Google Ads** | Conversões para campanhas | Conta Ads vinculada ao GA4 | Importar conversões do GA4 ou usar tag própria via GTM. Considerar conversões otimizadas |
+| **Meta Pixel** | Conversões e públicos no Meta | Business Manager / Pixel | Via GTM, só após consentimento |
+| **Meta Conversions API** | Envio server-side de leads (resiliente a bloqueadores) | Pixel + token (no servidor, nunca no front-end) | Deduplicar com o Pixel via `event_id` |
+| **Bing Webmaster Tools** | Indexação no Bing | Verificação | Ver SEO |
+| **Formulários** | Captura do lead com o fluxo curto do NORTE §15 | Stack definida | Validação, anti-spam sem atrito (honeypot/Turnstile), mensagem de sucesso contextual |
+| **Kommo CRM** | Gestão comercial do lead | Conta e plano Kommo **a confirmar** (L-14) | Receber nome, WhatsApp, tipo, data, convidados, página de origem, UTMs e `gclid`/`fbclid` |
+| **Webhooks** | Ponte formulário → CRM/CAPI | Endpoint seguro | Com retentativa e log de falhas. Segredos só em variáveis de ambiente |
+| **WhatsApp** | Canal principal de conversa | Telefones oficiais (DEC-018) | Links `wa.me` com texto pré-preenchido contendo o contexto. Roteamento: geral (41) 99247-0605 · Royal/corporativo (41) 99262-0604 |
+| **APIs** | Extensões futuras (ex.: avaliações do Google, disponibilidade) | Caso a caso | Só com função comercial clara |
+| **UTMs** | Atribuição de origem | Padrão de nomenclatura | Ver abaixo |
+| **Dashboards** | Visão do funil | Fontes acima | Ex.: Looker Studio. Métricas: sessões → cliques de contato → leads → propostas → contratos, por origem e por tipo de evento |
+
+## Roteamento de WhatsApp (conceito)
+
+| Tipo de evento escolhido | Destino |
+|---|---|
+| Corporativo / confraternização empresarial | Royal (41) 99262-0604 |
+| Demais | Comercial geral (41) 99247-0605 |
+
+Estes são os **únicos** destinos do site principal (DEC-018). O número (41) 9 8535-0605 pertence só à linha Divina Essência, que está fora da v1 (DEC-020), e **não** entra no roteamento.
+
+## Padrão de UTMs [proposta]
+
+- Tudo em minúsculas, sem acentos e com hífen: `utm_source=instagram&utm_medium=social&utm_campaign=15-anos-2026-11`.
+- `utm_source`: google, meta, instagram, facebook, gbp, email, qrcode, folder…
+- `utm_medium`: cpc, social, organic-social, referral, print, email.
+- **Google Business Profile:** link do site com `utm_source=gbp&utm_medium=organic` para separar do orgânico comum.
+- **QR codes dos materiais impressos:** UTMs próprias por material (ex.: `utm_source=folder-essencia&utm_medium=print`).
+- Manter planilha/registro de campanhas.
+
+## Privacidade e consentimento (LGPD)
+
+- Banner de consentimento antes de disparar tags de marketing (Meta, Ads). Analytics conforme a base legal definida.
+- **Google Consent Mode v2** configurado no GTM.
+- Política de privacidade publicada e linkada no footer e no formulário (L-12).
+- Coletar só o necessário no formulário. Não enviar dados pessoais em texto aberto ao GA4.
+
+## Princípios
+
+1. Nenhum token, chave ou segredo no código ou no repositório. Usar `.env` (ignorado pelo Git) e variáveis do servidor.
+2. Scripts de terceiros carregados de forma assíncrona e só via GTM, monitorando o impacto em Core Web Vitals.
+3. Cada integração precisa de dono, propósito e métrica definidos antes de entrar.
+4. Implementação só após a stack estar definida (DEC-016) e com autorização.

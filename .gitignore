@@ -1,0 +1,32 @@
+# Segredos e variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# Dependências e builds
+node_modules/
+dist/
+build/
+.cache/
+.temp/
+tmp/
+
+# Logs
+*.log
+
+# Editores / IDEs
+.vscode/
+.idea/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos temporários e backups
+*.bak
+*.tmp
+~$*
+
+# Observação: documentos estratégicos (docs/) e imagens-fonte (assets/) são versionados.
+# Não adicionar aqui regras que os ignorem.
