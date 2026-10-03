@@ -1,13 +1,22 @@
 # Documento mestre — novo site Divina Festa
 
-**Versão:** 1.2 — 03/10/2026 (DEC-025 e DEC-026)
+**Versão:** 1.3 — 03/10/2026 (DEC-025, DEC-026 e DEC-027)
 **Função:** índice central do projeto. Resume e organiza o que já está decidido nos documentos-fonte e nas decisões registradas. **Não cria estratégia nova.** Só diverge do Documento Norte quando cita a decisão aprovada que fundamenta a divergência (DEC-025).
 
 ## 0. Natureza deste repositório
 
 Este repositório é o **projeto paralelo programado** do novo site (DEC-016). A implementação anterior em WordPress/Kadence, descrita no handoff de 09/09/2026, **não é obrigação tecnológica** deste projeto. O handoff continua valendo como referência de conteúdo, UX e decisões já aprovadas.
 
-**Stack (DEC-026):** **Astro em arquitetura static-first**, com TypeScript, componentes reutilizáveis e fonte factual centralizada. O frontend é estático. Formulários, Kommo, Meta CAPI, webhooks, WhatsApp e integrações rodam em um **serviço backend independente na VPS**, desacoplado: uma falha de integração não derruba o site. Tracking (GTM, GA4, Pixel, Consent Mode) fica para etapa própria. Nenhum CMS adicional por enquanto. Detalhes em [`arquitetura-site.md`](../02-arquitetura/arquitetura-site.md#arquitetura-técnica-dec-026).
+**Stack (DEC-026):** **Astro em arquitetura static-first**, com TypeScript, componentes reutilizáveis e fonte factual centralizada. O frontend é estático. Formulários, Kommo, Meta CAPI, webhooks, WhatsApp e integrações rodam em um **serviço backend independente na VPS**, desacoplado: uma falha de integração não derruba o site. Tracking (GTM, GA4, Pixel, Consent Mode) fica para etapa própria. Nenhum CMS adicional por enquanto.
+
+**Execução (DEC-027):**
+- **Frontend:** build estático do Astro servido por **Nginx na VPS**, sem processo Node permanente.
+- **Backend:** serviço separado em **Node.js + TypeScript + Fastify**, no futuro em `api.divinafesta.com.br`, com Nginx como reverse proxy.
+- **Staging:** antes da troca, o novo site fica em **`staging.divinafesta.com.br`**. O **WordPress atual segue em produção até a aprovação final**.
+- **HTTPS** em todo ambiente publicado.
+- **Deploy:** inicialmente simples e controlado. CI/CD (GitHub → build → testes → deploy) só no futuro; GitHub Actions não é configurado agora.
+
+Detalhes em [`arquitetura-site.md`](../02-arquitetura/arquitetura-site.md#arquitetura-técnica-dec-026-e-dec-027).
 
 **Ainda não há código.** A implementação só começa com autorização expressa.
 
@@ -143,7 +152,7 @@ As regras operacionais completas estão em [`/AGENTS.md`](../../AGENTS.md). Em r
 - Trabalhar só neste repositório. Remote único: `git@github-divina:EzequielBau/site-divina-festa.git`.
 - Consultar este documento e a fonte factual antes de qualquer decisão. **Não inventar dados nem claims sem prova.**
 - Trabalhar página por página e seção por seção. Não reabrir decisões já aprovadas sem evidência concreta. *(HANDOFF §11)*
-- Stack: Astro static-first + backend independente na VPS (DEC-026). **Não instalar nem criar código sem autorização expressa** para a etapa de implementação.
+- Stack: Astro static-first + backend Node/Fastify independente na VPS (DEC-026, DEC-027). **Não instalar, configurar servidor nem criar código sem autorização expressa** para cada etapa.
 - Registrar divergências em vez de resolvê-las em silêncio.
 - Não apagar, mover ou sobrescrever originais sem autorização.
 

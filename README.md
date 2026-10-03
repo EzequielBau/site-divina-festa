@@ -55,7 +55,14 @@ Ordem de prevalência (DEC-025): primeiro vale a decisão posterior aprovada, re
 
 **Etapa 00: organização e governança** (03/10/2026), aprovada. Ainda não há código do site neste repositório. Detalhes em [`docs/08-status/status.md`](docs/08-status/status.md).
 
-> Este repositório é o **projeto paralelo programado** do novo site (DEC-016). **Stack (DEC-026):** Astro em arquitetura static-first, com TypeScript, componentes reutilizáveis e fonte factual centralizada. Formulários e integrações (Kommo, Meta CAPI, webhooks, WhatsApp) ficam em um serviço backend independente na VPS, desacoplado do site. A implementação anterior em WordPress/Kadence serve só como referência de conteúdo, UX e decisões aprovadas. **Ainda não há código**; a implementação aguarda autorização.
+> Este repositório é o **projeto paralelo programado** do novo site (DEC-016). **Stack (DEC-026):** Astro em arquitetura static-first, com TypeScript, componentes reutilizáveis e fonte factual centralizada. Formulários e integrações (Kommo, Meta CAPI, webhooks, WhatsApp) ficam em um serviço backend independente na VPS, desacoplado do site. **Execução (DEC-027):**
+> - build estático servido por Nginx na VPS;
+> - backend em Node.js + TypeScript + Fastify, no futuro em `api.divinafesta.com.br`;
+> - staging em `staging.divinafesta.com.br`;
+> - o WordPress atual segue em produção até a aprovação final;
+> - HTTPS em todo ambiente publicado.
+>
+> A implementação anterior em WordPress/Kadence serve só como referência de conteúdo, UX e decisões aprovadas. **Ainda não há código**; a implementação aguarda autorização.
 
 ## Repositório
 

@@ -232,4 +232,51 @@ VPS / serviço backend independente
 
 Motivo: Comparativo em [`proposta-comparativo-stack.md`](../02-arquitetura/proposta-comparativo-stack.md) e respostas do gestor (edição pelo próprio gestor, VPS operacional, Hostinger com Node/SSH, prioridade em robustez, velocidade e escalabilidade). A tecnologia fica subordinada ao projeto: geração estática e JS mínimo atendem ao NORTE ("velocidade prevalece sobre efeitos").
 Impacto: Resolve a pendência de stack (DEC-016 / L-19) e remove a stack dos bloqueios. Refina a recomendação do comparativo: os endpoints **não** ficam no projeto Astro (adapter Node), mas em um serviço backend independente na VPS. Nada será instalado nem codificado sem nova autorização. Ficam para etapas próprias: a tecnologia do backend, onde o frontend estático será servido, a pipeline de deploy e a ferramenta de tracking.
+Status: Aprovada. Detalhes de execução definidos pela **DEC-027**.
+
+## DEC-027
+Data: 03/10/2026
+Decisão: **Arquitetura de execução** (detalha a DEC-026).
+
+**Frontend**
+- Astro static-first, com TypeScript.
+- Geração estática sempre que possível.
+- HTML semântico; JavaScript mínimo.
+- Componentes reutilizáveis; dados factuais centralizados.
+
+**Hospedagem do frontend**
+- Produção prevista em **Nginx na VPS**.
+- O build do Astro é servido como **arquivos estáticos**.
+- O frontend **não depende de um processo Node permanente** para funcionar.
+
+**Backend**
+- Serviço separado, em **Node.js + TypeScript**, com **Fastify** como framework inicial previsto.
+- Subdomínio futuro: **`api.divinafesta.com.br`**.
+- Responsabilidades futuras: formulários, Kommo, Meta Conversions API, webhooks, roteamento de WhatsApp e integrações adicionais.
+- **O backend não é requisito para o funcionamento normal das páginas institucionais.**
+
+**Ambiente de staging**
+- Antes de substituir o WordPress atual, o novo site fica disponível em subdomínio de staging, preferencialmente **`staging.divinafesta.com.br`** (ou equivalente aprovado depois).
+- **O WordPress atual permanece em produção até a aprovação final do novo site.**
+
+**Deploy**
+- No início, processo **simples e controlado**.
+- No futuro, CI/CD: **GitHub → build → testes → deploy na VPS**.
+- **GitHub Actions não será configurado agora.**
+
+**Servidor**
+- **Nginx** serve o frontend estático e, no futuro, poderá atuar como **reverse proxy** do backend.
+
+**HTTPS**
+- Todo ambiente publicado (staging e produção) usa **HTTPS**.
+
+**Separação de responsabilidades**
+
+```text
+Astro / Nginx   → site público
+Node / Fastify  → lógica de servidor e integrações
+```
+
+Motivo: Resolver a L-20 com uma arquitetura simples, robusta e desacoplada, coerente com a DEC-026 e com a infraestrutura existente (VPS operacional).
+Impacto: Resolve a L-20. Domínio de produção e subdomínios ficam sob `divinafesta.com.br`. A virada do WordPress para o novo site só acontece com aprovação final, e nesse momento entram no checklist de lançamento os redirecionamentos 301, o Search Console e a remoção do noindex. **Nada será instalado, configurado ou programado sem nova autorização.**
 Status: Aprovada

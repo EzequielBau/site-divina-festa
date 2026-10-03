@@ -1,9 +1,13 @@
 # Integrações futuras
 
-**Versão:** 1.1 — 03/10/2026 (alinhada à DEC-026)
+**Versão:** 1.2 — 03/10/2026 (alinhada às DEC-026 e DEC-027)
 **Status:** **arquitetura conceitual. Nada implementado.** Nenhuma integração deve ser feita sem autorização registrada em [`decisoes.md`](../07-decisoes/decisoes.md).
 
-**Arquitetura (DEC-026):** o frontend Astro é estático. Formulários, Kommo, Meta CAPI, webhooks, WhatsApp e integrações futuras ficam em um **serviço backend independente na VPS**, desacoplado: falhas de integração não podem impedir o funcionamento do site. As ferramentas de tracking client-side (GTM, GA4, Meta Pixel, Consent Mode) serão definidas e implementadas em **etapa própria**.
+**Arquitetura (DEC-026, DEC-027):**
+- O frontend Astro é estático, servido por Nginx na VPS.
+- Formulários, Kommo, Meta CAPI, webhooks, roteamento de WhatsApp e integrações adicionais ficam em um **backend separado em Node.js + TypeScript + Fastify**, previsto em **`api.divinafesta.com.br`** (Nginx como reverse proxy, HTTPS).
+- O backend **não é requisito para o funcionamento normal das páginas**.
+- As ferramentas de tracking client-side (GTM, GA4, Meta Pixel, Consent Mode) serão definidas e implementadas em **etapa própria**.
 
 ## Objetivo
 
@@ -15,18 +19,18 @@ Preparar o site para medir o funil comercial de ponta a ponta, da visita ao lead
 Visitante (UTM / orgânico / direto)
    │
    ▼
-Site estático (Astro) ──► dataLayer ──► Google Tag Manager ──┬─► GA4
-   │                     [etapa própria]                      ├─► Google Ads (conversões)
-   │                                                          └─► Meta Pixel ─┐
-   │                                                                          │ (deduplicação por event_id)
-   ▼                                                                          │
-Formulário curto (tipo → data → convidados → nome → WhatsApp)                 │
-   │  HTTPS                                                                   │
-   ▼                                                                          │
-BACKEND INDEPENDENTE (VPS) ─┬─► Kommo CRM (lead + origem/UTM)                 │
-   │                        ├─► Meta Conversions API (server-side) ◄──────────┘
-   │                        └─► webhooks / integrações futuras
-   │
+Site estático (Astro, Nginx) ──► dataLayer ──► GTM ──┬─► GA4
+   │                            [etapa própria]       ├─► Google Ads (conversões)
+   │                                                  └─► Meta Pixel ───────────┐
+   │                                                                            │ deduplicação
+   ▼                                                                            │ por event_id
+Formulário curto (tipo → data → convidados → nome → WhatsApp)                   │
+   │  HTTPS                                                                     │
+   ▼                                                                            │
+Backend Fastify — api.divinafesta.com.br                                        │
+   ├─► Kommo CRM (lead + origem/UTM)                                            │
+   ├─► Meta Conversions API (server-side) ◄─────────────────────────────────────┘
+   ├─► webhooks / integrações adicionais
    └─► WhatsApp (número conforme roteamento, com mensagem pré-preenchida)
 
 Se o backend falhar: o site continua no ar e oferece contato direto pelo WhatsApp correto.
