@@ -27,7 +27,7 @@ site-divina-festa/
 │   ├── brand/logos/        logos originais
 │   └── images/source/      fotos e materiais originais (somente leitura)
 ├── public/images/web/      versões otimizadas para o site (futuro)
-├── src/                    código do site (futuro; stack a definir)
+├── src/                    código do frontend Astro (futuro; ainda sem código)
 ├── AGENTS.md               regras para assistentes de IA
 └── README.md
 ```
@@ -35,15 +35,15 @@ site-divina-festa/
 ## Como navegar na documentação
 
 1. **Comece por** [`docs/00-governanca/00-documento-mestre-site.md`](docs/00-governanca/00-documento-mestre-site.md). Ele resume tudo e aponta para os demais documentos.
-2. **Fonte factual e estratégia:** [`docs/01-estrategia/`](docs/01-estrategia/). O Documento Norte prevalece sobre todos os outros.
+2. **Estratégia:** [`docs/01-estrategia/`](docs/01-estrategia/) (Documento Norte e Síntese).
 3. **O que está em aberto:** [`divergencias-e-lacunas.md`](docs/00-governanca/divergencias-e-lacunas.md) e [`status.md`](docs/08-status/status.md).
 4. **O que já foi decidido:** [`decisoes.md`](docs/07-decisoes/decisoes.md).
 
-Ordem de prevalência: Documento Norte > Síntese Estratégica > handoffs/decisões recentes > arquitetura > identidade visual > materiais comerciais > pesquisas > arquivos antigos.
+Ordem de prevalência (DEC-025): primeiro vale a decisão posterior aprovada, registrada com ID e que trate diretamente do ponto. Depois, a hierarquia: Documento Mestre / Governança atual > Documento Norte > Síntese Estratégica > decisões registradas > handoffs > referências e materiais anteriores.
 
 ## Regras principais
 
-- Não inventar dados. Todo fato vem da fonte factual do Documento Norte.
+- Não inventar dados. Todo fato vem da fonte factual vigente (documento mestre §3).
 - Nenhum claim sem prova: afirmação → prova → benefício.
 - Construção página por página e seção por seção.
 - Originais (documentos e imagens) não são apagados, movidos, renomeados ou sobrescritos sem autorização.
@@ -55,7 +55,7 @@ Ordem de prevalência: Documento Norte > Síntese Estratégica > handoffs/decis�
 
 **Etapa 00: organização e governança** (03/10/2026), aprovada. Ainda não há código do site neste repositório. Detalhes em [`docs/08-status/status.md`](docs/08-status/status.md).
 
-> Este repositório é o **projeto paralelo programado** do novo site. A **stack está a definir antes da implementação**. A implementação anterior em WordPress/Kadence, descrita no handoff de 09/09/2026, serve só como referência de conteúdo, UX e decisões aprovadas (DEC-016).
+> Este repositório é o **projeto paralelo programado** do novo site (DEC-016). **Stack (DEC-026):** Astro em arquitetura static-first, com TypeScript, componentes reutilizáveis e fonte factual centralizada. Formulários e integrações (Kommo, Meta CAPI, webhooks, WhatsApp) ficam em um serviço backend independente na VPS, desacoplado do site. A implementação anterior em WordPress/Kadence serve só como referência de conteúdo, UX e decisões aprovadas. **Ainda não há código**; a implementação aguarda autorização.
 
 ## Repositório
 
@@ -66,7 +66,7 @@ Ordem de prevalência: Documento Norte > Síntese Estratégica > handoffs/decis�
 ## Ambiente local
 
 - Pasta: `C:\Projetos\site-divina-festa`
-- Requisitos atuais: só Git e um editor. Nenhuma dependência instalada, porque a stack ainda não foi definida.
+- Requisitos atuais: só Git e um editor. Nenhuma dependência instalada; Node e Astro entram só na etapa de implementação, após autorização.
 - Para testar o acesso: `ssh -T git@github-divina` (a resposta esperada cita o repositório; o código de saída 1 é normal).
 
 ## Fluxo de desenvolvimento

@@ -1,11 +1,15 @@
 # Documento mestre — novo site Divina Festa
 
-**Versão:** 1.1 — 03/10/2026 (Etapa 00, revisada após aprovação)
-**Função:** índice central do projeto. Resume e organiza o que já está decidido nos documentos-fonte. **Não cria estratégia nova.** Quando este resumo e a fonte divergirem, vale a fonte, conforme a ordem de prevalência abaixo, salvo decisão registrada em sentido contrário.
+**Versão:** 1.2 — 03/10/2026 (DEC-025 e DEC-026)
+**Função:** índice central do projeto. Resume e organiza o que já está decidido nos documentos-fonte e nas decisões registradas. **Não cria estratégia nova.** Só diverge do Documento Norte quando cita a decisão aprovada que fundamenta a divergência (DEC-025).
 
 ## 0. Natureza deste repositório
 
-Este repositório é o **projeto paralelo programado** do novo site. A **stack técnica está a definir antes da implementação** (DEC-016). A implementação anterior em WordPress/Kadence, descrita no handoff de 09/09/2026, **não é obrigação tecnológica** deste projeto. O handoff continua valendo como referência de conteúdo, UX e decisões já aprovadas.
+Este repositório é o **projeto paralelo programado** do novo site (DEC-016). A implementação anterior em WordPress/Kadence, descrita no handoff de 09/09/2026, **não é obrigação tecnológica** deste projeto. O handoff continua valendo como referência de conteúdo, UX e decisões já aprovadas.
+
+**Stack (DEC-026):** **Astro em arquitetura static-first**, com TypeScript, componentes reutilizáveis e fonte factual centralizada. O frontend é estático. Formulários, Kommo, Meta CAPI, webhooks, WhatsApp e integrações rodam em um **serviço backend independente na VPS**, desacoplado: uma falha de integração não derruba o site. Tracking (GTM, GA4, Pixel, Consent Mode) fica para etapa própria. Nenhum CMS adicional por enquanto. Detalhes em [`arquitetura-site.md`](../02-arquitetura/arquitetura-site.md#arquitetura-técnica-dec-026).
+
+**Ainda não há código.** A implementação só começa com autorização expressa.
 
 ---
 
@@ -25,7 +29,7 @@ Jornada-base: **descoberta → identificação → interesse → adequação →
 
 ## 3. Fonte factual vigente
 
-A fonte factual é a tabela do **Documento Norte §5**, **atualizada pelas decisões registradas** (DEC-017 a DEC-019). Nenhum dado pode ser publicado se divergir da tabela abaixo.
+A fonte factual é a tabela do **Documento Norte §5**, **atualizada pelas decisões registradas** (DEC-017 a DEC-019). Nenhum dado pode ser publicado se divergir da tabela abaixo. Na implementação, esta tabela vira **um único arquivo de dados** no código, usado por todas as páginas e pelo schema (DEC-026).
 
 | Informação | Valor vigente | Observação |
 |---|---|---|
@@ -50,20 +54,25 @@ Fora da fonte factual principal: o número **(41) 9 8535-0605** pertence só à 
 
 ## 4. Ordem de prevalência
 
-Adotada na Etapa 00 (03/10/2026). Ratificação pendente: ver DIV-04.
+Aprovada pela **DEC-025** (03/10/2026).
 
-1. **Documento Norte** mais recente — `docs/01-estrategia/00_DOCUMENTO_NORTE_…docx`
-2. **Síntese Estratégica** — `docs/01-estrategia/01_SINTESE_…docx`
-3. **Handoffs e decisões mais recentes** — `docs/07-decisoes/`
-4. **Documentos de arquitetura** — `docs/02-arquitetura/`, `docs/04-conteudo/`
-5. **Documentos de identidade visual** — `docs/03-design-system/`
-6. **Materiais comerciais e apresentações** — folders em `assets/images/source/Material Publicitário/`
-7. **Pesquisas e benchmarks** — Rodadas 1–5 (não estão no repositório)
-8. **Arquivos antigos e referências** — `docs/99-referencias/`
+**Regra prévia, aplicada antes da hierarquia:** uma decisão posterior, explicitamente aprovada, registrada com ID e que trate diretamente do ponto em conflito prevalece sobre documentos anteriores.
 
-Regras:
+**Hierarquia:**
+
+1. **Documento Mestre / Governança atual** — `docs/00-governanca/` e os documentos derivados em `docs/02`–`06` (arquitetura, Home, design system, SEO, integrações)
+2. **Documento Norte** — `docs/01-estrategia/00_DOCUMENTO_NORTE_…docx`
+3. **Síntese Estratégica** — `docs/01-estrategia/01_SINTESE_…docx`
+4. **Decisões registradas** — [`docs/07-decisoes/decisoes.md`](../07-decisoes/decisoes.md)
+5. **Handoffs** — `docs/07-decisoes/06-handoff-…md` e futuros
+6. **Referências e materiais anteriores** — `docs/99-referencias/`, folders, wireframe original, pesquisas
+
+**Salvaguarda:** este Documento Mestre só pode divergir do Documento Norte quando indicar explicitamente qual decisão posterior aprovada fundamenta a divergência. Caso contrário, prevalece o Documento Norte.
+
+Regras operacionais:
 - Se houver contradição, ela vai para [`divergencias-e-lacunas.md`](divergencias-e-lacunas.md). **Nunca resolver em silêncio.**
-- Uma decisão posterior só se sobrepõe a um documento de nível superior quando estiver **expressamente registrada** em [`decisoes.md`](../07-decisoes/decisoes.md). Mudanças de posicionamento, arquitetura, fonte factual ou conversão também devem ser registradas no NORTE §22.
+- Uma decisão conta como "explicitamente aprovada e registrada" quando está em `decisoes.md` com ID, data, texto, motivo, impacto e status **Aprovada** dado pelo gestor, e foi commitada.
+- Mudanças de posicionamento, arquitetura, fonte factual ou conversão também devem ser registradas no NORTE §22 na próxima revisão do Documento Norte.
 
 ## 5. Arquitetura geral
 
@@ -112,7 +121,8 @@ Detalhes em [`../05-seo/seo-site.md`](../05-seo/seo-site.md).
 - Velocidade prevalece sobre efeitos (NORTE §20).
 - Sem parallax excessivo, vídeo em autoplay ou animação gratuita.
 - Imagens otimizadas (WebP/AVIF), dimensionadas para o uso e com lazy load fora da primeira dobra. Nunca usar PNG pesado de foto direto no site.
-- Metas sugeridas, a validar na escolha de stack: LCP < 2,5 s, CLS < 0,1 e INP < 200 ms no mobile (Core Web Vitals, faixa "bom").
+- Geração estática e JavaScript só quando houver necessidade funcional (DEC-026).
+- Metas: LCP < 2,5 s, CLS < 0,1 e INP < 200 ms no mobile (Core Web Vitals, faixa "bom"). Serão validadas na implementação.
 
 ## 11. Regras para uso de imagens
 
@@ -133,7 +143,7 @@ As regras operacionais completas estão em [`/AGENTS.md`](../../AGENTS.md). Em r
 - Trabalhar só neste repositório. Remote único: `git@github-divina:EzequielBau/site-divina-festa.git`.
 - Consultar este documento e a fonte factual antes de qualquer decisão. **Não inventar dados nem claims sem prova.**
 - Trabalhar página por página e seção por seção. Não reabrir decisões já aprovadas sem evidência concreta. *(HANDOFF §11)*
-- Não instalar frameworks nem dependências enquanto a stack não for decidida (DEC-016).
+- Stack: Astro static-first + backend independente na VPS (DEC-026). **Não instalar nem criar código sem autorização expressa** para a etapa de implementação.
 - Registrar divergências em vez de resolvê-las em silêncio.
 - Não apagar, mover ou sobrescrever originais sem autorização.
 
@@ -165,9 +175,9 @@ Toda seção ou página só é aprovada se passar nas duas listas:
 
 | Pasta | Conteúdo |
 |---|---|
-| `docs/00-governanca/` | este documento · [divergências e lacunas](divergencias-e-lacunas.md) |
+| `docs/00-governanca/` | este documento · [divergências e lacunas](divergencias-e-lacunas.md) · [proposta de prevalência](proposta-ordem-prevalencia.md) (aprovada como DEC-025) |
 | `docs/01-estrategia/` | Documento Norte e Síntese Estratégica (`.docx` originais + transcrições `.md`) |
-| `docs/02-arquitetura/` | [arquitetura do site](../02-arquitetura/arquitetura-site.md) |
+| `docs/02-arquitetura/` | [arquitetura do site](../02-arquitetura/arquitetura-site.md) (páginas e arquitetura técnica) · [comparativo de stack](../02-arquitetura/proposta-comparativo-stack.md) (base da DEC-026) |
 | `docs/03-design-system/` | [design system](../03-design-system/design-system.md) |
 | `docs/04-conteudo/` | [estrutura da Home](../04-conteudo/home-estrutura.md) · wireframe original `Orientacóes para site` |
 | `docs/05-seo/` | [SEO](../05-seo/seo-site.md) |

@@ -1,6 +1,6 @@
 # Arquitetura do site
 
-**Versão:** 1.1 — 03/10/2026 (Etapa 00, revisada após aprovação)
+**Versão:** 1.2 — 03/10/2026 (inclui a arquitetura técnica da DEC-026)
 **Fontes:** NORTE §9–14 · SÍNTESE §18, §23, §29 · HANDOFF §8
 **Regra de criação de página:** só existe página quando há **intenção diferente + necessidade diferente + conteúdo diferente + função comercial própria**. Não criar páginas por palavra-chave ou bairro.
 
@@ -26,7 +26,7 @@ Home
 └── Localização e Contato
 ```
 
-URLs: a definir junto com a stack. Sugestão de padrão: slugs curtos em português, sem acentos, com eventos sob `/eventos/` (ex.: `/eventos/festa-infantil/`). Ainda não aprovado.
+URLs: a definir na etapa de implementação. Sugestão de padrão: slugs curtos em português, sem acentos, com eventos sob `/eventos/` (ex.: `/eventos/festa-infantil/`). Ainda não aprovado.
 
 ## Prioridades
 
@@ -72,6 +72,55 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 ## Fora da arquitetura da v1
 
 - **Divina Essência** (buffet no local do cliente): **linha/produto separado, a avaliar no futuro. Não entra na arquitetura principal da primeira versão** (DEC-020). Nada de página, item de menu ou roteamento de WhatsApp para a Essência na v1. O telefone dela, (41) 9 8535-0605, não é contato do site principal (DEC-018).
+
+## Arquitetura técnica (DEC-026)
+
+**Status:** decidida e documentada. **Nada instalado, nenhum código criado.**
+
+```text
+                    ┌──────────────────────────────────────┐
+  Visitante ──────► │  FRONTEND — Astro static-first        │
+                    │  HTML estático · TypeScript ·         │
+                    │  componentes · fonte factual única ·  │
+                    │  JS só quando há necessidade funcional│
+                    └───────────────┬──────────────────────┘
+                                    │ envio do formulário (HTTPS)
+                                    ▼
+                    ┌──────────────────────────────────────┐
+                    │  BACKEND — serviço independente (VPS) │
+                    │  formulários · Kommo · Meta CAPI ·    │
+                    │  webhooks · WhatsApp · integrações    │
+                    └──────────────────────────────────────┘
+```
+
+### Frontend
+
+- **Astro** com **TypeScript**, gerando **páginas estáticas** sempre que possível.
+- **HTML semântico.** JavaScript só quando houver necessidade funcional (ex.: etapas do formulário, menu mobile).
+- Prioridades: Core Web Vitals, SEO, acessibilidade e mobile.
+- **Fonte factual centralizada:** um único arquivo de dados (NAP, capacidade, telefones, horários, atributos) consumido pelas páginas e pelo schema. É a implementação da tabela do documento mestre §3.
+- **Componentes reutilizáveis** para seções e layout. Conteúdo e código versionados no Git.
+- **Sem dependência estrutural de WordPress.**
+- **Não depende de servidor Node em execução permanente** para servir as páginas.
+- **Sem CMS adicional** por enquanto. Pode ser acrescentado depois sem reconstruir o frontend.
+
+### Backend
+
+- **Serviço independente, na VPS**, responsável por: receber formulários, enviar leads ao Kommo, enviar eventos à Meta CAPI, webhooks, montar o encaminhamento ao WhatsApp e integrações futuras.
+- **Desacoplado do frontend:** o site institucional continua funcionando mesmo se o backend ou uma integração falhar.
+- Princípio de degradação: se o envio do formulário falhar, o visitante ainda precisa de um caminho de contato (ex.: link direto para o WhatsApp correto). O mecanismo exato será definido na etapa do backend.
+- Segredos (tokens do Kommo e da Meta) só no backend, em variáveis de ambiente. **Nunca no frontend nem no Git.**
+
+### Fora desta etapa (cada item terá etapa própria)
+
+| Item | Situação |
+|---|---|
+| Tecnologia e framework do backend | a definir (L-20) |
+| Onde o frontend estático será servido (Nginx na VPS ou Hostinger) | a definir (L-20) |
+| Pipeline de build/deploy (GitHub → servidor) | a definir |
+| GTM, GA4, Meta Pixel, Consent Mode e demais ferramentas | etapa própria (DEC-026) |
+| Local das imagens otimizadas no projeto Astro (o processamento de imagens do Astro trabalha a partir de `src/`; `public/images/web/` pode ser revisto) | a definir na implementação |
+| CMS para edição por equipe não técnica | não agora; avaliar se surgir a necessidade |
 
 ## Ordem de implementação sugerida (SÍNTESE §29)
 

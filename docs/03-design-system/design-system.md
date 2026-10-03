@@ -2,7 +2,7 @@
 
 **Versão:** 1.1 — 03/10/2026 (Etapa 00, revisada após aprovação) — **documentação, não implementação**
 **Fontes:** HANDOFF §3, §7, §8 · NORTE §19 · SÍNTESE §13, §27 · ETAPA 00 · DEC-021, DEC-022, DEC-023
-**Stack:** a definir (DEC-016). Os valores abaixo são independentes de plataforma.
+**Stack:** Astro static-first (DEC-026). Os valores abaixo serão implementados como tokens (variáveis CSS) quando a implementação for autorizada.
 **Legenda:** **[aprovado]** = consta nas fontes · **[proposta]** = sugestão técnica desta etapa, aguardando aprovação
 
 ---
@@ -79,7 +79,7 @@ Regra [aprovado]: só configurar valores responsivos quando o controle realmente
 | Tablet | 768–1024 px | 2 colunas (8 colunas de base) |
 | Desktop | > 1024 px | até 4 colunas (12 colunas de base) |
 
-Coerente com o HANDOFF: Tipos de evento em 4 / 2×2 / 1; Hero em 2 colunas / 1; Crianças + adultos em ~55/45 / empilhado. Os breakpoints exatos serão confirmados quando a stack for definida (DEC-016).
+Coerente com o HANDOFF: Tipos de evento em 4 / 2×2 / 1; Hero em 2 colunas / 1; Crianças + adultos em ~55/45 / empilhado. Os breakpoints exatos serão confirmados na implementação. Com Astro e CSS próprio, não há breakpoints impostos por tema.
 
 ## 5. Containers [proposta]
 
@@ -132,4 +132,4 @@ Uso mínimo ([aprovado]: "sem excesso de ícones"). Quando necessário, um únic
 
 - Logo: **não há SVG confirmado** (L-10). Não vetorizar nem redesenhar agora (DEC-023); usar os PNGs de `assets/brand/logos/` como referência.
 - Validação final do dourado escuro para texto pequeno sobre `#F8F3E8` (DEC-022).
-- Definição da stack, para os breakpoints e a forma de carregar as fontes (DEC-016).
+- Na implementação (Astro, DEC-026): confirmar os breakpoints e carregar as fontes por self-hosting (WOFF2, só os pesos usados).

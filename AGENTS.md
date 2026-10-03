@@ -40,10 +40,22 @@ Este arquivo vale para qualquer assistente de IA ou agente automatizado que trab
 - **Fatos canônicos:** na Home, capacidade "até 150 convidados" (o detalhamento até 190 fica só em Espaço e Estrutura); estacionamento privativo; telefones do site: (41) 99247-0605 (geral) e (41) 99262-0604 (Royal/corporativo). Nunca usar o telefone da linha Divina Essência como contato do site principal.
 - **Imagens:** originais em `assets/images/source/` são somente leitura. Derivados otimizados vão para `public/images/web/`. Conferir SHA256 antes de tratar arquivos como duplicatas. Atualizar o inventário.
 - **Pessoas em fotos:** não publicar imagem com crianças ou convidados identificáveis sem autorização confirmada.
-- **Stack:** está a definir antes da implementação. Não instalar frameworks nem dependências enquanto ela não for decidida e registrada (DEC-016). WordPress/Kadence é a implementação anterior, não a stack deste projeto.
+- **Stack (DEC-026):** Astro static-first com TypeScript no frontend; backend independente na VPS para formulários e integrações. Regras:
+  - gerar páginas estáticas e usar JavaScript só quando houver necessidade funcional;
+  - fatos do negócio em um único arquivo de dados;
+  - nenhum segredo no frontend;
+  - o site não pode depender do backend para funcionar;
+  - não adicionar CMS nem implementar tracking (GTM/GA4/Pixel/Consent Mode) sem etapa autorizada;
+  - **não instalar nada nem criar código sem autorização expressa.**
+
+  WordPress/Kadence é a implementação anterior, não a stack deste projeto.
 - **Logo:** não vetorizar nem redesenhar sem autorização (DEC-023).
 - **Idioma:** documentação e conteúdo em português do Brasil.
 
 ## Prevalência das fontes
 
-Documento Norte > Síntese Estratégica > handoffs/decisões recentes > arquitetura > identidade visual > materiais comerciais > pesquisas > arquivos antigos.
+DEC-025. **Regra prévia:** uma decisão posterior, explicitamente aprovada, registrada com ID e que trate diretamente do ponto em conflito prevalece sobre documentos anteriores.
+
+**Hierarquia:** Documento Mestre / Governança atual > Documento Norte > Síntese Estratégica > decisões registradas > handoffs > referências e materiais anteriores.
+
+O Documento Mestre só pode divergir do Norte citando a decisão aprovada que fundamenta a divergência; caso contrário, prevalece o Norte.

@@ -4,7 +4,7 @@
 **Fontes:** NORTE §10 · SÍNTESE §19–20 · HANDOFF §3, §8, §9 · WIREFRAME (`Orientacóes para site`) · decisões DEC-016 a DEC-019
 **Função da Home:** orientar, convencer e encaminhar. Não é um catálogo nem explica tudo em profundidade. *(NORTE §10)*
 
-> Este documento registra **estrutura e intenção**, não implementação. Os textos marcados como **aprovados** vêm do HANDOFF de 09/09/2026, da implementação anterior em WordPress. Aqui eles valem como **conteúdo aprovado**. Neste projeto, **nenhuma seção está implementada**: a stack está a definir (DEC-016). Os demais textos estão *a definir* e serão escritos seção por seção.
+> Este documento registra **estrutura e intenção**, não implementação. Os textos marcados como **aprovados** vêm do HANDOFF de 09/09/2026, da implementação anterior em WordPress. Aqui eles valem como **conteúdo aprovado**. Neste projeto, **nenhuma seção está implementada**. A stack é Astro static-first (DEC-026), e a implementação aguarda autorização. Os demais textos estão *a definir* e serão escritos seção por seção.
 
 ## Sequência aprovada
 

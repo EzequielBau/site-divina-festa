@@ -2,7 +2,7 @@
 
 **Versão:** 1.0 — 03/10/2026 (Etapa 00)
 **Fontes:** NORTE §16–17, §21 · SÍNTESE §23–25 · HANDOFF §1
-**Status:** diretrizes. Nada foi implementado; a stack está a definir (DEC-016). Qualquer ambiente de desenvolvimento deve ficar em **noindex** até a publicação definitiva, como na implementação anterior *(HANDOFF §1)*.
+**Status:** diretrizes. Nada foi implementado. Na stack escolhida (Astro static-first, DEC-026), sitemap, canonical, metatags e schema serão gerados a partir de componentes e da fonte factual centralizada. Qualquer ambiente de desenvolvimento deve ficar em **noindex** até a publicação definitiva, como na implementação anterior *(HANDOFF §1)*.
 
 ## Regra fundamental
 

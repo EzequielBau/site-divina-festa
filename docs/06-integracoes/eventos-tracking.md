@@ -1,7 +1,7 @@
 # Eventos de tracking — taxonomia inicial
 
 **Versão:** 1.0 — 03/10/2026 (Etapa 00)
-**Status:** **taxonomia futura. Não implementada.** Revisar quando a stack e as integrações forem aprovadas.
+**Status:** **taxonomia futura. Não implementada.** GTM, GA4, Meta Pixel e Consent Mode serão definidos e implementados em etapa própria (DEC-026). Revisar esta taxonomia nessa etapa.
 
 ## Convenções
 

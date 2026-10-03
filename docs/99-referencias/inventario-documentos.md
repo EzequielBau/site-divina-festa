@@ -21,12 +21,12 @@ Git: um commit (`7dcd5fb Initial commit`, só com o README). Todo o resto estava
 
 ## Classificação e destino
 
-| Documento | Data | Tipo | Prevalência | Destino |
+| Documento | Data | Tipo | Prevalência (DEC-025) | Destino |
 |---|---|---|---|---|
-| 00_DOCUMENTO_NORTE_NOVO_SITE_DIVINA_FESTA.docx | 27/08/2026 | estratégico — **fonte principal** | 1 | `docs/01-estrategia/` (+ transcrição `.md`) |
-| 01_SINTESE_ESTRATEGICA_PESQUISA_DIVINA_FESTA.docx | 27/08/2026 | estratégico — consolidação das Rodadas 1–5 | 2 | `docs/01-estrategia/` (+ transcrição `.md`) |
-| 06-handoff-home-09-09-2026.md | 09/09/2026 | handoff da implementação anterior em WordPress. **Referência de conteúdo, UX e decisões aprovadas; não é obrigação tecnológica** (DEC-016) | 3 | `docs/07-decisoes/` |
-| Orientacóes para site.docx | 02/09/2026 | conteúdo — wireframe textual da Home | 4 (arquitetura/conteúdo) | `docs/04-conteudo/` (+ transcrição `.md`) |
+| 00_DOCUMENTO_NORTE_NOVO_SITE_DIVINA_FESTA.docx | 27/08/2026 | estratégico — **fonte estratégica principal** | 2 | `docs/01-estrategia/` (+ transcrição `.md`) |
+| 01_SINTESE_ESTRATEGICA_PESQUISA_DIVINA_FESTA.docx | 27/08/2026 | estratégico — consolidação das Rodadas 1–5 | 3 | `docs/01-estrategia/` (+ transcrição `.md`) |
+| 06-handoff-home-09-09-2026.md | 09/09/2026 | handoff da implementação anterior em WordPress. **Referência de conteúdo, UX e decisões aprovadas; não é obrigação tecnológica** (DEC-016) | 5 | `docs/07-decisoes/` |
+| Orientacóes para site.docx | 02/09/2026 | conteúdo — wireframe textual da Home (versão anterior) | 6 | `docs/04-conteudo/` (+ transcrição `.md`) |
 | Folders (Divina V2, Divina Social, Divina Essência) | 19/08–10/09/2026 | materiais comerciais | 6 | `assets/images/source/Material Publicitário/` (sem mudança de nome) |
 | README.md | 03/10/2026 | técnico | — | reescrito na raiz |
 

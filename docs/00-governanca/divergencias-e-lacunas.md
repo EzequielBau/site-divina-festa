@@ -1,7 +1,7 @@
 # Divergências e lacunas
 
-**Versão:** 1.1 — 03/10/2026 (revisão pós-aprovação da Etapa 00)
-**Histórico:** v1.0 (03/10/2026) levantamento inicial · v1.1 (03/10/2026) seis divergências resolvidas por decisão do gestor (DEC-016 a DEC-021), além das regras de contraste, logo e imagens (DEC-022 a DEC-024)
+**Versão:** 1.2 — 03/10/2026
+**Histórico:** v1.0 (03/10/2026) levantamento inicial · v1.1 (03/10/2026) seis divergências resolvidas por decisão do gestor (DEC-016 a DEC-021), além das regras de contraste, logo e imagens (DEC-022 a DEC-024) · v1.2 (03/10/2026) DIV-04 resolvida (DEC-025); stack decidida e L-19 resolvida (DEC-026)
 
 Este arquivo registra contradições entre fontes e informações ausentes. **Nenhuma divergência é resolvida silenciosamente.** Cada item fica `ABERTO` até haver decisão do gestor registrada em [`../07-decisoes/decisoes.md`](../07-decisoes/decisoes.md).
 
@@ -21,24 +21,19 @@ Fontes citadas:
 
 | ID | Tema | Resolução | Decisão |
 |---|---|---|---|
-| DIV-01 | Stack: WordPress × stack não escolhida | Este repositório é o **projeto paralelo programado** do novo site. A stack está **a definir antes da implementação**. WordPress/Kadence pertence à implementação anterior | DEC-016 (substitui DEC-010) |
+| DIV-01 | Stack: WordPress × stack não escolhida | Este repositório é o **projeto paralelo programado** do novo site. WordPress/Kadence pertence à implementação anterior. Stack depois decidida: **Astro static-first + backend independente na VPS** | DEC-016 (substitui DEC-010) · DEC-026 |
 | DIV-02 | Capacidade na Home | **Home: "até 150 convidados".** **Espaço e Estrutura: "até 150 pessoas sentadas ou até 190 em configuração predominantemente em pé, conforme layout e formato do evento".** O "Até 190" da Prova rápida da implementação anterior não vale para este projeto | DEC-017 |
 | DIV-03 | Telefones nos materiais | Telefones oficiais do site principal: **comercial geral (41) 99247-0605** e **Royal/corporativo (41) 99262-0604**. O (41) 9 8535-0605 fica registrado **apenas como dado da linha Divina Essência**, fora da fonte factual principal | DEC-018 |
 | DIV-09 | Estacionamento privativo | **Confirmado: estacionamento privativo** | DEC-019 |
 | DIV-10 | Divina Essência fora da arquitetura | **Linha/produto separado, a avaliar no futuro.** Não entra na arquitetura principal da primeira versão | DEC-020 |
 | DIV-13 | "Familien" × "Familjen" Grotesk | A família pretendida é **Familjen Grotesk** (Google Fonts). As citações "Familien" no HANDOFF são erro de grafia histórico | DEC-021 |
+| DIV-04 | Ordem de prevalência | **Regra prévia:** decisão posterior aprovada, registrada com ID e que trate diretamente do ponto prevalece. **Hierarquia:** Mestre/Governança > Norte > Síntese > decisões > handoffs > referências. O Mestre só diverge do Norte citando a decisão que fundamenta a divergência | DEC-025 (substitui DEC-015) |
 
 Observação sobre DIV-03: o **Folder Divina V2** traz só o número Royal como contato geral. Corrigir os materiais impressos está fora do escopo do site, mas fica a recomendação de revisá-los na próxima reimpressão.
 
 ---
 
 ## Abertas
-
-### DIV-04 — Ordem de prevalência dos documentos · ABERTO · baixa
-- **NORTE §1:** Documento Norte > Síntese Estratégica > Rodadas de pesquisa > materiais antigos.
-- **HANDOFF §2:** Documento Norte > arquitetura vigente > identidade visual > status atual da Home > problemas técnicos > instrução mais recente do gestor.
-- **ETAPA 00:** Norte > Síntese > handoffs/decisões recentes > arquitetura > identidade visual > materiais comerciais > pesquisas > antigos.
-- Situação: o repositório adota a ordem da ETAPA 00 (DEC-015). Com a DEC-016, o HANDOFF virou referência e não dita mais a ordem. **Falta ratificação explícita** da DEC-015.
 
 ### DIV-05 — Documentos citados no HANDOFF que não existem no repositório · ABERTO · baixa
 O HANDOFF cita `01-documento-norte.md`, `02-arquitetura-site.md`, `03-identidade-visual.md`, `04-home-status-atual.md` e `05-problemas-tecnicos.md`, que não foram entregues. Os documentos desta etapa os substituem. Como o `05-problemas-tecnicos.md` é da implementação WordPress, perdeu relevância. **Ação:** se os outros quatro existirem, fornecer para conferência de conteúdo.
@@ -85,7 +80,7 @@ Os códigos L-xx são estáveis. Itens resolvidos ficam riscados para manter a r
 | L-08 | Autorização de uso de imagem (crianças, convidados) e licença ou arquivo sem marca d'água do fotógrafo (`@lucylimafotografia`) | Todas as fotos com pessoas ou marca d'água | Gestor / fotógrafo |
 | L-09 | Origem das fotos Bistrô, café colonial, capas Essência e 15 anos (reais × banco/editadas) | Gastronomia; 15 Anos | Gestor |
 | L-10 | **Não há logo em SVG confirmado** (nem favicon). Não vetorizar nem redesenhar agora (DEC-023) | Header, Footer, favicon | Designer / arquivos da marca |
-| L-11 | Domínio definitivo, hospedagem e ambiente de desenvolvimento | Implantação, SEO | Gestor (depende da stack) |
+| L-11 | Domínio definitivo e ambiente de desenvolvimento/homologação | Implantação, SEO | Gestor |
 | L-12 | E-mail de contato, CNPJ/razão social e política de privacidade (LGPD) | Footer, formulários | Gestor / jurídico |
 | L-13 | URL e categoria do Google Business Profile; demais perfis sociais | SEO local, schema | Gestor |
 | L-14 | Existência e plano do Kommo CRM; contas de GA4/GTM/Ads/Meta já existentes | Integrações | Gestor |
@@ -93,4 +88,5 @@ Os códigos L-xx são estáveis. Itens resolvidos ficam riscados para manter a r
 | L-16 | Destino do QR code da Essência | Materiais da linha Essência | Verificação |
 | L-17 | Os documentos citados no HANDOFF (DIV-05) | Conferência de conteúdo | Gestor |
 | L-18 | Qual foto foi usada no Hero da implementação anterior (referência) | Inventário / Home | Implementação WordPress |
-| L-19 | **Stack técnica** do novo site: a definir antes da implementação (DEC-016) | Toda a implementação; `src/`, `public/` | Gestor + avaliação técnica |
+| ~~L-19~~ | ~~Stack técnica~~ — **resolvida**: Astro static-first + backend independente na VPS (DEC-026) | — | — |
+| L-20 | Detalhes técnicos da DEC-026: tecnologia do backend, onde o frontend estático será servido (Nginx na VPS ou Hostinger) e pipeline de deploy | Etapas de implementação e de backend | Gestor + proposta técnica |

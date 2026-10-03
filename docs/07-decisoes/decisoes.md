@@ -109,14 +109,14 @@ Data: 03/10/2026
 Decisão: Ordem de prevalência: Norte > Síntese > handoffs/decisões recentes > arquitetura > identidade visual > materiais comerciais > pesquisas > antigos.
 Motivo: Instrução da Etapa 00. Diverge da ordem do HANDOFF (DIV-04).
 Impacto: Ver o [documento mestre §4](../00-governanca/00-documento-mestre-site.md).
-Status: Aguardando ratificação explícita (DIV-04). Em uso provisoriamente.
+Status: **Substituída pela DEC-025** em 03/10/2026.
 
 ## DEC-016
 Data: 03/10/2026
 Decisão: Este repositório é o **projeto paralelo programado** do novo site. A stack técnica está **a definir antes da implementação**. WordPress/Kadence pertence à implementação anterior e **não** é a stack obrigatória deste projeto.
 Motivo: Instrução do gestor ao aprovar a Etapa 00.
-Impacto: Substitui a DEC-010. O handoff de 09/09/2026 continua como **referência de conteúdo, UX e decisões aprovadas**, mas não como obrigação tecnológica. Nada de framework ou dependência até a stack ser decidida e registrada. Resolve a DIV-01.
-Status: Aprovada
+Impacto: Substitui a DEC-010. O handoff de 09/09/2026 continua como **referência de conteúdo, UX e decisões aprovadas**, mas não como obrigação tecnológica. Resolve a DIV-01.
+Status: Aprovada. A pendência de stack foi resolvida pela **DEC-026** (Astro static-first).
 
 ## DEC-017
 Data: 03/10/2026
@@ -177,4 +177,59 @@ Decisão: Regras de uso de imagens do inventário:
 - Imagens **aparentemente de banco ou de origem incerta**: **origem a confirmar**; **não usar como prova real**.
 Motivo: Proteção legal (direito de imagem, LGPD, direitos autorais) e regra de prova do NORTE §8 e §21.
 Impacto: Ver [`inventario-imagens.md`](../99-referencias/inventario-imagens.md).
+Status: Aprovada
+
+## DEC-025
+Data: 03/10/2026
+Decisão: **Ordem de prevalência documental.**
+
+**Regra prévia, aplicada antes da hierarquia:** uma decisão posterior, explicitamente aprovada, registrada com ID e que trate diretamente do ponto em conflito prevalece sobre documentos anteriores.
+
+**Hierarquia** (quando não houver decisão que atenda à regra prévia):
+1. Documento Mestre / Governança atual
+2. Documento Norte
+3. Síntese Estratégica
+4. Decisões registradas
+5. Handoffs
+6. Referências e materiais anteriores
+
+**Salvaguarda:** o Documento Mestre só pode divergir do Documento Norte quando indicar explicitamente qual decisão posterior aprovada fundamenta a divergência. Caso contrário, prevalece o Documento Norte.
+Motivo: Proposta em [`proposta-ordem-prevalencia.md`](../00-governanca/proposta-ordem-prevalencia.md), aprovada pelo gestor.
+Impacto: Substitui a DEC-015. Resolve a DIV-04. Os documentos derivados do Mestre (arquitetura, Home, design system, SEO, integrações, em `docs/02`–`06`) integram a "Governança atual" (nível 1), conforme a proposta. Na próxima revisão do Documento Norte, registrar no NORTE §22 as decisões que alteram posicionamento, arquitetura, fonte factual ou conversão.
+Status: Aprovada
+
+## DEC-026
+Data: 03/10/2026
+Decisão: **Stack do novo site: Astro em arquitetura static-first**, com TypeScript, componentes reutilizáveis e uma fonte factual centralizada.
+
+O frontend deverá:
+- gerar páginas estáticas sempre que possível;
+- entregar HTML semântico;
+- usar JavaScript apenas quando houver necessidade funcional;
+- priorizar Core Web Vitals, SEO, acessibilidade e mobile;
+- centralizar os dados factuais do negócio, para evitar inconsistências entre páginas e schema;
+- manter conteúdo e código versionados no Git;
+- permitir expansão futura sem dependência estrutural de WordPress.
+
+Arquitetura:
+
+```text
+Astro static-first ──► frontend / páginas (HTML estático)
+
+VPS / serviço backend independente
+  ├── formulários
+  ├── Kommo
+  ├── Meta CAPI
+  ├── webhooks
+  ├── WhatsApp
+  └── integrações futuras
+```
+
+- **O site inteiro não depende de um servidor Node permanente.** O frontend é estático.
+- O **backend é desacoplado** do frontend: falhas de integração não podem impedir o funcionamento do site institucional.
+- **GTM, GA4, Meta Pixel, Consent Mode** e demais ferramentas serão definidos e implementados em **etapa própria**.
+- **Nenhum CMS adicional** agora. Se no futuro for necessário que uma equipe não técnica edite, um CMS poderá ser adicionado sem reconstruir o frontend.
+
+Motivo: Comparativo em [`proposta-comparativo-stack.md`](../02-arquitetura/proposta-comparativo-stack.md) e respostas do gestor (edição pelo próprio gestor, VPS operacional, Hostinger com Node/SSH, prioridade em robustez, velocidade e escalabilidade). A tecnologia fica subordinada ao projeto: geração estática e JS mínimo atendem ao NORTE ("velocidade prevalece sobre efeitos").
+Impacto: Resolve a pendência de stack (DEC-016 / L-19) e remove a stack dos bloqueios. Refina a recomendação do comparativo: os endpoints **não** ficam no projeto Astro (adapter Node), mas em um serviço backend independente na VPS. Nada será instalado nem codificado sem nova autorização. Ficam para etapas próprias: a tecnologia do backend, onde o frontend estático será servido, a pipeline de deploy e a ferramenta de tracking.
 Status: Aprovada

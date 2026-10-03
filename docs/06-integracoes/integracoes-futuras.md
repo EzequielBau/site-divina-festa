@@ -1,7 +1,9 @@
 # Integrações futuras
 
-**Versão:** 1.0 — 03/10/2026 (Etapa 00)
+**Versão:** 1.1 — 03/10/2026 (alinhada à DEC-026)
 **Status:** **arquitetura conceitual. Nada implementado.** Nenhuma integração deve ser feita sem autorização registrada em [`decisoes.md`](../07-decisoes/decisoes.md).
+
+**Arquitetura (DEC-026):** o frontend Astro é estático. Formulários, Kommo, Meta CAPI, webhooks, WhatsApp e integrações futuras ficam em um **serviço backend independente na VPS**, desacoplado: falhas de integração não podem impedir o funcionamento do site. As ferramentas de tracking client-side (GTM, GA4, Meta Pixel, Consent Mode) serão definidas e implementadas em **etapa própria**.
 
 ## Objetivo
 
@@ -13,17 +15,21 @@ Preparar o site para medir o funil comercial de ponta a ponta, da visita ao lead
 Visitante (UTM / orgânico / direto)
    │
    ▼
-Site ──► dataLayer ──► Google Tag Manager ──┬─► GA4
-   │                                        ├─► Google Ads (conversões)
-   │                                        └─► Meta Pixel ─┐
-   │                                                        │ (deduplicação por event_id)
-   ▼                                                        │
-Formulário curto (tipo → data → convidados → nome → WhatsApp)
-   │
-   ├─► Webhook / endpoint ─┬─► Kommo CRM (lead + origem/UTM)
-   │                       └─► Meta Conversions API (server-side) ◄┘
+Site estático (Astro) ──► dataLayer ──► Google Tag Manager ──┬─► GA4
+   │                     [etapa própria]                      ├─► Google Ads (conversões)
+   │                                                          └─► Meta Pixel ─┐
+   │                                                                          │ (deduplicação por event_id)
+   ▼                                                                          │
+Formulário curto (tipo → data → convidados → nome → WhatsApp)                 │
+   │  HTTPS                                                                   │
+   ▼                                                                          │
+BACKEND INDEPENDENTE (VPS) ─┬─► Kommo CRM (lead + origem/UTM)                 │
+   │                        ├─► Meta Conversions API (server-side) ◄──────────┘
+   │                        └─► webhooks / integrações futuras
    │
    └─► WhatsApp (número conforme roteamento, com mensagem pré-preenchida)
+
+Se o backend falhar: o site continua no ar e oferece contato direto pelo WhatsApp correto.
 
 Dashboards ◄── GA4 + Kommo + Ads + Meta + Search Console
 ```
@@ -39,7 +45,7 @@ Dashboards ◄── GA4 + Kommo + Ads + Meta + Search Console
 | **Meta Pixel** | Conversões e públicos no Meta | Business Manager / Pixel | Via GTM, só após consentimento |
 | **Meta Conversions API** | Envio server-side de leads (resiliente a bloqueadores) | Pixel + token (no servidor, nunca no front-end) | Deduplicar com o Pixel via `event_id` |
 | **Bing Webmaster Tools** | Indexação no Bing | Verificação | Ver SEO |
-| **Formulários** | Captura do lead com o fluxo curto do NORTE §15 | Stack definida | Validação, anti-spam sem atrito (honeypot/Turnstile), mensagem de sucesso contextual |
+| **Formulários** | Captura do lead com o fluxo curto do NORTE §15 | Componente leve no frontend + endpoint no backend da VPS | Validação, anti-spam sem atrito (honeypot/Turnstile), mensagem de sucesso contextual |
 | **Kommo CRM** | Gestão comercial do lead | Conta e plano Kommo **a confirmar** (L-14) | Receber nome, WhatsApp, tipo, data, convidados, página de origem, UTMs e `gclid`/`fbclid` |
 | **Webhooks** | Ponte formulário → CRM/CAPI | Endpoint seguro | Com retentativa e log de falhas. Segredos só em variáveis de ambiente |
 | **WhatsApp** | Canal principal de conversa | Telefones oficiais (DEC-018) | Links `wa.me` com texto pré-preenchido contendo o contexto. Roteamento: geral (41) 99247-0605 · Royal/corporativo (41) 99262-0604 |
@@ -77,4 +83,5 @@ Estes são os **únicos** destinos do site principal (DEC-018). O número (41) 9
 1. Nenhum token, chave ou segredo no código ou no repositório. Usar `.env` (ignorado pelo Git) e variáveis do servidor.
 2. Scripts de terceiros carregados de forma assíncrona e só via GTM, monitorando o impacto em Core Web Vitals.
 3. Cada integração precisa de dono, propósito e métrica definidos antes de entrar.
-4. Implementação só após a stack estar definida (DEC-016) e com autorização.
+4. Stack definida (DEC-026). Mesmo assim, cada integração só é implementada em etapa própria e com autorização.
+5. O backend é desacoplado: nenhuma página do site pode depender dele para carregar ou funcionar.
