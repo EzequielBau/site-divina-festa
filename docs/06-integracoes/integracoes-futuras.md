@@ -1,10 +1,10 @@
 # Integrações futuras
 
-**Versão:** 1.3 — 03/10/2026 (alinhada às DEC-026, DEC-027 e DEC-028)
+**Versão:** 1.4 — 03/10/2026 (alinhada às DEC-026 a DEC-029)
 **Status:** **arquitetura conceitual. Nada implementado.** Nenhuma integração deve ser feita sem autorização registrada em [`decisoes.md`](../07-decisoes/decisoes.md).
 
-**Arquitetura (DEC-026, DEC-027, DEC-028):**
-- O frontend Astro é estático, em **hospedagem desacoplada da VPS** (serviço estático/CDN; provedor a definir em etapa própria).
+**Arquitetura (DEC-026 a DEC-029):**
+- O frontend Astro é estático, hospedado em **Cloudflare Pages**, desacoplado da VPS (DEC-029). As integrações client-side (ex.: tags de tracking) entram no build estático e não podem depender de recursos exclusivos do Cloudflare.
 - Formulários, Kommo, Meta CAPI, webhooks, roteamento de WhatsApp e integrações adicionais ficam em um **backend separado em Node.js + TypeScript + Fastify, na VPS**, previsto em **`api.divinafesta.com.br`** (HTTPS).
 - O site **não depende da VPS** para funcionar. Se a VPS ou o backend ficarem indisponíveis, só as funções que dependem da API param temporariamente; o formulário precisa oferecer um caminho alternativo de contato (ex.: WhatsApp direto).
 - As ferramentas de tracking client-side (GTM, GA4, Meta Pixel, Consent Mode) serão definidas e implementadas em **etapa própria**.
@@ -19,7 +19,7 @@ Preparar o site para medir o funil comercial de ponta a ponta, da visita ao lead
 Visitante (UTM / orgânico / direto)
    │
    ▼
-Site estático (Astro, CDN)   ──► dataLayer ──► GTM ──┬─► GA4
+Site estático (CF Pages)     ──► dataLayer ──► GTM ──┬─► GA4
    │                            [etapa própria]       ├─► Google Ads (conversões)
    │                                                  └─► Meta Pixel ───────────┐
    │                                                                            │ deduplicação

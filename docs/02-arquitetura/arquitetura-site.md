@@ -1,6 +1,6 @@
 # Arquitetura do site
 
-**Versão:** 1.4 — 03/10/2026 (arquitetura técnica: DEC-026, DEC-027 e DEC-028)
+**Versão:** 1.5 — 03/10/2026 (arquitetura técnica: DEC-026 a DEC-029)
 **Fontes:** NORTE §9–14 · SÍNTESE §18, §23, §29 · HANDOFF §8
 **Regra de criação de página:** só existe página quando há **intenção diferente + necessidade diferente + conteúdo diferente + função comercial própria**. Não criar páginas por palavra-chave ou bairro.
 
@@ -78,11 +78,11 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 **Status:** decidida e documentada. **Nada instalado, configurado ou programado.** A DEC-028 substitui parcialmente a DEC-027 nos pontos sobre hospedagem do frontend.
 
 ```text
-  Hospedagem estática / CDN  [provedor a definir em etapa própria]
+  Cloudflare Pages (DEC-029) ◄── deploy a partir do GitHub
   ┌────────────────────────────────────────────────────────────┐
   │  divinafesta.com.br (após o lançamento)                    │
-  │  dev.divinafesta.com.br (desenvolvimento, fora do índice)  │
-  │     └── arquivos estáticos do build do Astro               │
+  │  dev.divinafesta.com.br (CNAME; fora do índice)            │
+  │     └── arquivos estáticos do build do Astro (dist)        │
   │         HTML · CSS · JS mínimo · imagens                   │
   └────────────────────────────────────────────────────────────┘
                  │  só as funções que precisam de servidor
@@ -96,7 +96,7 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
   │         roteamento de WhatsApp · integrações futuras       │
   └────────────────────────────────────────────────────────────┘
 
-  Astro (build estático) → hospedagem estática/CDN → site público
+  Astro (build estático) → Cloudflare Pages → site público
   Node / Fastify (VPS)   → lógica de servidor e integrações
 ```
 
@@ -113,11 +113,14 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 - **Não depende de servidor Node em execução permanente** para servir as páginas.
 - **Sem CMS adicional** por enquanto. Pode ser acrescentado depois sem reconstruir o frontend.
 
-### Hospedagem do frontend (DEC-028)
+### Hospedagem do frontend (DEC-028, DEC-029)
 
-- **Desacoplada da VPS.** O build do Astro é publicado como **arquivos estáticos** em serviço estático/CDN ou hospedagem web adequada.
-- **Provedor a definir em etapa própria** (L-21). Exemplos possíveis: Hostinger, Cloudflare Pages, Netlify, Vercel ou outra hospedagem estática/CDN.
-- **Portabilidade:** o site deve poder migrar entre provedores sem ser refeito. Recursos exclusivos de um provedor não podem ser requisito do frontend.
+- **Desacoplada da VPS.** O build do Astro é publicado como **arquivos estáticos**.
+- **Provedor inicial: Cloudflare Pages** (DEC-029).
+  - Fonte do deploy: GitHub `EzequielBau/site-divina-festa`.
+  - Comando de build: `npm run build`.
+  - Diretório de saída: `dist`.
+- **Portabilidade:** o site deve poder migrar entre provedores sem ser refeito. Recursos exclusivos do Cloudflare não podem virar requisito do frontend sem nova decisão.
 - **Nginx e VPS não são requisitos do frontend.**
 - **HTTPS** obrigatório em todo ambiente publicado.
 
@@ -131,28 +134,31 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 - Princípio de degradação: se o envio do formulário falhar, o visitante ainda precisa de um caminho de contato (ex.: link direto para o WhatsApp correto). O mecanismo exato será definido na etapa do backend.
 - Segredos (tokens do Kommo e da Meta) só no backend, em variáveis de ambiente. **Nunca no frontend nem no Git.**
 
-### Ambientes (DEC-027, DEC-028)
+### Ambientes (DEC-027 a DEC-029)
 
 | Ambiente | Endereço | Situação |
 |---|---|---|
 | Produção atual | `divinafesta.com.br` (WordPress) | **Continua no ar até a aprovação final do novo site** |
-| Desenvolvimento do novo site | `dev.divinafesta.com.br` (hospedagem estática do frontend) | Antes de substituir o WordPress. **Fora da indexação** dos buscadores até o lançamento |
+| Desenvolvimento do novo site | `dev.divinafesta.com.br` (CNAME → projeto Cloudflare Pages) | Antes de substituir o WordPress. **Fora da indexação** dos buscadores até o lançamento |
 | API (backend) | `api.divinafesta.com.br` (VPS) | Futuro |
-| Produção do novo site | `divinafesta.com.br` (hospedagem estática do frontend) | Só após aprovação final. Na virada: 301, Search Console, remoção do bloqueio de indexação |
+| Produção do novo site | `divinafesta.com.br` (Cloudflare Pages) | Só após aprovação final. Na virada: 301, Search Console, remoção do bloqueio de indexação. Configuração do domínio principal a definir (L-22) |
 
-### Deploy (DEC-027, DEC-028)
+### Deploy (DEC-027 a DEC-029)
 
-- **Agora:** processo simples e controlado (sem automação).
-- **Futuro:** CI/CD **GitHub → build → testes → deploy**, com pipelines independentes: frontend no provedor de hospedagem escolhido; backend na VPS.
+- **Frontend:** Cloudflare Pages publica a partir do GitHub (`npm run build` → `dist`). A configuração fica para a etapa de infraestrutura, com autorização.
+- **Backend:** no início, processo simples e controlado na VPS.
+- **Futuro:** testes automatizados antes da publicação e pipeline do backend (GitHub → build → testes → deploy na VPS), independente do frontend.
 - **GitHub Actions não será configurado agora.**
 
 ### Fora desta etapa (cada item terá etapa própria)
 
 | Item | Situação |
 |---|---|
-| Provedor de hospedagem do frontend (L-21) | etapa própria (DEC-028) |
-| Procedimento concreto do deploy manual inicial (frontend no provedor; backend na VPS) | a definir na etapa de implementação |
-| Configuração de DNS, certificados HTTPS e, na VPS, do reverse proxy do backend | a definir na etapa de infraestrutura, com autorização |
+| Criação do projeto no Cloudflare Pages, conexão com o GitHub, branch de produção e branch/ambiente que atende o `dev` | etapa de infraestrutura, com autorização (DEC-029) |
+| Registro CNAME de `dev.divinafesta.com.br` | etapa de infraestrutura; depende do acesso ao DNS (L-11) |
+| Configuração do domínio principal `divinafesta.com.br` no Cloudflare Pages no lançamento (L-22) | etapa de lançamento |
+| Procedimento do deploy inicial do backend na VPS | a definir na etapa do backend |
+| Certificados HTTPS e, na VPS, reverse proxy do backend | a definir na etapa de infraestrutura, com autorização |
 | Mecanismo que mantém `dev.divinafesta.com.br` fora da indexação (noindex, cabeçalho e/ou restrição de acesso) | a definir na etapa de infraestrutura |
 | CI/CD (GitHub Actions) | futuro; não configurar agora (DEC-027) |
 | GTM, GA4, Meta Pixel, Consent Mode e demais ferramentas | etapa própria (DEC-026) |

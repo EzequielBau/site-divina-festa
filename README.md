@@ -55,11 +55,11 @@ Ordem de prevalência (DEC-025): primeiro vale a decisão posterior aprovada, re
 
 **Etapa 00: organização e governança** (03/10/2026), aprovada. Ainda não há código do site neste repositório. Detalhes em [`docs/08-status/status.md`](docs/08-status/status.md).
 
-> Este repositório é o **projeto paralelo programado** do novo site (DEC-016). **Stack (DEC-026):** Astro em arquitetura static-first, com TypeScript, componentes reutilizáveis e fonte factual centralizada. Formulários e integrações (Kommo, Meta CAPI, webhooks, WhatsApp) ficam em um serviço backend independente na VPS, desacoplado do site. **Execução (DEC-027, refinada pela DEC-028):**
-> - build estático em hospedagem desacoplada da VPS (serviço estático/CDN; provedor a definir em etapa própria). Nginx e VPS não são requisitos do frontend;
+> Este repositório é o **projeto paralelo programado** do novo site (DEC-016). **Stack (DEC-026):** Astro em arquitetura static-first, com TypeScript, componentes reutilizáveis e fonte factual centralizada. Formulários e integrações (Kommo, Meta CAPI, webhooks, WhatsApp) ficam em um serviço backend independente na VPS, desacoplado do site. **Execução (DEC-027, refinada pelas DEC-028 e DEC-029):**
+> - build estático hospedado em **Cloudflare Pages**, com deploy a partir deste repositório no GitHub (`npm run build` → `dist`), desacoplado da VPS. Nginx e VPS não são requisitos do frontend, e o site pode mudar de provedor sem ser refeito;
 > - o site institucional continua no ar mesmo com a VPS indisponível; só as funções da API podem parar;
 > - backend em Node.js + TypeScript + Fastify, na VPS, no futuro em `api.divinafesta.com.br`;
-> - desenvolvimento em `dev.divinafesta.com.br`, fora da indexação até o lançamento;
+> - desenvolvimento em `dev.divinafesta.com.br` (CNAME para o Cloudflare Pages), fora da indexação até o lançamento;
 > - o WordPress atual segue em produção até a aprovação final;
 > - HTTPS em todo ambiente publicado.
 >

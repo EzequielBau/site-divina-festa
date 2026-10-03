@@ -40,7 +40,7 @@ Este arquivo vale para qualquer assistente de IA ou agente automatizado que trab
 - **Fatos canônicos:** na Home, capacidade "até 150 convidados" (o detalhamento até 190 fica só em Espaço e Estrutura); estacionamento privativo; telefones do site: (41) 99247-0605 (geral) e (41) 99262-0604 (Royal/corporativo). Nunca usar o telefone da linha Divina Essência como contato do site principal.
 - **Imagens:** originais em `assets/images/source/` são somente leitura. Derivados otimizados vão para `public/images/web/`. Conferir SHA256 antes de tratar arquivos como duplicatas. Atualizar o inventário.
 - **Pessoas em fotos:** não publicar imagem com crianças ou convidados identificáveis sem autorização confirmada.
-- **Stack (DEC-026, DEC-028):** Astro static-first com TypeScript no frontend, em hospedagem estática desacoplada da VPS (provedor a definir em etapa própria); backend independente na VPS para formulários e integrações. Ambiente de desenvolvimento: `dev.divinafesta.com.br`, fora da indexação. Regras:
+- **Stack (DEC-026, DEC-028, DEC-029):** Astro static-first com TypeScript no frontend, hospedado em Cloudflare Pages (build `npm run build`, saída `dist`), desacoplado da VPS; não configurar o Cloudflare sem etapa autorizada; backend independente na VPS para formulários e integrações. Ambiente de desenvolvimento: `dev.divinafesta.com.br`, fora da indexação. Regras:
   - gerar páginas estáticas e usar JavaScript só quando houver necessidade funcional;
   - fatos do negócio em um único arquivo de dados;
   - nenhum segredo no frontend;

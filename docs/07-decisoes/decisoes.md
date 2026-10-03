@@ -327,4 +327,21 @@ Node / Fastify (VPS)   → api.divinafesta.com.br  → formulários e integraç�
 
 Motivo: Com o frontend servido pela VPS, uma queda da VPS derrubaria o site inteiro, o que contraria a premissa da DEC-026 de que falhas de servidor e integração não podem afetar o site institucional. Separar a hospedagem elimina esse ponto único de falha e mantém o frontend portável.
 Impacto: Resolve a DIV-17. Atualiza a L-11 (subdomínio confirmado: `dev.divinafesta.com.br`; falta o acesso ao DNS) e abre a L-21 (escolha do provedor de hospedagem do frontend). **Nada será instalado, configurado ou programado sem nova autorização.**
+Status: Aprovada. Provedor do frontend definido pela **DEC-029**.
+
+## DEC-029
+Data: 03/10/2026
+Decisão: **Hospedagem do frontend em Cloudflare Pages** (detalha a DEC-028).
+
+- O frontend Astro static-first será hospedado **inicialmente em Cloudflare Pages**.
+- **Fonte do deploy:** o repositório GitHub `EzequielBau/site-divina-festa`.
+- **Comando de build esperado:** `npm run build`.
+- **Diretório de saída estática:** `dist`.
+- **Ambiente de desenvolvimento público:** `dev.divinafesta.com.br`, apontando para o projeto Cloudflare Pages por **CNAME**.
+- O ambiente `dev` permanece **fora da indexação** até o lançamento.
+- O frontend continua **independente da VPS**. A VPS fica reservada ao backend e às integrações (DEC-028).
+- **Portabilidade:** o site continua sendo um build estático comum e pode mudar de provedor no futuro sem reconstrução estrutural. Recursos exclusivos do Cloudflare não podem virar requisito do frontend sem nova decisão.
+
+Motivo: Resolver a L-21 com um provedor de hospedagem estática/CDN que publica a partir do GitHub e mantém o site independente da VPS, conforme a DEC-028.
+Impacto: Resolve a L-21. Continuam para a etapa de infraestrutura, com autorização: criação e configuração do projeto no Cloudflare Pages, conexão com o GitHub, registro CNAME de `dev` (depende do acesso ao DNS, L-11), mecanismo de bloqueio de indexação do `dev` e estratégia do domínio principal no lançamento (L-22). **Astro não será instalado e o Cloudflare não será configurado sem nova autorização.**
 Status: Aprovada
