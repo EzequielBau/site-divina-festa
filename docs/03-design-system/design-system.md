@@ -1,7 +1,7 @@
 # Design system
 
-**Versão:** 2.1 — 04/10/2026 — botões no padrão da referência do site anterior (DEC-036). v2.0: fundação visual implementada e aprovada (DEC-034), que substituiu a v1.1 (Etapa 00, documental).
-**Fontes:** HANDOFF §3, §7, §8 · NORTE §19 · SÍNTESE §13, §27 · DEC-021, DEC-022, DEC-023, **DEC-034**, **DEC-036**
+**Versão:** 2.1 — 04/10/2026 — botões no padrão da referência do site anterior (DEC-036) e imagens em alta definição (DEC-037). v2.0: fundação visual implementada e aprovada (DEC-034), que substituiu a v1.1 (Etapa 00, documental).
+**Fontes:** HANDOFF §3, §7, §8 · NORTE §19 · SÍNTESE §13, §27 · DEC-021, DEC-022, DEC-023, **DEC-034**, **DEC-036**, **DEC-037**
 **Stack:** Astro static-first (DEC-026), CSS próprio, **zero JavaScript no cliente** nesta etapa, sem biblioteca de UI e sem framework JS.
 **Implementação:** tokens em `src/styles/tokens.css`; estilos globais em `src/styles/global.css`; componentes-base em `src/components/ui/`; página temporária de validação em `src/pages/index.astro` (será substituída pela Home).
 **Legenda:** **[vigente]** = implementado e aprovado (DEC-034) · **[aprovado]** = consta nas fontes · **[proposta]** = ainda sem decisão
@@ -149,11 +149,10 @@ Cinco componentes em `src/components/ui/`, em Astro, com CSS escopado e sem Java
 
 - Foto real sempre. Banco de imagem só se não houver alternativa real (blacklist do NORTE).
 - Regras de uso [aprovado — DEC-024]: fotos com crianças, só com autorização de imagem confirmada; fotos com marca d'água, não usar no site final sem autorização e arquivo adequado; imagens de banco ou origem incerta, não usar como prova real.
-- **[proposta] Proporções padrão:** Hero 4:5 ou 3:2 (desktop em 2 colunas) e 4:5 no mobile; cards 4:3 ou 3:2; galerias 3:2.
+- **Proporções:** Hero [vigente] 4:3 no mobile e no desktop (2 colunas) e 16:9 no tablet, recorte por `object-fit`. [proposta] Cards 4:3 ou 3:2; galerias 3:2.
 - Formato WebP/AVIF com fallback, `srcset`/`sizes`, `width`/`height` explícitos (evita CLS) e lazy load fora da primeira dobra. A imagem do Hero carrega com prioridade.
 - `alt` descritivo e factual. Não usar o alt para despejar palavras-chave.
-- **Nitidez em primeiro lugar (DEC-037):** fotos sempre em alta definição, nítidas e bonitas. Qualidade de compressão **90** no `astro:assets` (`quality={90}`), nunca o padrão do Astro (AVIF 50, WebP/JPEG 80). A maior largura gerada é a do original, sem ampliar. Larguras menores só servem telas que exibem a foto menor, considerando a densidade de pixels (`srcset`/`sizes`). Não reduzir qualidade ou definição para atingir meta de peso.
-- Peso: só referência, nunca motivo para perder nitidez. Hero (1306 px, qualidade 90): AVIF ≈ 274 KB, WebP ≈ 229 KB. A antiga meta de ~200 KB no Hero e ~120 KB em cards deixa de ser limite.
+- **Alta definição (DEC-037):** sem perda de nitidez perceptível; sem ampliar além do original; preferir a fonte de maior resolução; peso não justifica degradação visível. A qualidade de compressão é definida por conferência visual de cada imagem. No Hero atual, o valor validado é `quality={90}` (detalhes no [inventário](../99-referencias/inventario-imagens.md)).
 - Os originais nunca são editados. Ver o [inventário](../99-referencias/inventario-imagens.md).
 
 ## 11. Ícones [proposta]

@@ -145,7 +145,7 @@ Mesmo motivo dos logos: passam pelo `astro:assets`, que gera AVIF/WebP/JPEG redi
 
 | Derivado | Original | Dimensão | Tamanho | Uso |
 |---|---|---|---|---|
-| `home/salao-divina-social-panoramico.png` | #29 Salão Divina Social2.png (SHA256 `679F0521…2D68`) | 1306×714 | 1,7 MB | Hero da Home (larguras geradas: 480, 720, 960 e 1306 px) |
+| `home/salao-divina-social-panoramico.png` | #29 Salão Divina Social2.png (SHA256 `679F0521…2D68`) | 1306×714 | 1,7 MB | Hero da Home: larguras 480, 720, 960 e 1306 px; `quality={90}` validado por conferência visual (DEC-037); maior versão ≈ 274 KB AVIF, 229 KB WebP |
 
 ## `assets/images/source/Material Publicitário/`
 
@@ -161,7 +161,7 @@ Mesmo motivo dos logos: passam pelo `astro:assets`, que gera AVIF/WebP/JPEG redi
 ## Regras para o acervo
 
 1. Originais ficam em `assets/images/source/` e `assets/brand/logos/` e **nunca** são sobrescritos, convertidos ou apagados sem autorização.
-2. Versões para o site (WebP/AVIF, redimensionadas) vão para `public/images/web/` com nomes novos em `kebab-case`, sem acentos. O mapeamento original → derivado deve ser registrado neste inventário.
+2. Derivados para o site têm nomes novos em `kebab-case`, sem acentos. Os que passam pelo `astro:assets` (logos e fotos) ficam em `src/assets/`, e o Astro gera as versões web no build. `public/images/web/` fica para arquivos servidos sem processamento. O mapeamento original → derivado deve ser registrado neste inventário, e a qualidade segue a DEC-037.
 3. Duplicatas só são tratadas como tal após conferência de SHA256.
 4. Renomeações em massa exigem aprovação e registro.
 5. Aplicar as regras de uso da DEC-024 (tabela no início deste documento) antes de publicar qualquer imagem.

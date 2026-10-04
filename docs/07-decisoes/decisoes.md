@@ -621,13 +621,16 @@ Status: Aprovada
 
 ## DEC-037
 Data: 04/10/2026
-Decisão: **Imagens sempre em alta definição.** Fotos do site devem ser nítidas e bonitas, sem perder qualidade ou definição.
+Decisão: **Imagens em alta definição.** As fotos do site devem ser exibidas nítidas e bonitas. Regra permanente:
 
-- Qualidade de compressão **90** em todas as imagens processadas pelo `astro:assets`, nunca o padrão do Astro (AVIF 50, WebP/JPEG 80).
-- A maior largura gerada é a do original (não ampliar). Larguras menores só servem telas que exibem a foto menor, considerando a densidade de pixels.
-- Metas de peso não justificam reduzir qualidade.
-- Quando houver versão de maior resolução da mesma cena, preferir a maior.
+- preservar a qualidade visual perceptível: nenhuma perda de nitidez ou definição visível;
+- não ampliar além da resolução original;
+- preferir a fonte de maior resolução disponível da mesma cena;
+- o peso do arquivo não justifica degradação visual perceptível;
+- a otimização continua responsiva e eficiente (formatos modernos, `srcset`/`sizes`, larguras adequadas a cada tela, considerando a densidade de pixels).
+
+**Valor validado no Hero atual:** `quality={90}` no `astro:assets`. O padrão do Astro (AVIF 50, WebP/JPEG 80) suavizava detalhes nesta foto. O valor 90 não é obrigatório para todo asset futuro: cada imagem deve ser conferida visualmente, e a qualidade definida pelo resultado.
 
 Motivo: Determinação do gestor: a fotografia real é a principal prova visual do site e precisa ser exibida com a melhor definição possível.
-Impacto: Atualiza o §10 de [`design-system.md`](../03-design-system/design-system.md). Substitui a meta de peso orientativo (~200 KB no Hero, ~120 KB em cards). Aplicada ao Hero (`quality={90}`).
+Impacto: Atualiza o §10 de [`design-system.md`](../03-design-system/design-system.md). Substitui a meta de peso orientativo (~200 KB no Hero, ~120 KB em cards), que deixa de ser limite.
 Status: Aprovada
