@@ -603,3 +603,31 @@ Decisão: **Header e Footer implementados e aprovados, sem CTA comercial.**
 Motivo: O site terá botão flutuante de contato e CTAs dentro das páginas; Header e Footer ficam mais leves e institucionais.
 Impacto: Substitui o menu e o CTA do Header previstos no HANDOFF (resolve a DIV-07) e o CTA e os dados de contato do Footer previstos no HANDOFF §8. Atualiza [`home-estrutura.md`](../04-conteudo/home-estrutura.md) (seções 1 e 12). Mantém o Footer sem rota paralela de contato direto, fora do botão flutuante futuro.
 Status: Aprovada
+
+## DEC-036
+Data: 04/10/2026
+Decisão: **Botões no padrão da referência do site anterior, adaptados ao contraste AA.**
+
+- **Base comum:** formato pílula (`--radius-button` 24 px), Familjen Grotesk 600, 16 px, borda de 1 px, altura mínima de 48 px, sem sombra.
+- **Principal:** fundo `#B88917` com texto `#282120` (4,99:1). Mouse por cima: fundo `#8E6B1F` com texto branco (4,92:1). Clicado: um tom mais escuro. Texto branco sobre `#B88917` (3,17:1) não é permitido.
+- **Secundário:** fundo branco, borda `#D7C39C`, texto `#6F5426`. Mouse por cima: fundo `#F8F3E8`, borda `#B88917`, texto `#282120`.
+- **Outline:** sem fundo, borda `#B88917`, texto `#6F5426`, 15 px. Mouse por cima: fundo `#B88917` com texto `#282120`. Só para fundos claros.
+- **Estados:** hover só com mouse (`hover: hover` e `pointer: fine`); clicado (desce 1 px) e foco visível valem em qualquer dispositivo.
+- **Hero:** "Solicitar proposta" (principal) + "Conhecer o espaço" (secundário).
+
+Motivo: Aparência mais suave, elegante e atemporal, aprovada pelo gestor a partir das configurações de botão do site anterior (Kadence). O texto branco do estado normal da referência foi trocado por texto escuro porque não atinge o contraste AA; a fonte de 18 px da referência foi mantida em 16 px por decisão do gestor.
+Impacto: Substitui parcialmente a DEC-034 em três pontos: formato dos botões (pílula, antes 10 px), fonte dos botões (Familjen Grotesk, antes Source Sans 3) e hover do CTA principal (dourado escuro `#8E6B1F` com texto branco, antes clareamento do dourado). Fora dos botões, `#8F6B16`/`#8E6B1F` continuam fora de uso e o radius padrão segue 10 px. Atualiza [`design-system.md`](../03-design-system/design-system.md) (v2.1), `src/styles/tokens.css` e `src/components/ui/Button.astro`. As imagens de referência ficam em `Referências para design/`, fora do Git.
+Status: Aprovada
+
+## DEC-037
+Data: 04/10/2026
+Decisão: **Imagens sempre em alta definição.** Fotos do site devem ser nítidas e bonitas, sem perder qualidade ou definição.
+
+- Qualidade de compressão **90** em todas as imagens processadas pelo `astro:assets`, nunca o padrão do Astro (AVIF 50, WebP/JPEG 80).
+- A maior largura gerada é a do original (não ampliar). Larguras menores só servem telas que exibem a foto menor, considerando a densidade de pixels.
+- Metas de peso não justificam reduzir qualidade.
+- Quando houver versão de maior resolução da mesma cena, preferir a maior.
+
+Motivo: Determinação do gestor: a fotografia real é a principal prova visual do site e precisa ser exibida com a melhor definição possível.
+Impacto: Atualiza o §10 de [`design-system.md`](../03-design-system/design-system.md). Substitui a meta de peso orientativo (~200 KB no Hero, ~120 KB em cards). Aplicada ao Hero (`quality={90}`).
+Status: Aprovada

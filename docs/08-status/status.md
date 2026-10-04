@@ -1,6 +1,6 @@
 # Status do projeto
 
-**Atualizado em:** 03/10/2026 — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032); hospedagem do frontend na Hostinger Web Hosting (DEC-033); fundação visual do Design System implementada e aprovada (DEC-034); Header e Footer finalizados (DEC-035).
+**Atualizado em:** 04/10/2026 — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032); hospedagem do frontend na Hostinger Web Hosting (DEC-033); fundação visual do Design System implementada e aprovada (DEC-034); Header e Footer finalizados (DEC-035); botões no padrão da referência (DEC-036); imagens em alta definição (DEC-037); Hero aprovado.
 
 ## Concluído
 
@@ -25,6 +25,8 @@
 - **Etapa 01: base técnica do projeto Astro** (Astro 7.3.5, Node 24): TypeScript `strictest`; fonte factual em `src/data/site.ts`; tokens em `src/styles/tokens.css`; `BaseLayout.astro` com meta robots `noindex, nofollow` por padrão; página técnica provisória. Build sem erros e sem JavaScript no cliente. **Aprovada pelo gestor**, incluindo as escolhas técnicas: fontes pela API nativa do Astro (baixadas no build e servidas pelo próprio site, arquivo variável 400–700, subset latin, `font-display: swap`), chave `PUBLIC_ALLOW_INDEXING` e `astro check` dentro do `npm run build`. Texto com destaque provisoriamente em `#2F2F2F` até a etapa de Design System. Finais de linha padronizados em LF via `.gitattributes`
 - **Etapa 02: fundação visual do Design System** (DEC-034, aprovada pelo gestor): tokens de cor, tipografia fluida, espaçamento, containers e radius; componentes-base Container, Section, Button, TextLink e Eyebrow em src/components/ui/; CSS próprio, zero JavaScript no cliente. CTA em #B88917 com texto #282120; #8F6B16 descartado. src/pages/index.astro é página temporária de validação, não a Home. Detalhes em [design-system.md](../03-design-system/design-system.md) v2.0. Header, Footer, Hero e Home não iniciados como referência: texto do Hero; copy de Prova rápida, Tipos de evento e Crianças + adultos
 - **Header e Footer finalizados e aprovados** (04/10/2026, DEC-035): `Header.astro` (logo, Eventos ▾ com 4 tipos, O Espaço, Gastronomia, Como funciona; sticky, compacto, menu lateral abaixo de 64rem) e `Footer.astro` (institucional, ~133 px no desktop, endereço uma única vez). Nenhum dos dois tem CTA comercial, telefone, WhatsApp ou horário. Redes sociais e Google Maps aguardam URLs oficiais (L-13)
+- **Hero da Home** implementado e aprovado (04/10/2026, `src/components/home/Hero.astro`): foto #29 `Salão Divina Social2.png` processada pelo `astro:assets` (AVIF/WebP/JPEG, 480–1306 px, qualidade 90 — DEC-037), 2 colunas a partir de 64rem, sem JavaScript.
+- **Botões no padrão da referência do site anterior** (DEC-036): pílula, Familjen Grotesk, variantes `primary` · `secondary` · `outline`, adaptados ao contraste AA.
 
 ## Em andamento
 
@@ -36,7 +38,7 @@
 2. ~~Design system: validar tokens e o contraste final do dourado escuro (DEC-022)~~ (feito na Etapa 02, DEC-034)
 3. ~~Header~~ (feito em 04/10/2026, DEC-035)
 4. ~~Footer~~ (feito em 04/10/2026, DEC-035)
-5. Hero (conteúdo já aprovado; implementação nova)
+5. ~~Hero~~ (feito em 04/10/2026)
 6. Home seção por seção, começando por **Gastronomia** no conteúdo
 7. Infraestrutura de desenvolvimento (DEC-033): criar `dev.divinafesta.com.br` na Hostinger com pasta própria e HTTPS → configurar o `X-Robots-Tag` (a meta robots já está no código) → primeira publicação manual só do `dist/` → conferir cabeçalhos e que nada fora do `dist/` está acessível
 8. Etapas próprias e posteriores: formulário (UX/CRO, com o fallback da DEC-032), backend Fastify (formulários, Kommo, Meta CAPI, webhooks, WhatsApp), tracking (GTM, GA4, Pixel, Consent Mode), monitoramento e CI/CD

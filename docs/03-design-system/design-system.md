@@ -1,7 +1,7 @@
 # Design system
 
-**Versão:** 2.0 — 04/10/2026 — **fundação visual implementada e aprovada** (DEC-034). Substitui a v1.1 (Etapa 00, documental).
-**Fontes:** HANDOFF §3, §7, §8 · NORTE §19 · SÍNTESE §13, §27 · DEC-021, DEC-022, DEC-023, **DEC-034**
+**Versão:** 2.1 — 04/10/2026 — botões no padrão da referência do site anterior (DEC-036). v2.0: fundação visual implementada e aprovada (DEC-034), que substituiu a v1.1 (Etapa 00, documental).
+**Fontes:** HANDOFF §3, §7, §8 · NORTE §19 · SÍNTESE §13, §27 · DEC-021, DEC-022, DEC-023, **DEC-034**, **DEC-036**
 **Stack:** Astro static-first (DEC-026), CSS próprio, **zero JavaScript no cliente** nesta etapa, sem biblioteca de UI e sem framework JS.
 **Implementação:** tokens em `src/styles/tokens.css`; estilos globais em `src/styles/global.css`; componentes-base em `src/components/ui/`; página temporária de validação em `src/pages/index.astro` (será substituída pela Home).
 **Legenda:** **[vigente]** = implementado e aprovado (DEC-034) · **[aprovado]** = consta nas fontes · **[proposta]** = ainda sem decisão
@@ -25,6 +25,8 @@
 | `--color-text` | `#2F2F2F` | texto |
 | `--color-text-muted` | `#6B6B6B` | texto secundário (não usar sobre `#282120`) |
 | `--color-sand` | `#DED5C8` | borda neutra |
+| `--color-gold-dark` | `#8E6B1F` | **só** fundo de hover/clicado do CTA principal, sempre com texto branco (DEC-036) |
+| `--color-gold-soft` | `#D7C39C` | borda do botão secundário (DEC-036) |
 | `--color-white` | `#FFFFFF` | superfície `default` |
 | `--color-cream` | `#FFF9F2` | superfície `soft` |
 | `--color-cream-alt` | `#F8F3E8` | superfície `warm` |
@@ -33,9 +35,9 @@
 
 **Papéis semânticos:** os componentes usam papéis (`--color-bg`, `--color-fg`, `--color-heading`, `--color-eyebrow`, `--color-link`, `--color-border`, `--color-focus`, `--color-action-*`), não os hex. `Section tone="dark"` redefine esses papéis localmente.
 
-**CTA principal:** fundo `#B88917`, texto `#282120` (contraste 4,99:1). Hover clareia o fundo (mistura com branco), preservando o contraste do texto.
+**CTA principal:** fundo `#B88917`, texto `#282120` (contraste 4,99:1). Com o mouse por cima, o fundo escurece para `#8E6B1F` e o texto passa a branco (4,92:1) (DEC-036). **Texto branco sobre `#B88917` não é permitido** (3,17:1).
 
-**`#8F6B16` não é mais cor vigente** de texto nem de CTA. Estava prevista na DEC-022 como "inicialmente" e foi substituída pelo conjunto acima (DEC-034). Não reintroduzir.
+**`#8F6B16` não é mais cor vigente** de texto nem de fundo normal do CTA (DEC-034). O dourado escuro volta apenas como `#8E6B1F` (cor da referência do site anterior), no hover e no clicado do CTA principal, sempre com texto branco (DEC-036). Não usar em outros papéis.
 
 ### Contraste (WCAG 2.x)
 
@@ -47,6 +49,8 @@
 | `#6F5426` marrom | 7,07 ✅ | 6,76 ✅ | 6,39 ✅ | 2,24 ❌ |
 | `#B88917` dourado | **3,17 ⚠️** | **3,03 ⚠️** | **2,86 ❌** | 4,99 ✅ |
 | `#FFFFFF` branco | — | — | — | 15,81 ✅ |
+
+Fora da tabela: branco sobre `#8E6B1F` (hover do CTA) = 4,92:1 ✅; branco sobre `#B88917` = 3,17:1 ❌.
 
 AA exige 4,5:1 para texto normal e 3:1 para texto grande (≥ 24 px regular ou ≥ 18,66 px bold) e para componentes de interface.
 
@@ -62,6 +66,7 @@ AA exige 4,5:1 para texto normal e 3:1 para texto grande (≥ 24 px regular ou �
 |---|---|
 | Headings | **Familjen Grotesk** (DEC-021) |
 | Corpo e interface | **Source Sans 3** |
+| Botões | **Familjen Grotesk** 600 (DEC-036) |
 
 Fontes pela API nativa do Astro (baixadas no build e servidas pelo próprio site, arquivo variável 400–700, subset latin, `font-display: swap`). Pesos de uso: 400 texto, 500 interface, 600 headings, botões e labels, 700 pontual.
 
@@ -114,26 +119,29 @@ Cinco componentes em `src/components/ui/`, em Astro, com CSS escopado e sem Java
 |---|---|
 | `Container` | largura máxima e gutter (`size`: `default` · `narrow`) |
 | `Section` | ritmo vertical e superfície (`spacing`: `compact` · `default` · `spacious`; `tone`: `default` · `soft` · `warm` · `dark`) |
-| `Button` | `<a>` com `href`, senão `<button type="button">`; `variant`: `primary` · `secondary` |
+| `Button` | `<a>` com `href`, senão `<button type="button">`; `variant`: `primary` · `secondary` · `outline` (DEC-036) |
 | `TextLink` | link editorial, sublinhado e seta em CSS |
 | `Eyebrow` | rótulo curto acima do título (marrom no claro, dourado no escuro) |
 
 - [aprovado] CTA principal: **"Solicitar proposta"**. Secundário: "Conhecer o espaço".
-- **Primário:** fundo `#B88917`, texto `#282120`, altura mínima de 48 px.
-- **Secundário:** transparente, contorno de 1 px e texto em `#282120` (papel `--color-heading`).
+- **Botões (DEC-036):** formato pílula (`--radius-button` 24 px), Familjen Grotesk 600, 16 px (outline 15 px), borda de 1 px, altura mínima de 48 px, sem sombra. Referência: configurações do site anterior (Kadence), adaptadas ao contraste AA.
+- **Primário:** fundo `#B88917` com texto `#282120` (4,99:1). Mouse por cima: fundo `#8E6B1F` com texto branco (4,92:1). Clicado: um tom mais escuro.
+- **Secundário:** fundo branco, borda `#D7C39C`, texto `#6F5426`. Mouse por cima: fundo `#F8F3E8`, borda `#B88917`, texto `#282120`.
+- **Outline:** sem fundo, borda `#B88917`, texto `#6F5426`. Mouse por cima: fundo `#B88917` com texto `#282120`. Só para fundos claros.
+- **Estados:** hover só em `(hover: hover) and (pointer: fine)`; clicado (`:active`, desce 1 px) e foco (contorno escuro de 2 px) valem em qualquer dispositivo.
 - **TextLink:** sublinhado, seta decorativa, área de toque mínima de 44 px.
 - Área de toque mínima de 44×44 px.
 - Novos componentes (Header, Footer, Hero, cards etc.) dependem de etapa própria.
 
 ## 8. Bordas, radius e sombras [vigente]
 
-- Radius: `--radius-sm` **6 px** · `--radius-md` **10 px** (padrão do site) · `--radius-lg` **16 px**. Evitar pílulas.
+- Radius: `--radius-sm` **6 px** · `--radius-md` **10 px** (padrão do site) · `--radius-lg` **16 px** · `--radius-button` **24 px** (só botões, formato pílula — DEC-036). Imagens, cards e demais elementos continuam com 10 px; fora dos botões, evitar pílulas.
 - Borda neutra de 1 px em `#DED5C8`.
 - **Sombras:** evitar por padrão ([aprovado] HANDOFF: "sem sombras"). Única prevista: `--shadow-float`, muito suave, para elementos flutuantes (header sticky, drawer). Cards não recebem sombra.
 
 ## 9. Hover, focus e movimento [vigente]
 
-- Transição discreta de 180 ms (`--motion-duration`). Hover do CTA clareia o fundo; imagens com zoom ≤ 1,03 ([aprovado] HANDOFF §3.3) quando houver.
+- Transição discreta de 180 ms (`--motion-duration`). Hover dos botões conforme §7 (DEC-036); imagens com zoom ≤ 1,03 ([aprovado] HANDOFF §3.3) quando houver.
 - `prefers-reduced-motion` respeitado em `global.css`.
 - **Foco visível obrigatório:** `:focus-visible` com contorno de 2 px e offset de 3 px, em `#282120` sobre claro e creme sobre a superfície escura. Nunca `outline: none` sem substituto.
 - Imagem e título dos cards clicáveis; descrição não clicável ([aprovado]).
@@ -144,7 +152,8 @@ Cinco componentes em `src/components/ui/`, em Astro, com CSS escopado e sem Java
 - **[proposta] Proporções padrão:** Hero 4:5 ou 3:2 (desktop em 2 colunas) e 4:5 no mobile; cards 4:3 ou 3:2; galerias 3:2.
 - Formato WebP/AVIF com fallback, `srcset`/`sizes`, `width`/`height` explícitos (evita CLS) e lazy load fora da primeira dobra. A imagem do Hero carrega com prioridade.
 - `alt` descritivo e factual. Não usar o alt para despejar palavras-chave.
-- Peso orientativo: até ~200 KB no Hero e até ~120 KB em cards (WebP).
+- **Nitidez em primeiro lugar (DEC-037):** fotos sempre em alta definição, nítidas e bonitas. Qualidade de compressão **90** no `astro:assets` (`quality={90}`), nunca o padrão do Astro (AVIF 50, WebP/JPEG 80). A maior largura gerada é a do original, sem ampliar. Larguras menores só servem telas que exibem a foto menor, considerando a densidade de pixels (`srcset`/`sizes`). Não reduzir qualidade ou definição para atingir meta de peso.
+- Peso: só referência, nunca motivo para perder nitidez. Hero (1306 px, qualidade 90): AVIF ≈ 274 KB, WebP ≈ 229 KB. A antiga meta de ~200 KB no Hero e ~120 KB em cards deixa de ser limite.
 - Os originais nunca são editados. Ver o [inventário](../99-referencias/inventario-imagens.md).
 
 ## 11. Ícones [proposta]
