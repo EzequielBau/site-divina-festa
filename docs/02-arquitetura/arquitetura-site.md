@@ -1,6 +1,6 @@
 # Arquitetura do site
 
-**Versão:** 1.7 — 03/10/2026 (arquitetura técnica: DEC-026 a DEC-030; formulários: DEC-032)
+**Versão:** 1.8 — 03/10/2026 (arquitetura técnica: DEC-026 a DEC-030 e DEC-033; formulários: DEC-032)
 **Fontes:** NORTE §9–14 · SÍNTESE §18, §23, §29 · HANDOFF §8
 **Regra de criação de página:** só existe página quando há **intenção diferente + necessidade diferente + conteúdo diferente + função comercial própria**. Não criar páginas por palavra-chave ou bairro.
 
@@ -73,22 +73,25 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 
 - **Divina Essência** (buffet no local do cliente): **linha/produto separado, a avaliar no futuro. Não entra na arquitetura principal da primeira versão** (DEC-020). Nada de página, item de menu ou roteamento de WhatsApp para a Essência na v1. O telefone dela, (41) 9 8535-0605, não é contato do site principal (DEC-018).
 
-## Arquitetura técnica (DEC-026, DEC-027 e DEC-028)
+## Arquitetura técnica (DEC-026, DEC-027, DEC-028 e DEC-033)
 
-**Status:** decidida e documentada. **Nada instalado, configurado ou programado.** A DEC-028 substitui parcialmente a DEC-027 nos pontos sobre hospedagem do frontend.
+**Status:** decidida e documentada. Existe só a base técnica (Etapa 01); **nada configurado na hospedagem.** A DEC-028 substitui parcialmente a DEC-027 nos pontos sobre hospedagem do frontend; a DEC-033 substitui o Cloudflare Pages (DEC-029/030) pela Hostinger Web Hosting.
 
 ```text
-  Cloudflare Pages (DEC-029) ◄── deploy a partir do GitHub
+  PC local → Git → GitHub privado → npm run build → dist/
+                                                     │ publicação manual e controlada
+                                                     ▼     (somente dist/)
+  Hostinger Web Hosting (DEC-033)
   ┌────────────────────────────────────────────────────────────┐
-  │  divinafesta.com.br (após o lançamento)                    │
-  │  dev.divinafesta.com.br (CNAME; fora do índice)            │
+  │  divinafesta.com.br (após o lançamento; ambiente próprio)  │
+  │  dev.divinafesta.com.br (fora do índice)                   │
   │     └── arquivos estáticos do build do Astro (dist)        │
   │         HTML · CSS · JS mínimo · imagens                   │
   └────────────────────────────────────────────────────────────┘
                  │  só as funções que precisam de servidor
                  │  (ex.: envio do formulário), via HTTPS
                  ▼
-                         VPS
+                    Hostinger VPS
   ┌────────────────────────────────────────────────────────────┐
   │  api.divinafesta.com.br   [futuro]                         │
   │     └── Node.js + TypeScript + Fastify                     │
@@ -96,8 +99,9 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
   │         roteamento de WhatsApp · integrações futuras       │
   └────────────────────────────────────────────────────────────┘
 
-  Astro (build estático) → Cloudflare Pages → site público
+  Astro (build estático) → Hostinger Web Hosting → site público
   Node / Fastify (VPS)   → lógica de servidor e integrações
+  Cloudflare             → opcional e futuro (CDN / WAF / cache), não é requisito
 ```
 
 **Regra de resiliência (DEC-028):** o site institucional não depende da VPS. Se a VPS ficar indisponível, Home, páginas, imagens, SEO e conteúdo continuam no ar; só as funções que dependem da API podem ficar temporariamente indisponíveis.
@@ -113,14 +117,15 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 - **Não depende de servidor Node em execução permanente** para servir as páginas.
 - **Sem CMS adicional** por enquanto. Pode ser acrescentado depois sem reconstruir o frontend.
 
-### Hospedagem do frontend (DEC-028, DEC-029)
+### Hospedagem do frontend (DEC-028, DEC-033)
 
 - **Desacoplada da VPS.** O build do Astro é publicado como **arquivos estáticos**.
-- **Provedor inicial: Cloudflare Pages** (DEC-029).
-  - Fonte do deploy: GitHub `EzequielBau/site-divina-festa`.
-  - Comando de build: `npm run build`.
-  - Diretório de saída: `dist`.
-- **Portabilidade:** o site deve poder migrar entre provedores sem ser refeito. Recursos exclusivos do Cloudflare não podem virar requisito do frontend sem nova decisão.
+- **Provedor: Hostinger Web Hosting** (DEC-033; substitui o Cloudflare Pages da DEC-029).
+  - Código-fonte: PC local + GitHub privado `EzequielBau/site-divina-festa`.
+  - Comando de build: `npm run build`. Diretório de saída: `dist`.
+  - **Só o conteúdo de `dist/` vai para a hospedagem.** Nunca `.git`, `docs`, `src`, `node_modules`, `.env`, credenciais ou documentação interna.
+- **Portabilidade:** o site deve poder migrar entre provedores sem ser refeito. Recursos exclusivos de qualquer provedor não podem virar requisito do frontend sem nova decisão.
+- **Cloudflare:** opcional no futuro, na frente da Hostinger (CDN, WAF, cache). Não configurar agora.
 - **Nginx e VPS não são requisitos do frontend.**
 - **HTTPS** obrigatório em todo ambiente publicado.
 
@@ -170,36 +175,38 @@ dados preservados → aviso simples de que o envio não foi concluído
 
 **Princípio:** nenhuma falha técnica do backend pode eliminar o caminho de contato do cliente.
 
-### Ambientes (DEC-027 a DEC-030)
+### Ambientes (DEC-027, DEC-028, DEC-030 e DEC-033)
 
 | Ambiente | Endereço | Situação |
 |---|---|---|
 | Produção atual | `divinafesta.com.br` (WordPress) | **Continua no ar até a aprovação final do novo site** |
-| Desenvolvimento do novo site | `dev.divinafesta.com.br` (Cloudflare Pages, branch `main`; CNAME no DNS da Hostinger) | Antes de substituir o WordPress. **Fora da indexação** até o lançamento: meta robots + `X-Robots-Tag` `noindex, nofollow` (DEC-030) |
-| API (backend) | `api.divinafesta.com.br` (VPS) | Futuro |
-| Produção do novo site | `divinafesta.com.br` (Cloudflare Pages) | Só após aprovação final. Na virada: 301, Search Console, remoção do bloqueio de indexação. Configuração do domínio principal a definir (L-22) |
+| Desenvolvimento do novo site | `dev.divinafesta.com.br` (Hostinger Web Hosting, pasta própria, só `dist/`) | Ambiente oficial de desenvolvimento e validação. HTTPS. **Fora da indexação** até o lançamento: meta robots + `X-Robots-Tag` `noindex, nofollow`. Nunca usado como canonical; configuração de indexação separada da produção |
+| API (backend) | `api.divinafesta.com.br` (Hostinger VPS) | Futuro |
+| Produção do novo site | `divinafesta.com.br` (Hostinger Web Hosting) | Ambiente separado, só após aprovação final. **Não reutiliza cegamente a configuração do dev.** Antes da virada: indexação, canonical, sitemap, robots, redirects 301, analytics, Search Console, headers, cache e domínio raiz/`www` (L-22) |
 
-### Deploy (DEC-027 a DEC-030)
+### Deploy (DEC-027 e DEC-033)
 
-- **Frontend:** Cloudflare Pages publica a partir do GitHub (`npm run build` → `dist`). Na fase de desenvolvimento, **`main` publica o `dev`**: commit → push `main` → Cloudflare Pages → `dev.divinafesta.com.br` (DEC-030; pode mudar antes do lançamento, com nova decisão). A configuração fica para a etapa de infraestrutura, com autorização. Roteiro em [`infraestrutura.md`](infraestrutura.md).
+- **Frontend:** build local (`npm run build` → `dist`) e **publicação manual e controlada** só do `dist/` na Hostinger. **Push em `main` não publica nada automaticamente.** Git é a fonte de verdade; rollback por versão. Roteiro em [`infraestrutura.md`](infraestrutura.md).
 - **Backend:** no início, processo simples e controlado na VPS.
-- **Futuro:** testes automatizados antes da publicação e pipeline do backend (GitHub → build → testes → deploy na VPS), independente do frontend.
-- **GitHub Actions não será configurado agora.**
+- **Futuro:** depois de validado o processo manual, automatizar **GitHub → build → validação → deploy Hostinger** (frontend) e o pipeline do backend (GitHub → build → testes → deploy na VPS), independentes entre si.
+- **Não automatizar agora. GitHub Actions não será configurado agora.**
+- Segurança operacional (DEC-033): menor privilégio para a credencial de deploy, sem edição manual da produção, headers de segurança, CSP definitiva só com as origens conhecidas, cache longo para assets versionados e política apropriada para HTML.
 
 ### Fora desta etapa (cada item terá etapa própria)
 
 | Item | Situação |
 |---|---|
-| Criação do projeto no Cloudflare Pages (só este repositório; Production branch `main`) e primeiro deploy | etapa de infraestrutura, com autorização (DEC-030) |
-| Associação de `dev.divinafesta.com.br` em Custom domains e, **só depois**, CNAME no DNS da Hostinger (L-11) | etapa de infraestrutura, nessa ordem (DEC-030) |
-| Configuração do domínio principal `divinafesta.com.br` no Cloudflare Pages no lançamento (L-22) | etapa de lançamento |
+| Criação de `dev.divinafesta.com.br` na Hostinger (pasta própria, HTTPS, `X-Robots-Tag`) e primeira publicação manual do `dist/` (L-11) | etapa de infraestrutura, com autorização (DEC-033) |
+| Configuração do domínio principal `divinafesta.com.br` na Hostinger no lançamento (L-22) | etapa de lançamento |
+| Cloudflare na frente da Hostinger (CDN, WAF, cache) | opcional e futuro; não configurar agora (DEC-033) |
 | Procedimento do deploy inicial do backend na VPS | a definir na etapa do backend |
 | Formulário definitivo, endpoint Fastify, Kommo, Meta CAPI, webhook, banco de dados e filas (requisitos já fixados pela DEC-032) | etapas do formulário e do backend, com autorização |
 | Texto final da mensagem de fallback no WhatsApp e valor do timeout (L-23) | etapa de UX/CRO do formulário / implementação |
 | Monitoramento (site, saúde da API, formulário, Kommo, SSL) | etapa de operação (DEC-032) |
 | Certificados HTTPS e, na VPS, reverse proxy do backend | a definir na etapa de infraestrutura, com autorização |
-| Implementação da proteção contra indexação do `dev` (meta robots e `X-Robots-Tag` `noindex, nofollow`, no mínimo; não só `robots.txt`). Cloudflare Access ou equivalente só se for decidido restringir o acesso humano | etapa de infraestrutura (DEC-030) |
-| CI/CD (GitHub Actions) | futuro; não configurar agora (DEC-027) |
+| `X-Robots-Tag` `noindex, nofollow` do `dev` na Hostinger (a meta robots já está no código; não depender só do `robots.txt`). Restrição de acesso humano só com nova decisão | etapa de infraestrutura (DEC-030, DEC-033) |
+| Headers de segurança, CSP e política de cache na hospedagem | etapa de infraestrutura; CSP definitiva só com as origens conhecidas (DEC-033) |
+| CI/CD (GitHub Actions; deploy automatizado para a Hostinger) | futuro; não configurar agora (DEC-027, DEC-033) |
 | GTM, GA4, Meta Pixel, Consent Mode e demais ferramentas | etapa própria (DEC-026) |
 | Local das imagens otimizadas no projeto Astro (o processamento de imagens do Astro trabalha a partir de `src/`; `public/images/web/` pode ser revisto) | a definir na implementação |
 | CMS para edição por equipe não técnica | não agora; avaliar se surgir a necessidade |

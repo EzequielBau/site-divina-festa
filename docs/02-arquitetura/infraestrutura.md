@@ -1,86 +1,114 @@
-# Infraestrutura — frontend e ambiente de desenvolvimento
+# Infraestrutura — frontend e ambientes
 
-**Versão:** 1.0 — 03/10/2026 (DEC-029 e DEC-030)
-**Status:** **planejamento. Nada configurado.** O Cloudflare não deve ser configurado nem o DNS alterado sem autorização da etapa de infraestrutura. O Astro ainda não foi instalado.
+**Versão:** 2.0 — 03/10/2026 (DEC-033; mantém o que segue válido das DEC-028 a DEC-030)
+**Status:** **planejamento. Nada configurado.** Hostinger e DNS não devem ser configurados ou alterados sem autorização da etapa de infraestrutura. Cloudflare não será configurado agora.
+
+> **Histórico:** a v1.0 deste documento descrevia o frontend no Cloudflare Pages (DEC-029 e DEC-030). Esse provedor foi substituído pela Hostinger Web Hosting (DEC-033). O roteiro antigo fica registrado nas DEC-029 e DEC-030, em [`decisoes.md`](../07-decisoes/decisoes.md), e no histórico do Git.
 
 ## Visão geral
 
-| Item | Definição | Decisão |
-|---|---|---|
-| Hospedagem do frontend | Cloudflare Pages | DEC-029 |
-| Repositório conectado | **somente** GitHub `EzequielBau/site-divina-festa` | DEC-029, DEC-030 |
-| Production branch (Cloudflare Pages) | `main` | DEC-030 |
-| Build command previsto | `npm run build` | DEC-029 |
-| Build output directory previsto | `dist` | DEC-029 |
-| Domínio temporário oficial | `dev.divinafesta.com.br` | DEC-028, DEC-030 |
-| DNS de `divinafesta.com.br` | Hostinger. Acesso confirmado pelo gestor | DEC-030 |
-| Backend e integrações | VPS (`api.divinafesta.com.br`, futuro) | DEC-028 |
-
-## Fluxo de publicação na fase de desenvolvimento (DEC-030)
-
 ```text
-commit → push main → Cloudflare Pages (build) → dev.divinafesta.com.br
+DESENVOLVIMENTO   PC local → Git → GitHub privado → Astro build (dist/)
+FRONTEND          Hostinger Web Hosting ← somente o conteúdo de dist/
+                    ├── dev.divinafesta.com.br  (desenvolvimento, fora do índice)
+                    └── divinafesta.com.br      (produção futura)
+BACKEND           Hostinger VPS → api.divinafesta.com.br (Node.js + TypeScript + Fastify)
+CLOUDFLARE        opcional e futuro (CDN / WAF / cache), não é requisito do frontend
 ```
 
-- Durante o desenvolvimento, `main` é a branch que publica o ambiente `dev`.
-- Esse fluxo **pode ser alterado antes do lançamento** da produção, mediante nova decisão (por exemplo: outra branch para o `dev`, ou separação entre dev e produção).
-- Consequência prática: **todo push em `main` vai ao ar no `dev`**. Os pushes continuam exigindo a conferência do `git remote -v` (AGENTS.md).
+| Item | Definição | Decisão |
+|---|---|---|
+| Hospedagem do frontend | Hostinger Web Hosting | DEC-033 |
+| O que é publicado | **somente** o conteúdo de `dist/` | DEC-033 |
+| Build | `npm run build` → `dist` | DEC-029 (mantido) |
+| Código-fonte | PC local + GitHub privado `EzequielBau/site-divina-festa` | DEC-001, DEC-033 |
+| Ambiente de desenvolvimento | `dev.divinafesta.com.br` | DEC-028, DEC-033 |
+| Produção futura | `divinafesta.com.br` (raiz e `www` a definir, L-22) | DEC-033 |
+| DNS de `divinafesta.com.br` | Hostinger. Acesso confirmado pelo gestor | DEC-030 (mantido) |
+| Backend e integrações | Hostinger VPS (`api.divinafesta.com.br`, futuro) | DEC-028, DEC-033 |
+| Cloudflare | Opcional, futuro. Não configurar agora | DEC-033 |
+
+## Regra de publicação
+
+- A hospedagem recebe **somente o conteúdo de `dist/`**.
+- **Nunca** publicar no diretório público: `.git`, `docs/`, `src/`, `node_modules/`, `.env`, arquivos de pacote desnecessários, credenciais, chaves ou documentação interna.
+- **Não usar integração que clone o repositório no diretório público** (por exemplo, implantação via Git direto na hospedagem). Isso exporia código-fonte e documentação.
+- O diretório do `dev` deve ser **isolado** do diretório da produção. Se o WordPress atual estiver no mesmo plano de hospedagem, nenhuma publicação do `dev` pode tocar a pasta dele.
+
+## Fluxo de publicação (fase atual)
+
+```text
+commit → push main (GitHub) ─┐
+                             │  publicação é um ato separado, manual e controlado
+npm run build (local) → dist/ → envio para a pasta do dev na Hostinger
+```
+
+- **Push em `main` não publica nada automaticamente.**
+- Cada publicação corresponde a um commit conhecido (**Git como fonte de verdade**), o que permite **rollback por versão**: refazer o build do commit anterior e publicá-lo de novo.
+- **Nenhuma edição manual da produção** como processo normal.
+- Automação futura, só depois de validado o processo manual: **GitHub → build → validação → deploy Hostinger**. Não automatizar agora.
 
 ## Roteiro da etapa de infraestrutura (quando autorizada)
 
-A ordem importa. **Não criar o CNAME antes do passo 4.**
+1. Criar o subdomínio `dev.divinafesta.com.br` na Hostinger, com **pasta própria**, separada da produção.
+2. Ativar **HTTPS** (certificado SSL) para o subdomínio.
+3. Configurar o cabeçalho `X-Robots-Tag: noindex, nofollow` para todas as respostas do `dev` (seção abaixo).
+4. Fazer a primeira publicação manual do `dist/` e conferir:
+   - `https://dev.divinafesta.com.br` responde com HTTPS;
+   - `curl -I https://dev.divinafesta.com.br` mostra o `X-Robots-Tag`;
+   - o HTML traz `<meta name="robots" content="noindex, nofollow">`;
+   - nenhum arquivo fora do `dist/` está acessível (ex.: `/.git/`, `/docs/`, `/src/`, `/.env`).
+5. O registro DNS do subdomínio é o que a própria Hostinger indicar. Não criar registros antecipados nem apontar para provedores que não estejam em uso.
 
-1. **Criar o projeto no Cloudflare Pages**, conectando **somente** o repositório `EzequielBau/site-divina-festa`.
-   - Production branch: `main`
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-2. **Fazer o primeiro deploy** e conferir o site no endereço `<nome-do-projeto>.pages.dev`.
-3. Conferir a **proteção contra indexação** (seção abaixo) já no primeiro deploy.
-4. No projeto, em **Custom domains**, associar `dev.divinafesta.com.br`.
-5. **Só então**, no DNS da Hostinger, criar o registro que o Cloudflare indicar. Normalmente:
+## Proteção contra indexação do ambiente dev
 
-   ```text
-   Tipo: CNAME
-   Nome: dev
-   Destino: <nome-do-projeto>.pages.dev
-   ```
+O `dev` deve ficar fora dos mecanismos de busca até o lançamento, com **no mínimo**:
 
-   Usar exatamente o destino fornecido pelo Cloudflare, não o exemplo acima.
-6. Aguardar a validação do domínio e do certificado HTTPS no Cloudflare e testar `https://dev.divinafesta.com.br`.
-
-O nome do projeto no Cloudflare Pages ainda não foi definido.
-
-## Proteção contra indexação do ambiente dev (DEC-030)
-
-O ambiente `dev` deve ficar fora dos mecanismos de busca até o lançamento. Quando implementada, a proteção usa **no mínimo**:
-
-| Camada | Valor |
-|---|---|
-| Meta tag em todas as páginas | `<meta name="robots" content="noindex, nofollow">` |
-| Cabeçalho HTTP em todas as respostas | `X-Robots-Tag: noindex, nofollow` |
-
-### Situação da implementação (Etapa 01)
-
-| Camada | Situação |
-|---|---|
-| Meta robots | **Implementada** em `src/layouts/BaseLayout.astro`. Padrão `noindex, nofollow`; só vira `index, follow` com a variável `PUBLIC_ALLOW_INDEXING=true` no build (definida em `astro.config.mjs`, padrão `false`). Sem a variável, o site fica fora do índice |
-| `X-Robots-Tag` | **Não implementada no frontend, de propósito.** Cabeçalho HTTP é configuração da hospedagem, não do HTML. Para manter o projeto portável, nada específico do Cloudflare foi criado no código |
-
-**Pendente para a etapa de infraestrutura (com autorização):** configurar o `X-Robots-Tag: noindex, nofollow` em todas as respostas do `dev` e do `<nome-do-projeto>.pages.dev`. Opções no Cloudflare: arquivo `_headers` na saída do build (também aceito pela Netlify) ou regra de cabeçalho de resposta no painel do Cloudflare. A escolha fica para essa etapa. Depois, conferir com `curl -I https://dev.divinafesta.com.br`.
-
-**Na virada para produção (L-22):** definir `PUBLIC_ALLOW_INDEXING=true` apenas no build de produção e retirar o `X-Robots-Tag` só da produção.
+| Camada | Valor | Situação |
+|---|---|---|
+| Meta tag em todas as páginas | `<meta name="robots" content="noindex, nofollow">` | **Implementada** em `src/layouts/BaseLayout.astro`. Padrão `noindex, nofollow`; só vira `index, follow` com `PUBLIC_ALLOW_INDEXING=true` no build (definida em `astro.config.mjs`, padrão `false`) |
+| Cabeçalho HTTP em todas as respostas | `X-Robots-Tag: noindex, nofollow` | **Não implementado no frontend, de propósito.** É configuração da hospedagem. O mecanismo na Hostinger (ex.: arquivo de configuração do servidor na pasta do `dev`) será escolhido na etapa de infraestrutura |
 
 Regras:
-- **Não depender só do `robots.txt`.** Ele não impede a indexação de uma URL já descoberta. Além disso, se o `robots.txt` bloquear o rastreamento, o buscador não chega a ler o `noindex` das páginas.
-- A proteção deve valer também para o endereço `<nome-do-projeto>.pages.dev`, que serve o mesmo conteúdo.
-- **Restrição de acesso humano (opcional, futura):** se for decidido restringir o acesso ao `dev`, pode ser usado o Cloudflare Access ou mecanismo equivalente. Depende de nova decisão.
+- **Não depender só do `robots.txt`.** Ele não impede a indexação de uma URL já descoberta e, se bloquear o rastreamento, o buscador não chega a ler o `noindex`.
+- **O `dev` nunca é canonical.** Canonicals apontam para o domínio de produção, nunca para `dev.divinafesta.com.br`.
+- **O `dev` não compartilha configuração de indexação com a produção.** O build do `dev` não define `PUBLIC_ALLOW_INDEXING`; o `X-Robots-Tag` fica só na pasta do `dev`.
+- **Restrição de acesso humano (opcional, futura):** se for decidido restringir o acesso ao `dev`, o mecanismo será escolhido por nova decisão.
 
-### Cuidado na virada para produção
+## Produção (lançamento)
 
-Como `main` publica o `dev`, o `noindex` estará no mesmo build que um dia irá para produção. Antes do lançamento é preciso definir como ele sai da produção sem sair do `dev` (por exemplo, condicionado ao ambiente ou ao domínio, ou com a separação das branches). Remover o `noindex` em produção é o item nº 1 do checklist de lançamento ([SEO §10](../05-seo/seo-site.md#10-robots)). Fica registrado na L-22.
+`divinafesta.com.br` é um **ambiente separado**. Não reutiliza cegamente a configuração do `dev`. Antes da virada, revisar:
+
+- indexação (`PUBLIC_ALLOW_INDEXING=true` só no build de produção; sem `X-Robots-Tag` de bloqueio);
+- canonical;
+- sitemap;
+- robots;
+- redirects 301 do WordPress atual;
+- analytics;
+- Search Console;
+- headers;
+- cache;
+- domínio raiz e `www` (L-22).
+
+## Segurança operacional (DEC-033)
+
+- HTTPS obrigatório em todo ambiente.
+- Nenhuma credencial no frontend.
+- Publicação somente do `dist`.
+- **Menor privilégio** para a futura credencial de deploy (acesso só à pasta do site, nunca à conta inteira).
+- Nenhuma edição manual da produção como processo normal; Git como fonte de verdade; rollback por versão.
+- Atualização controlada de dependências.
+- Monitoramento futuro do site e da API (DEC-032).
+- **Headers de segurança** na hospedagem.
+- **CSP definitiva** só quando todas as origens realmente necessárias forem conhecidas (fontes, tracking, API).
+- **Cache:** longo para assets versionados (nomes com hash gerados pelo build) e política apropriada (curta ou com revalidação) para o HTML.
+
+## Cloudflare (futuro, opcional)
+
+Não configurar agora. Poderá ser colocado na frente da Hostinger (CDN, WAF, proteção, cache) sem reconstruir o site. Recursos exclusivos de qualquer provedor não podem virar requisito do frontend sem nova decisão.
 
 ## Fora deste documento
 
-- Ligação do domínio principal `divinafesta.com.br` ao Cloudflare Pages no lançamento: L-22.
+- Domínio principal no lançamento: L-22.
 - Infraestrutura da VPS (backend, reverse proxy, HTTPS da API): etapa do backend.
-- CI/CD com testes (GitHub Actions): futuro, não configurar agora (DEC-027).
+- CI/CD com testes (GitHub Actions): futuro, não configurar agora (DEC-027, DEC-033).

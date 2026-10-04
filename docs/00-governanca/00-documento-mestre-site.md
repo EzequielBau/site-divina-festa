@@ -1,6 +1,6 @@
 # Documento mestre — novo site Divina Festa
 
-**Versão:** 1.7 — 03/10/2026 (DEC-025 a DEC-030 e DEC-032)
+**Versão:** 1.8 — 03/10/2026 (DEC-025 a DEC-030, DEC-032 e DEC-033)
 **Função:** índice central do projeto. Resume e organiza o que já está decidido nos documentos-fonte e nas decisões registradas. **Não cria estratégia nova.** Só diverge do Documento Norte quando cita a decisão aprovada que fundamenta a divergência (DEC-025).
 
 ## 0. Natureza deste repositório
@@ -9,16 +9,17 @@ Este repositório é o **projeto paralelo programado** do novo site (DEC-016). A
 
 **Stack (DEC-026):** **Astro em arquitetura static-first**, com TypeScript, componentes reutilizáveis e fonte factual centralizada. O frontend é estático. Formulários, Kommo, Meta CAPI, webhooks, WhatsApp e integrações rodam em um **serviço backend independente na VPS**, desacoplado: uma falha de integração não derruba o site. Tracking (GTM, GA4, Pixel, Consent Mode) fica para etapa própria. Nenhum CMS adicional por enquanto.
 
-**Execução (DEC-027, refinada pelas DEC-028 e DEC-029):**
-- **Frontend:** build estático do Astro em **hospedagem desacoplada da VPS**: inicialmente **Cloudflare Pages** (DEC-029), com deploy a partir do GitHub `EzequielBau/site-divina-festa`, build `npm run build` e saída `dist`. Nginx e VPS **não** são requisitos do frontend, e o site deve poder migrar de provedor sem ser refeito.
-- **Backend:** serviço separado em **Node.js + TypeScript + Fastify**, na **VPS**, no futuro em `api.divinafesta.com.br`. A VPS fica só para formulários, Kommo, Meta CAPI, webhooks, roteamento de WhatsApp e integrações futuras.
+**Execução (DEC-027, refinada pelas DEC-028 e DEC-033):**
+- **Frontend:** build estático do Astro (`npm run build` → `dist`) em **hospedagem desacoplada da VPS**: **Hostinger Web Hosting** (DEC-033, que substitui o Cloudflare Pages da DEC-029). A hospedagem recebe **somente o conteúdo de `dist/`**; o código-fonte fica no PC local e no GitHub privado `EzequielBau/site-divina-festa`. Nginx e VPS **não** são requisitos do frontend, e o site deve poder migrar de provedor sem ser refeito. **Cloudflare** é opcional e futuro (CDN, WAF, cache), não é requisito.
+- **Backend:** serviço separado em **Node.js + TypeScript + Fastify**, na **Hostinger VPS**, no futuro em `api.divinafesta.com.br`. A VPS fica só para formulários, Kommo, Meta CAPI, webhooks, roteamento de WhatsApp e integrações futuras.
 - **Resiliência:** o site institucional **não depende da VPS**. Se ela cair, páginas, imagens, SEO e conteúdo continuam no ar; só as funções da API podem ficar temporariamente indisponíveis.
 - **Formulários (DEC-032):** o formulário fica no frontend estático e não depende da VPS para aparecer. O envio vai por HTTPS para `api.divinafesta.com.br`, que revalida tudo no servidor; credenciais só no backend. Se a API falhar ou exceder o timeout, os dados preenchidos são preservados e o cliente recebe na hora o WhatsApp correto, com a mensagem já preenchida. Falha de integração secundária não vira erro para o cliente: capturar o contato vem primeiro. **Nenhuma falha técnica do backend pode eliminar o caminho de contato.**
-- **Desenvolvimento (DEC-030):** antes da troca, o novo site fica em **`dev.divinafesta.com.br`**, publicado a partir da branch `main` (commit → push `main` → Cloudflare Pages → dev). Fora da indexação: meta robots e `X-Robots-Tag` `noindex, nofollow`, sem depender só do `robots.txt`. O CNAME no DNS da Hostinger só é criado depois do primeiro deploy e da associação do domínio no Cloudflare. O **WordPress atual segue em produção até a aprovação final**.
+- **Desenvolvimento (DEC-030, DEC-033):** antes da troca, o novo site fica em **`dev.divinafesta.com.br`**, na Hostinger, ambiente oficial de desenvolvimento e validação. Fora da indexação: meta robots e `X-Robots-Tag` `noindex, nofollow`, sem depender só do `robots.txt`; nunca usado como canonical; configuração de indexação separada da produção. O **WordPress atual segue em produção até a aprovação final**.
+- **Produção (DEC-033):** `divinafesta.com.br` é ambiente separado e não reutiliza cegamente a configuração do `dev`. Antes da virada: indexação, canonical, sitemap, robots, redirects, analytics, Search Console, headers, cache e domínio raiz/`www` (L-22).
 - **HTTPS** em todo ambiente publicado.
-- **Deploy:** inicialmente simples e controlado. CI/CD (GitHub → build → testes → deploy) só no futuro; GitHub Actions não é configurado agora.
+- **Deploy (DEC-033):** nesta fase, **manual e controlado**; push em `main` não publica nada automaticamente. Git é a fonte de verdade, com rollback por versão e sem edição manual da produção. Automação (GitHub → build → validação → deploy Hostinger) só depois de validado o processo; GitHub Actions não é configurado agora.
 
-Detalhes em [`arquitetura-site.md`](../02-arquitetura/arquitetura-site.md#arquitetura-técnica-dec-026-dec-027-e-dec-028). Roteiro da infraestrutura do `dev` em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md).
+Detalhes em [`arquitetura-site.md`](../02-arquitetura/arquitetura-site.md#arquitetura-técnica-dec-026-dec-027-dec-028-e-dec-033). Roteiro da infraestrutura (dev, produção e publicação) em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md).
 
 **Código:** existe só a base técnica (Etapa 01): fonte factual em `src/data/site.ts`, tokens, `BaseLayout` e uma página técnica provisória. Cada etapa seguinte só começa com autorização expressa.
 
@@ -155,7 +156,7 @@ As regras operacionais completas estão em [`/AGENTS.md`](../../AGENTS.md). Em r
 - Trabalhar só neste repositório. Remote único: `git@github-divina:EzequielBau/site-divina-festa.git`.
 - Consultar este documento e a fonte factual antes de qualquer decisão. **Não inventar dados nem claims sem prova.**
 - Trabalhar página por página e seção por seção. Não reabrir decisões já aprovadas sem evidência concreta. *(HANDOFF §11)*
-- Stack: Astro static-first em Cloudflare Pages, desacoplado da VPS + backend Node/Fastify independente na VPS (DEC-026 a DEC-029). O site não pode depender da VPS para funcionar. **Não instalar, configurar servidor nem criar código sem autorização expressa** para cada etapa.
+- Stack: Astro static-first na Hostinger Web Hosting (só o `dist/`), desacoplado da VPS + backend Node/Fastify independente na Hostinger VPS (DEC-026 a DEC-028, DEC-033). O site não pode depender da VPS para funcionar. **Não instalar, configurar servidor nem criar código sem autorização expressa** para cada etapa.
 - Registrar divergências em vez de resolvê-las em silêncio.
 - Não apagar, mover ou sobrescrever originais sem autorização.
 
@@ -189,7 +190,7 @@ Toda seção ou página só é aprovada se passar nas duas listas:
 |---|---|
 | `docs/00-governanca/` | este documento · [divergências e lacunas](divergencias-e-lacunas.md) · [proposta de prevalência](proposta-ordem-prevalencia.md) (aprovada como DEC-025) |
 | `docs/01-estrategia/` | Documento Norte e Síntese Estratégica (`.docx` originais + transcrições `.md`) |
-| `docs/02-arquitetura/` | [arquitetura do site](../02-arquitetura/arquitetura-site.md) (páginas e arquitetura técnica) · [infraestrutura](../02-arquitetura/infraestrutura.md) (Cloudflare Pages, ambiente dev, DNS e indexação) · [comparativo de stack](../02-arquitetura/proposta-comparativo-stack.md) (base da DEC-026) |
+| `docs/02-arquitetura/` | [arquitetura do site](../02-arquitetura/arquitetura-site.md) (páginas e arquitetura técnica) · [infraestrutura](../02-arquitetura/infraestrutura.md) (Hostinger, ambientes dev e produção, publicação, indexação e segurança operacional) · [comparativo de stack](../02-arquitetura/proposta-comparativo-stack.md) (base da DEC-026) |
 | `docs/03-design-system/` | [design system](../03-design-system/design-system.md) |
 | `docs/04-conteudo/` | [estrutura da Home](../04-conteudo/home-estrutura.md) · wireframe original `Orientacóes para site` |
 | `docs/05-seo/` | [SEO](../05-seo/seo-site.md) |

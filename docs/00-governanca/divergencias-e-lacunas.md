@@ -1,7 +1,7 @@
 # Divergências e lacunas
 
-**Versão:** 1.7 — 03/10/2026
-**Histórico:** v1.0 (03/10/2026) levantamento inicial · v1.1 (03/10/2026) seis divergências resolvidas por decisão do gestor (DEC-016 a DEC-021), além das regras de contraste, logo e imagens (DEC-022 a DEC-024) · v1.2 (03/10/2026) DIV-04 resolvida (DEC-025); stack decidida e L-19 resolvida (DEC-026) · v1.3 (03/10/2026) L-20 resolvida (DEC-027) · v1.4 (03/10/2026) DIV-17 resolvida, L-11 atualizada e L-21 aberta (DEC-028) · v1.5 (03/10/2026) L-21 resolvida e L-22 aberta (DEC-029) · v1.6 (03/10/2026) L-11 e L-22 atualizadas (DEC-030) · v1.7 (03/10/2026) L-23 aberta (DEC-032)
+**Versão:** 1.8 — 03/10/2026
+**Histórico:** v1.0 (03/10/2026) levantamento inicial · v1.1 (03/10/2026) seis divergências resolvidas por decisão do gestor (DEC-016 a DEC-021), além das regras de contraste, logo e imagens (DEC-022 a DEC-024) · v1.2 (03/10/2026) DIV-04 resolvida (DEC-025); stack decidida e L-19 resolvida (DEC-026) · v1.3 (03/10/2026) L-20 resolvida (DEC-027) · v1.4 (03/10/2026) DIV-17 resolvida, L-11 atualizada e L-21 aberta (DEC-028) · v1.5 (03/10/2026) L-21 resolvida e L-22 aberta (DEC-029) · v1.6 (03/10/2026) L-11 e L-22 atualizadas (DEC-030) · v1.7 (03/10/2026) L-23 aberta (DEC-032) · v1.8 (03/10/2026) L-11 e L-22 atualizadas para a Hostinger; nota na L-21 (DEC-033)
 
 Este arquivo registra contradições entre fontes e informações ausentes. **Nenhuma divergência é resolvida silenciosamente.** Cada item fica `ABERTO` até haver decisão do gestor registrada em [`../07-decisoes/decisoes.md`](../07-decisoes/decisoes.md).
 
@@ -81,7 +81,7 @@ Os códigos L-xx são estáveis. Itens resolvidos ficam riscados para manter a r
 | L-08 | Autorização de uso de imagem (crianças, convidados) e licença ou arquivo sem marca d'água do fotógrafo (`@lucylimafotografia`) | Todas as fotos com pessoas ou marca d'água | Gestor / fotógrafo |
 | L-09 | Origem das fotos Bistrô, café colonial, capas Essência e 15 anos (reais × banco/editadas) | Gastronomia; 15 Anos | Gestor |
 | L-10 | **Não há logo em SVG confirmado** (nem favicon). Não vetorizar nem redesenhar agora (DEC-023) | Header, Footer, favicon | Designer / arquivos da marca |
-| L-11 | `dev.divinafesta.com.br` ainda precisa ser associado ao projeto Cloudflare Pages (Custom domains) e, depois disso, configurado no DNS da Hostinger (CNAME indicado pelo Cloudflare). *(Acesso ao DNS confirmado, DEC-030)* | Implantação, SEO | Etapa de infraestrutura |
+| L-11 | `dev.divinafesta.com.br` ainda precisa ser criado na Hostinger Web Hosting, com pasta própria (isolada da produção), HTTPS e `X-Robots-Tag: noindex, nofollow`, e receber a primeira publicação manual do `dist/` (DEC-033). *(Acesso ao DNS confirmado, DEC-030)* | Implantação, SEO | Etapa de infraestrutura |
 | L-12 | E-mail de contato, CNPJ/razão social e política de privacidade (LGPD) | Footer, formulários | Gestor / jurídico |
 | L-13 | URL e categoria do Google Business Profile; demais perfis sociais | SEO local, schema | Gestor |
 | L-14 | Existência e plano do Kommo CRM; contas de GA4/GTM/Ads/Meta já existentes | Integrações | Gestor |
@@ -91,6 +91,6 @@ Os códigos L-xx são estáveis. Itens resolvidos ficam riscados para manter a r
 | L-18 | Qual foto foi usada no Hero da implementação anterior (referência) | Inventário / Home | Implementação WordPress |
 | ~~L-19~~ | ~~Stack técnica~~ — **resolvida**: Astro static-first + backend independente na VPS (DEC-026) | — | — |
 | ~~L-20~~ | ~~Detalhes técnicos da DEC-026~~ — **resolvida** (DEC-027, com hospedagem do frontend e subdomínio de desenvolvimento refinados pela DEC-028): frontend estático em hospedagem desacoplada da VPS; backend Node.js + TypeScript + Fastify na VPS, em `api.divinafesta.com.br`; desenvolvimento em `dev.divinafesta.com.br`; deploy inicial simples, CI/CD no futuro; HTTPS | — | — |
-| ~~L-21~~ | ~~Provedor de hospedagem do frontend estático~~ — **resolvida**: Cloudflare Pages, deploy a partir do GitHub, `npm run build` → `dist` (DEC-029) | — | — |
-| L-22 | Como o domínio principal `divinafesta.com.br` (raiz e `www`) será ligado ao Cloudflare Pages no lançamento. Verificar as exigências do Cloudflare para domínio raiz antes da virada. Definir também como o `noindex` sai da produção sem sair do `dev`, já que `main` publica o `dev` (DEC-030) | Lançamento, SEO | Gestor (etapa de lançamento) |
+| ~~L-21~~ | ~~Provedor de hospedagem do frontend estático~~ — **resolvida**: Cloudflare Pages (DEC-029); provedor depois revisto para **Hostinger Web Hosting** (DEC-033) | — | — |
+| L-22 | Como o domínio principal `divinafesta.com.br` (raiz e `www`) passará do WordPress atual para o novo site na Hostinger Web Hosting no lançamento, e a configuração própria da produção (não reutilizar a do `dev`): indexação (`PUBLIC_ALLOW_INDEXING=true` só no build de produção, sem `X-Robots-Tag` de bloqueio), canonical, sitemap, robots, redirects, analytics, Search Console, headers e cache (DEC-033) | Lançamento, SEO | Gestor (etapa de lançamento) |
 | L-23 | Detalhes do fallback do formulário (DEC-032): texto definitivo da mensagem pré-preenchida no WhatsApp, valor do timeout da chamada à API e se haverá armazenamento temporário no navegador (e por quanto tempo). Confirmar também o destino (geral ou Royal) para tipos de evento fora da tabela de roteamento, se houver | Formulário, conversão | Etapa de UX/CRO do formulário e implementação |

@@ -6,7 +6,7 @@
 
 > **Diferença entre esta análise e a decisão final:** a recomendação refinada (§6) previa os endpoints dentro do projeto Astro (adapter Node). A DEC-026 adotou um caminho mais desacoplado: frontend **100% estático** e **serviço backend independente na VPS**, para que o site não dependa de um servidor Node permanente e falhas de integração não o afetem. Vale o texto da DEC-026.
 >
-> **Hospedagem (DEC-028):** esta análise e a DEC-027 previam o site na VPS (Nginx). A DEC-028 substituiu esse ponto: o frontend estático fica em **hospedagem desacoplada da VPS** (serviço estático/CDN), e a VPS fica só para o backend. A DEC-029 escolheu o provedor: **Cloudflare Pages**. As menções a "VPS (Nginx + Node)" para o site, abaixo, são registro histórico da análise.
+> **Hospedagem (DEC-028):** esta análise e a DEC-027 previam o site na VPS (Nginx). A DEC-028 substituiu esse ponto: o frontend estático fica em **hospedagem desacoplada da VPS** (serviço estático/CDN), e a VPS fica só para o backend. A DEC-029 escolheu o Cloudflare Pages, depois substituído pela **Hostinger Web Hosting** (DEC-033). As menções a "VPS (Nginx + Node)" para o site, abaixo, são registro histórico da análise.
 
 ---
 

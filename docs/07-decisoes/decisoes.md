@@ -333,6 +333,8 @@ Status: Aprovada. Provedor do frontend definido pela **DEC-029**. Comportamento 
 Data: 03/10/2026
 Decisão: **Hospedagem do frontend em Cloudflare Pages** (detalha a DEC-028).
 
+> **Parcialmente substituída pela DEC-033** (03/10/2026). Deixa de valer o **Cloudflare Pages como provedor do frontend** (e, com ele, o CNAME para o projeto Cloudflare). O texto abaixo fica como registro histórico. Continuam valendo: build `npm run build` → `dist`, `dev.divinafesta.com.br` fora da indexação, frontend independente da VPS e portabilidade.
+
 - O frontend Astro static-first será hospedado **inicialmente em Cloudflare Pages**.
 - **Fonte do deploy:** o repositório GitHub `EzequielBau/site-divina-festa`.
 - **Comando de build esperado:** `npm run build`.
@@ -344,11 +346,13 @@ Decisão: **Hospedagem do frontend em Cloudflare Pages** (detalha a DEC-028).
 
 Motivo: Resolver a L-21 com um provedor de hospedagem estática/CDN que publica a partir do GitHub e mantém o site independente da VPS, conforme a DEC-028.
 Impacto: Resolve a L-21. Continuam para a etapa de infraestrutura, com autorização: criação e configuração do projeto no Cloudflare Pages, conexão com o GitHub, registro CNAME de `dev` (depende do acesso ao DNS, L-11), mecanismo de bloqueio de indexação do `dev` e estratégia do domínio principal no lançamento (L-22). **Astro não será instalado e o Cloudflare não será configurado sem nova autorização.**
-Status: Aprovada. Operação do ambiente `dev` detalhada pela **DEC-030**.
+Status: Aprovada. Operação do ambiente `dev` detalhada pela **DEC-030**. **Parcialmente substituída pela DEC-033** em 03/10/2026: o provedor do frontend passa a ser a Hostinger Web Hosting. Continuam valendo build `npm run build` → `dist`, `dev` fora da indexação, independência da VPS e portabilidade.
 
 ## DEC-030
 Data: 03/10/2026
 Decisão: **Operação do ambiente de desenvolvimento no Cloudflare Pages** (detalha a DEC-029).
+
+> **Parcialmente substituída pela DEC-033** (03/10/2026). Deixam de valer a operação e o deploy do `dev` pelo Cloudflare Pages: projeto no Cloudflare, Production branch, publicação automática a cada push em `main`, Custom domains e CNAME para `*.pages.dev`. Esses trechos ficam só como registro histórico. Continuam valendo: acesso ao DNS na Hostinger confirmado, proteção contra indexação do `dev` (meta robots + `X-Robots-Tag`, sem depender só do `robots.txt`) e a possibilidade de restringir o acesso humano com mecanismo a decidir.
 
 **DNS**
 - O acesso ao DNS de `divinafesta.com.br`, gerenciado na **Hostinger**, está confirmado.
@@ -379,7 +383,7 @@ Decisão: **Operação do ambiente de desenvolvimento no Cloudflare Pages** (det
 
 Motivo: Fixar a operação do `dev` antes da etapa de infraestrutura, com uma ordem de configuração que evita apontar o DNS para um projeto inexistente e uma proteção contra indexação que não depende só do `robots.txt`.
 Impacto: Atualiza a L-11 (o acesso ao DNS deixa de ser pendência). Roteiro em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md). Como `main` publica o `dev`, a retirada do `noindex` em produção precisa ser planejada antes do lançamento (L-22). **Cloudflare não configurado, CNAME não criado e Astro não instalado: tudo depende de nova autorização.**
-Status: Aprovada
+Status: Aprovada. **Parcialmente substituída pela DEC-033** em 03/10/2026 (operação e deploy do `dev` pelo Cloudflare Pages).
 
 > **Numeração:** não há DEC-031 registrada. O ID DEC-032 foi atribuído pelo gestor; o salto fica registrado aqui para rastreabilidade.
 
@@ -492,4 +496,80 @@ Nesta etapa documental **não** se implementa: formulário definitivo, Fastify, 
 
 Motivo: A DEC-028 garante que o site continua no ar se a VPS cair, mas o formulário é o principal ponto de conversão e depende da API. Sem um comportamento de falha definido, uma queda do backend ou de uma integração faria o cliente perder os dados ou o caminho de contato. Esta decisão fixa os requisitos antes da etapa do formulário e do backend.
 Impacto: Detalha o "princípio de degradação" já previsto na arquitetura (que deixava o mecanismo para a etapa do backend) e o fallback citado em [`integracoes-futuras.md`](../06-integracoes/integracoes-futuras.md). Ajusta a menção a Turnstile nesse documento: deixa de ser item previsto de saída e passa a ser condicionado a evidência de abuso. `form_submit` só deve contar envio confirmado pelo backend; o rastreamento do fallback fica para a etapa de tracking. Abre a L-23 (texto do fallback e timeout). **Nada será implementado sem nova autorização.**
+Status: Aprovada
+
+## DEC-033
+Data: 03/10/2026
+Decisão: **Hospedagem do frontend na Hostinger Web Hosting.** O ID DEC-031 continua sem uso e não será preenchido retroativamente.
+
+**Arquitetura definitiva**
+
+```text
+DESENVOLVIMENTO
+  PC local → Git → GitHub privado → Astro build
+
+FRONTEND
+  Hostinger Web Hosting
+    → somente o conteúdo de dist/
+    → dev.divinafesta.com.br durante o desenvolvimento
+    → divinafesta.com.br na produção futura
+
+BACKEND
+  Hostinger VPS
+    → api.divinafesta.com.br
+    → Node.js + TypeScript + Fastify
+    → formulários / Kommo / Meta CAPI / webhooks / integrações
+
+CLOUDFLARE (opcional, futuro)
+  → CDN / WAF / proteção / cache
+  → não é requisito estrutural do frontend
+```
+
+**Relação com decisões anteriores**
+- **Substitui parcialmente a DEC-029**, só onde define o Cloudflare Pages como provedor do frontend.
+- **Substitui parcialmente a DEC-030**, só onde define a operação e o deploy do ambiente `dev` pelo Cloudflare Pages (projeto no Cloudflare, Production branch, publicação automática a cada push em `main`, Custom domains e CNAME para `*.pages.dev`).
+- Continuam válidos dessas decisões: separação DEV/PROD; `dev.divinafesta.com.br`; `dev` fora da indexação (meta robots e `X-Robots-Tag`, sem depender só do `robots.txt`); frontend desacoplado da VPS; portabilidade; HTTPS; build `npm run build` com saída `dist`; acesso ao DNS na Hostinger confirmado; princípios de segurança e resiliência.
+- A **DEC-028** continua válida. A **DEC-032** continua válida integralmente.
+
+**Regra de publicação**
+- A Hostinger Web Hosting recebe **somente o build estático `dist/`**.
+- **Nunca** publicar no diretório público: `.git`, `docs`, `src`, `node_modules`, `.env`, arquivos de pacote desnecessários, credenciais, chaves ou documentação interna.
+- O código-fonte fica **no PC local e no GitHub privado**.
+
+**DEV — `dev.divinafesta.com.br`**
+Ambiente oficial de desenvolvimento e validação. Deve:
+- usar HTTPS;
+- permanecer `noindex, nofollow`;
+- enviar o cabeçalho `X-Robots-Tag: noindex, nofollow`;
+- não ser usado como canonical das páginas;
+- não compartilhar configuração de indexação com a produção.
+
+**Produção — `divinafesta.com.br`**
+- Ambiente separado no lançamento. **Não reutiliza cegamente a configuração do DEV.**
+- Antes da virada serão revisados: indexação, canonical, sitemap, robots, redirects, analytics, Search Console, headers, cache e domínio raiz e `www`.
+
+**Segurança operacional (requisitos)**
+- HTTPS obrigatório.
+- Nenhuma credencial no frontend.
+- Publicação somente do `dist`.
+- Menor privilégio para a futura credencial de deploy.
+- Nenhuma edição manual da produção como processo normal.
+- Git como fonte de verdade.
+- Rollback por versão.
+- Atualização controlada de dependências.
+- Monitoramento futuro do site e da API.
+- Headers de segurança.
+- CSP definitiva só quando todas as origens realmente necessárias forem conhecidas.
+- Cache longo para assets versionados e política apropriada para HTML.
+
+**Deploy**
+- Nesta primeira fase, **manual e controlado**.
+- Depois de validado o processo, poderá ser automatizado: **GitHub → build → validação → deploy Hostinger**. **Não automatizar ainda.**
+- Consequência: push em `main` **não** publica nada automaticamente. A publicação é um ato separado.
+
+**Cloudflare**
+- **Não configurar agora.** Poderá ser adicionado no futuro na frente da Hostinger (CDN, WAF, proteção, cache) sem exigir reconstrução do site.
+
+Motivo: Concentrar frontend e backend no mesmo fornecedor já usado (Hostinger, com DNS e VPS), mantendo o frontend como build estático portável e desacoplado da VPS, conforme a DEC-028. O Cloudflare passa a ser camada opcional, não requisito.
+Impacto: Atualiza a L-11 (subdomínio `dev` agora na Hostinger) e a L-22 (domínio principal na Hostinger; a separação DEV/PROD com builds distintos substitui o problema de "`main` publica o `dev`"). Corrige os textos operacionais que tratavam o Cloudflare Pages como destino ativo. O código não muda: a meta robots já é `noindex` por padrão e só a produção define `PUBLIC_ALLOW_INDEXING=true`. **Hostinger e Cloudflare não configurados, DNS não alterado, deploy não automatizado: tudo depende de nova autorização.**
 Status: Aprovada

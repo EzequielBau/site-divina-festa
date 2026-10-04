@@ -1,10 +1,10 @@
 # Integrações futuras
 
-**Versão:** 1.5 — 03/10/2026 (alinhada às DEC-026 a DEC-029 e à DEC-032)
+**Versão:** 1.6 — 03/10/2026 (alinhada às DEC-026 a DEC-028, DEC-032 e DEC-033)
 **Status:** **arquitetura conceitual. Nada implementado.** Nenhuma integração deve ser feita sem autorização registrada em [`decisoes.md`](../07-decisoes/decisoes.md).
 
-**Arquitetura (DEC-026 a DEC-029):**
-- O frontend Astro é estático, hospedado em **Cloudflare Pages**, desacoplado da VPS (DEC-029). As integrações client-side (ex.: tags de tracking) entram no build estático e não podem depender de recursos exclusivos do Cloudflare.
+**Arquitetura (DEC-026 a DEC-028, DEC-033):**
+- O frontend Astro é estático, hospedado na **Hostinger Web Hosting** (só o `dist/`), desacoplado da VPS (DEC-033). As integrações client-side (ex.: tags de tracking) entram no build estático e não podem depender de recursos exclusivos de um provedor.
 - Formulários, Kommo, Meta CAPI, webhooks, roteamento de WhatsApp e integrações adicionais ficam em um **backend separado em Node.js + TypeScript + Fastify, na VPS**, previsto em **`api.divinafesta.com.br`** (HTTPS).
 - O site **não depende da VPS** para funcionar. Se a VPS ou o backend ficarem indisponíveis, só as funções que dependem da API param temporariamente; o formulário preserva os dados e oferece o WhatsApp com a mensagem já preenchida (DEC-032, ver abaixo).
 - As ferramentas de tracking client-side (GTM, GA4, Meta Pixel, Consent Mode) serão definidas e implementadas em **etapa própria**.
@@ -19,7 +19,7 @@ Preparar o site para medir o funil comercial de ponta a ponta, da visita ao lead
 Visitante (UTM / orgânico / direto)
    │
    ▼
-Site estático (CF Pages)     ──► dataLayer ──► GTM ──┬─► GA4
+Site estático (Hostinger)    ──► dataLayer ──► GTM ──┬─► GA4
    │                            [etapa própria]       ├─► Google Ads (conversões)
    │                                                  └─► Meta Pixel ───────────┐
    │                                                                            │ deduplicação
