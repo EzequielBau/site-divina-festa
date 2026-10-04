@@ -327,7 +327,7 @@ Node / Fastify (VPS)   → api.divinafesta.com.br  → formulários e integraç�
 
 Motivo: Com o frontend servido pela VPS, uma queda da VPS derrubaria o site inteiro, o que contraria a premissa da DEC-026 de que falhas de servidor e integração não podem afetar o site institucional. Separar a hospedagem elimina esse ponto único de falha e mantém o frontend portável.
 Impacto: Resolve a DIV-17. Atualiza a L-11 (subdomínio confirmado: `dev.divinafesta.com.br`; falta o acesso ao DNS) e abre a L-21 (escolha do provedor de hospedagem do frontend). **Nada será instalado, configurado ou programado sem nova autorização.**
-Status: Aprovada. Provedor do frontend definido pela **DEC-029**.
+Status: Aprovada. Provedor do frontend definido pela **DEC-029**. Comportamento do formulário em falha do backend detalhado pela **DEC-032**.
 
 ## DEC-029
 Data: 03/10/2026
@@ -379,4 +379,117 @@ Decisão: **Operação do ambiente de desenvolvimento no Cloudflare Pages** (det
 
 Motivo: Fixar a operação do `dev` antes da etapa de infraestrutura, com uma ordem de configuração que evita apontar o DNS para um projeto inexistente e uma proteção contra indexação que não depende só do `robots.txt`.
 Impacto: Atualiza a L-11 (o acesso ao DNS deixa de ser pendência). Roteiro em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md). Como `main` publica o `dev`, a retirada do `noindex` em produção precisa ser planejada antes do lançamento (L-22). **Cloudflare não configurado, CNAME não criado e Astro não instalado: tudo depende de nova autorização.**
+Status: Aprovada
+
+> **Numeração:** não há DEC-031 registrada. O ID DEC-032 foi atribuído pelo gestor; o salto fica registrado aqui para rastreabilidade.
+
+## DEC-032
+Data: 03/10/2026
+Decisão: **Arquitetura resiliente de formulários e fallback de contato.** Complementa a DEC-026, a DEC-027 (backend Fastify em `api.divinafesta.com.br`) e a DEC-028 (regra de resiliência), sem substituir nenhuma delas.
+
+Objetivo: o cliente envia seus dados normalmente pelo formulário do site, mas uma falha temporária da VPS, da API, do Kommo ou de outra integração **não interrompe o caminho de conversão**.
+
+**1. Localização do formulário**
+- O formulário fica no **frontend estático (Astro)**: campos, labels, validação básica de interface, estados de carregamento, mensagens ao usuário, preservação temporária dos dados e fallback para WhatsApp.
+- O formulário **não depende da VPS para aparecer nem para funcionar visualmente**.
+
+**2. Envio normal**
+
+```text
+Frontend Astro → HTTPS → api.divinafesta.com.br → VPS / Fastify
+```
+
+O backend deverá:
+- validar novamente todos os dados no servidor;
+- normalizar os campos;
+- aplicar proteção antiabuso e rate limit;
+- registrar origem e UTMs, quando disponíveis;
+- criar ou atualizar o lead no Kommo;
+- disparar eventos server-side futuros (ex.: Meta CAPI), quando essa etapa for autorizada;
+- registrar logs técnicos sem expor dados desnecessários;
+- retornar resposta clara de sucesso ou falha ao frontend.
+
+**3. Segurança**
+- Nenhuma credencial (Kommo, Meta, API, webhook, banco ou serviço externo) no frontend.
+- O navegador **nunca** fala diretamente com Kommo, Meta CAPI ou outro serviço que exija segredo. Toda integração autenticada ocorre no backend.
+
+**4. Validação em duas camadas**
+- O frontend pode validar para melhorar a experiência (campo obrigatório, formato de telefone, data, quantidade de convidados, tipo de evento).
+- Essa validação **nunca é considerada suficiente**: o backend valida novamente todos os campos.
+
+**5. Fallback obrigatório em caso de falha**
+Se o backend não responder, retornar erro, exceder o timeout ou estiver indisponível, o cliente **não pode** perder os dados preenchidos, receber só uma mensagem genérica de erro ou ficar sem caminho de contato.
+
+```text
+usuário envia o formulário
+        ↓
+API responde?
+   ├── SIM → lead processado normalmente → confirmação ao usuário
+   └── NÃO → manter os dados preenchidos
+             → informar de forma simples que o envio não foi concluído
+             → oferecer o WhatsApp imediatamente
+             → abrir o WhatsApp com os dados do formulário já na mensagem
+```
+
+**6. WhatsApp como fallback**
+- Usa os mesmos dados preenchidos pelo cliente. Exemplo conceitual:
+
+  ```text
+  Olá! Gostaria de solicitar uma proposta para meu evento.
+
+  Tipo de evento: Festa infantil
+  Data prevista: 18/11/2026
+  Convidados: 80 pessoas
+
+  Tentei enviar pelo site do Divina Festa e estou entrando em contato pelo WhatsApp.
+  ```
+
+- O **texto definitivo** será definido na etapa de UX/CRO do formulário.
+- A escolha entre o WhatsApp geral e o Royal segue a regra comercial aprovada para o tipo de evento (DEC-018; roteamento em [`integracoes-futuras.md`](../06-integracoes/integracoes-futuras.md)).
+
+**7. Preservação temporária dos dados**
+- Manter os valores em memória enquanto o usuário estiver na página.
+- **Não limpar** o formulário antes da confirmação real de sucesso.
+- Em erro de rede, preservar os campos.
+- Armazenamento temporário no navegador só se for realmente necessário, e sem guardar dados por tempo excessivo.
+- **Sem persistência permanente** nesta etapa. Não armazenar dados pessoais no navegador sem necessidade.
+
+**8. Timeout e experiência de falha**
+- O frontend não fica carregando indefinidamente: chamadas à API têm **timeout controlado**.
+- Excedido o tempo: cancelar ou abandonar a tentativa, preservar os dados e oferecer o fallback de WhatsApp.
+- O tempo exato será definido na implementação.
+
+**9. Proteção anti-spam e abuso (backend)**
+- Rate limit por origem/IP, quando apropriado.
+- Limites de tamanho dos campos e tipos de dados esperados.
+- Proteção contra payloads inválidos e rejeição de campos inesperados.
+- Logs de tentativas anormais.
+- **CORS restrito** aos domínios autorizados.
+- Timeout nas chamadas externas.
+- **CAPTCHA ou Cloudflare Turnstile não são obrigatórios desde o início.** Só entram se houver evidência real de abuso ou spam, para evitar atrito desnecessário na conversão.
+
+**10. Falha parcial de integrações**
+- O backend **não trata todas as integrações como uma operação única e inseparável** (ex.: formulário recebido → validação OK → Kommo → Meta CAPI).
+- Se o lead foi recebido corretamente e uma integração secundária falhar, isso não resulta necessariamente em erro para o cliente.
+- **Prioridade comercial: capturar o contato do cliente primeiro.**
+- Integrações secundárias têm tratamento separado, logs e possibilidade de reprocessamento quando necessário.
+
+**11. Logs**
+- Suficientes para diagnosticar problemas, sem registrar dados pessoais de forma excessiva.
+- **Nunca registrar:** tokens, senhas, segredos, credenciais completas, payloads sensíveis sem necessidade.
+- Devem permitir identificar: horário, rota, resultado, erro técnico, integração que falhou e identificador técnico da operação, quando existir.
+
+**12. Monitoramento (etapa de operação futura)**
+- Verificações independentes para: site público, endpoint de saúde da API, falhas recorrentes do formulário, erros de integração com o Kommo, expiração de SSL e indisponibilidade do backend.
+- O site público continua disponível mesmo se esses serviços falharem.
+
+**13. Princípio de conversão**
+- **Nenhuma falha técnica do backend deve eliminar o caminho de contato do cliente.**
+- O visitante sempre tem pelo menos um caminho funcional para enviar seus dados, falar pelo WhatsApp e continuar o processo comercial.
+
+**14. Não implementar ainda**
+Nesta etapa documental **não** se implementa: formulário definitivo, Fastify, Kommo, Meta CAPI, CAPTCHA, Turnstile, banco de dados, filas, analytics nem webhook.
+
+Motivo: A DEC-028 garante que o site continua no ar se a VPS cair, mas o formulário é o principal ponto de conversão e depende da API. Sem um comportamento de falha definido, uma queda do backend ou de uma integração faria o cliente perder os dados ou o caminho de contato. Esta decisão fixa os requisitos antes da etapa do formulário e do backend.
+Impacto: Detalha o "princípio de degradação" já previsto na arquitetura (que deixava o mecanismo para a etapa do backend) e o fallback citado em [`integracoes-futuras.md`](../06-integracoes/integracoes-futuras.md). Ajusta a menção a Turnstile nesse documento: deixa de ser item previsto de saída e passa a ser condicionado a evidência de abuso. `form_submit` só deve contar envio confirmado pelo backend; o rastreamento do fallback fica para a etapa de tracking. Abre a L-23 (texto do fallback e timeout). **Nada será implementado sem nova autorização.**
 Status: Aprovada

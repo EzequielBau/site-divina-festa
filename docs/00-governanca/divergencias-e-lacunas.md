@@ -1,7 +1,7 @@
 # Divergências e lacunas
 
-**Versão:** 1.6 — 03/10/2026
-**Histórico:** v1.0 (03/10/2026) levantamento inicial · v1.1 (03/10/2026) seis divergências resolvidas por decisão do gestor (DEC-016 a DEC-021), além das regras de contraste, logo e imagens (DEC-022 a DEC-024) · v1.2 (03/10/2026) DIV-04 resolvida (DEC-025); stack decidida e L-19 resolvida (DEC-026) · v1.3 (03/10/2026) L-20 resolvida (DEC-027) · v1.4 (03/10/2026) DIV-17 resolvida, L-11 atualizada e L-21 aberta (DEC-028) · v1.5 (03/10/2026) L-21 resolvida e L-22 aberta (DEC-029) · v1.6 (03/10/2026) L-11 e L-22 atualizadas (DEC-030)
+**Versão:** 1.7 — 03/10/2026
+**Histórico:** v1.0 (03/10/2026) levantamento inicial · v1.1 (03/10/2026) seis divergências resolvidas por decisão do gestor (DEC-016 a DEC-021), além das regras de contraste, logo e imagens (DEC-022 a DEC-024) · v1.2 (03/10/2026) DIV-04 resolvida (DEC-025); stack decidida e L-19 resolvida (DEC-026) · v1.3 (03/10/2026) L-20 resolvida (DEC-027) · v1.4 (03/10/2026) DIV-17 resolvida, L-11 atualizada e L-21 aberta (DEC-028) · v1.5 (03/10/2026) L-21 resolvida e L-22 aberta (DEC-029) · v1.6 (03/10/2026) L-11 e L-22 atualizadas (DEC-030) · v1.7 (03/10/2026) L-23 aberta (DEC-032)
 
 Este arquivo registra contradições entre fontes e informações ausentes. **Nenhuma divergência é resolvida silenciosamente.** Cada item fica `ABERTO` até haver decisão do gestor registrada em [`../07-decisoes/decisoes.md`](../07-decisoes/decisoes.md).
 
@@ -93,3 +93,4 @@ Os códigos L-xx são estáveis. Itens resolvidos ficam riscados para manter a r
 | ~~L-20~~ | ~~Detalhes técnicos da DEC-026~~ — **resolvida** (DEC-027, com hospedagem do frontend e subdomínio de desenvolvimento refinados pela DEC-028): frontend estático em hospedagem desacoplada da VPS; backend Node.js + TypeScript + Fastify na VPS, em `api.divinafesta.com.br`; desenvolvimento em `dev.divinafesta.com.br`; deploy inicial simples, CI/CD no futuro; HTTPS | — | — |
 | ~~L-21~~ | ~~Provedor de hospedagem do frontend estático~~ — **resolvida**: Cloudflare Pages, deploy a partir do GitHub, `npm run build` → `dist` (DEC-029) | — | — |
 | L-22 | Como o domínio principal `divinafesta.com.br` (raiz e `www`) será ligado ao Cloudflare Pages no lançamento. Verificar as exigências do Cloudflare para domínio raiz antes da virada. Definir também como o `noindex` sai da produção sem sair do `dev`, já que `main` publica o `dev` (DEC-030) | Lançamento, SEO | Gestor (etapa de lançamento) |
+| L-23 | Detalhes do fallback do formulário (DEC-032): texto definitivo da mensagem pré-preenchida no WhatsApp, valor do timeout da chamada à API e se haverá armazenamento temporário no navegador (e por quanto tempo). Confirmar também o destino (geral ou Royal) para tipos de evento fora da tabela de roteamento, se houver | Formulário, conversão | Etapa de UX/CRO do formulário e implementação |

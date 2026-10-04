@@ -46,4 +46,5 @@
 
 - Definir os IDs de formulário e a nomenclatura de seções quando a Home estiver implementada.
 - Confirmar se o WhatsApp abre por link direto ou só após o formulário (afeta `click_whatsapp` × `form_submit`).
+- `form_submit` só dispara com sucesso confirmado pelo backend. Definir como medir a falha de envio e o uso do fallback para WhatsApp (DEC-032), sem contar o fallback como `form_submit` e sem enviar dados pessoais.
 - Validar a taxonomia com quem vai operar Ads/Meta e o CRM.

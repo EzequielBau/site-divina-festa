@@ -1,6 +1,6 @@
 # Documento mestre — novo site Divina Festa
 
-**Versão:** 1.6 — 03/10/2026 (DEC-025 a DEC-030)
+**Versão:** 1.7 — 03/10/2026 (DEC-025 a DEC-030 e DEC-032)
 **Função:** índice central do projeto. Resume e organiza o que já está decidido nos documentos-fonte e nas decisões registradas. **Não cria estratégia nova.** Só diverge do Documento Norte quando cita a decisão aprovada que fundamenta a divergência (DEC-025).
 
 ## 0. Natureza deste repositório
@@ -13,6 +13,7 @@ Este repositório é o **projeto paralelo programado** do novo site (DEC-016). A
 - **Frontend:** build estático do Astro em **hospedagem desacoplada da VPS**: inicialmente **Cloudflare Pages** (DEC-029), com deploy a partir do GitHub `EzequielBau/site-divina-festa`, build `npm run build` e saída `dist`. Nginx e VPS **não** são requisitos do frontend, e o site deve poder migrar de provedor sem ser refeito.
 - **Backend:** serviço separado em **Node.js + TypeScript + Fastify**, na **VPS**, no futuro em `api.divinafesta.com.br`. A VPS fica só para formulários, Kommo, Meta CAPI, webhooks, roteamento de WhatsApp e integrações futuras.
 - **Resiliência:** o site institucional **não depende da VPS**. Se ela cair, páginas, imagens, SEO e conteúdo continuam no ar; só as funções da API podem ficar temporariamente indisponíveis.
+- **Formulários (DEC-032):** o formulário fica no frontend estático e não depende da VPS para aparecer. O envio vai por HTTPS para `api.divinafesta.com.br`, que revalida tudo no servidor; credenciais só no backend. Se a API falhar ou exceder o timeout, os dados preenchidos são preservados e o cliente recebe na hora o WhatsApp correto, com a mensagem já preenchida. Falha de integração secundária não vira erro para o cliente: capturar o contato vem primeiro. **Nenhuma falha técnica do backend pode eliminar o caminho de contato.**
 - **Desenvolvimento (DEC-030):** antes da troca, o novo site fica em **`dev.divinafesta.com.br`**, publicado a partir da branch `main` (commit → push `main` → Cloudflare Pages → dev). Fora da indexação: meta robots e `X-Robots-Tag` `noindex, nofollow`, sem depender só do `robots.txt`. O CNAME no DNS da Hostinger só é criado depois do primeiro deploy e da associação do domínio no Cloudflare. O **WordPress atual segue em produção até a aprovação final**.
 - **HTTPS** em todo ambiente publicado.
 - **Deploy:** inicialmente simples e controlado. CI/CD (GitHub → build → testes → deploy) só no futuro; GitHub Actions não é configurado agora.
@@ -117,6 +118,7 @@ Detalhes em [`../05-seo/seo-site.md`](../05-seo/seo-site.md).
 - O CTA é **o início do atendimento**, não só um botão. *(NORTE §15)*
 - Fluxo curto e contextual: **tipo de evento → data → convidados → nome → WhatsApp**.
 - Roteamento: comercial geral (41) 99247-0605; Royal/corporativo (41) 99262-0604. São os únicos telefones do site principal (DEC-018).
+- **Fallback obrigatório (DEC-032):** se o envio falhar, o formulário mantém os dados e oferece o WhatsApp com a mensagem já preenchida. O visitante sempre tem um caminho de contato funcionando.
 - A microcopy deve mostrar que o atendimento começa informado. Nada de formulário longo no primeiro contato. *(SÍNTESE §22; NORTE §21)*
 - Regra de prova: **afirmação → prova → benefício**. Toda afirmação estratégica precisa responder "como provamos isso?". *(NORTE §8)*
 

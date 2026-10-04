@@ -1,6 +1,6 @@
 # Status do projeto
 
-**Atualizado em:** 03/10/2026 — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030). Implementação ainda não autorizada.
+**Atualizado em:** 03/10/2026 — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032). Implementação ainda não autorizada.
 
 ## Concluído
 
@@ -20,6 +20,7 @@
 - **Frontend estático desacoplado da VPS** (DEC-028, substitui parcialmente a DEC-027): build estático em hospedagem estática/CDN (provedor definido depois pela DEC-029); Nginx e VPS não são requisitos do frontend; o site continua no ar se a VPS cair; desenvolvimento em `dev.divinafesta.com.br`, fora da indexação
 - **Hospedagem do frontend decidida: Cloudflare Pages** (DEC-029): deploy a partir do GitHub, build `npm run build`, saída `dist`, `dev.divinafesta.com.br` por CNAME. Nada configurado ainda
 - **Operação do ambiente dev decidida** (DEC-030): acesso ao DNS (Hostinger) confirmado; `main` publica o `dev`; proteção contra indexação com meta robots e `X-Robots-Tag`; CNAME só depois do primeiro deploy e da associação em Custom domains. Roteiro em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md)
+- **Arquitetura resiliente de formulários decidida** (DEC-032, só documental): formulário no frontend estático; envio por HTTPS a `api.divinafesta.com.br` com revalidação no backend; credenciais só no backend; em falha ou timeout, dados preservados e WhatsApp com mensagem pré-preenchida; integrações secundárias tratadas à parte; CAPTCHA/Turnstile só com evidência de abuso. Nada implementado
 - Revisões de consistência interna da documentação
 - **Etapa 01: base técnica do projeto Astro** (Astro 7.3.5, Node 24): TypeScript `strictest`; fonte factual em `src/data/site.ts`; tokens em `src/styles/tokens.css`; `BaseLayout.astro` com meta robots `noindex, nofollow` por padrão; página técnica provisória. Build sem erros e sem JavaScript no cliente. **Aprovada pelo gestor**, incluindo as escolhas técnicas: fontes pela API nativa do Astro (baixadas no build e servidas pelo próprio site, arquivo variável 400–700, subset latin, `font-display: swap`), chave `PUBLIC_ALLOW_INDEXING` e `astro check` dentro do `npm run build`. Texto com destaque provisoriamente em `#2F2F2F` até a etapa de Design System. Finais de linha padronizados em LF via `.gitattributes`
 - Conteúdo já aprovado na implementação anterior, aproveitado como referência: texto do Hero; copy de Prova rápida, Tipos de evento e Crianças + adultos
@@ -37,7 +38,7 @@
 5. Hero (conteúdo já aprovado; implementação nova)
 6. Home seção por seção, começando por **Gastronomia** no conteúdo
 7. Infraestrutura de desenvolvimento, nesta ordem (DEC-030): projeto no Cloudflare Pages (só este repositório, branch `main`) → primeiro deploy com proteção contra indexação (configurar o `X-Robots-Tag` na hospedagem; a meta robots já está no código) → `dev.divinafesta.com.br` em Custom domains → CNAME no DNS da Hostinger
-8. Etapas próprias e posteriores: backend Fastify (formulários, Kommo, Meta CAPI, webhooks, WhatsApp), tracking (GTM, GA4, Pixel, Consent Mode) e CI/CD
+8. Etapas próprias e posteriores: formulário (UX/CRO, com o fallback da DEC-032), backend Fastify (formulários, Kommo, Meta CAPI, webhooks, WhatsApp), tracking (GTM, GA4, Pixel, Consent Mode), monitoramento e CI/CD
 
 ## Pendências
 
@@ -47,6 +48,7 @@
 - Logo em SVG: não há arquivo confirmado. Não vetorizar agora (L-10, DEC-023)
 - Fotos faltantes: equipe, cozinha, estacionamento, corporativo, salão ocupado, adultos + crianças (L-07)
 - Associar `dev.divinafesta.com.br` ao projeto Cloudflare Pages e depois configurá-lo no DNS (L-11); domínio principal e retirada do noindex em produção no lançamento (L-22); GBP, CNPJ, política de privacidade, contas de marketing (L-11 a L-15)
+- Texto do fallback no WhatsApp, timeout da API e eventual armazenamento temporário no navegador (L-23, DEC-032)
 - Remover manualmente as pastas vazias `Imagens\` e `Documentos norteadores para montar site\` (o Windows negou a exclusão; o Git ignora pastas vazias)
 - Decidir sobre as duplicatas (3 pares). Nada foi apagado
 

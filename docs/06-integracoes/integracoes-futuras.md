@@ -1,12 +1,12 @@
 # Integrações futuras
 
-**Versão:** 1.4 — 03/10/2026 (alinhada às DEC-026 a DEC-029)
+**Versão:** 1.5 — 03/10/2026 (alinhada às DEC-026 a DEC-029 e à DEC-032)
 **Status:** **arquitetura conceitual. Nada implementado.** Nenhuma integração deve ser feita sem autorização registrada em [`decisoes.md`](../07-decisoes/decisoes.md).
 
 **Arquitetura (DEC-026 a DEC-029):**
 - O frontend Astro é estático, hospedado em **Cloudflare Pages**, desacoplado da VPS (DEC-029). As integrações client-side (ex.: tags de tracking) entram no build estático e não podem depender de recursos exclusivos do Cloudflare.
 - Formulários, Kommo, Meta CAPI, webhooks, roteamento de WhatsApp e integrações adicionais ficam em um **backend separado em Node.js + TypeScript + Fastify, na VPS**, previsto em **`api.divinafesta.com.br`** (HTTPS).
-- O site **não depende da VPS** para funcionar. Se a VPS ou o backend ficarem indisponíveis, só as funções que dependem da API param temporariamente; o formulário precisa oferecer um caminho alternativo de contato (ex.: WhatsApp direto).
+- O site **não depende da VPS** para funcionar. Se a VPS ou o backend ficarem indisponíveis, só as funções que dependem da API param temporariamente; o formulário preserva os dados e oferece o WhatsApp com a mensagem já preenchida (DEC-032, ver abaixo).
 - As ferramentas de tracking client-side (GTM, GA4, Meta Pixel, Consent Mode) serão definidas e implementadas em **etapa própria**.
 
 ## Objetivo
@@ -33,7 +33,10 @@ Backend Fastify — api.divinafesta.com.br                                      
    ├─► webhooks / integrações adicionais
    └─► WhatsApp (número conforme roteamento, com mensagem pré-preenchida)
 
-Se o backend falhar: o site continua no ar e oferece contato direto pelo WhatsApp correto.
+Se o backend falhar ou exceder o timeout: o site continua no ar, o formulário mantém os dados
+e oferece o WhatsApp correto com a mensagem já preenchida (DEC-032).
+Se só uma integração secundária falhar (ex.: Meta CAPI): o lead já capturado não vira erro
+para o cliente; a integração tem log e reprocessamento próprios.
 
 Dashboards ◄── GA4 + Kommo + Ads + Meta + Search Console
 ```
@@ -49,9 +52,9 @@ Dashboards ◄── GA4 + Kommo + Ads + Meta + Search Console
 | **Meta Pixel** | Conversões e públicos no Meta | Business Manager / Pixel | Via GTM, só após consentimento |
 | **Meta Conversions API** | Envio server-side de leads (resiliente a bloqueadores) | Pixel + token (no servidor, nunca no front-end) | Deduplicar com o Pixel via `event_id` |
 | **Bing Webmaster Tools** | Indexação no Bing | Verificação | Ver SEO |
-| **Formulários** | Captura do lead com o fluxo curto do NORTE §15 | Componente leve no frontend + endpoint no backend da VPS | Validação, anti-spam sem atrito (honeypot/Turnstile), mensagem de sucesso contextual |
+| **Formulários** | Captura do lead com o fluxo curto do NORTE §15 | Componente leve no frontend + endpoint no backend da VPS | Validação no frontend (experiência) e no backend (a que vale); antiabuso no backend sem atrito (rate limit, limites de campo, rejeição de campos inesperados, CORS restrito). CAPTCHA/Turnstile só com evidência real de abuso (DEC-032). Mensagem de sucesso contextual e fallback para WhatsApp |
 | **Kommo CRM** | Gestão comercial do lead | Conta e plano Kommo **a confirmar** (L-14) | Receber nome, WhatsApp, tipo, data, convidados, página de origem, UTMs e `gclid`/`fbclid` |
-| **Webhooks** | Ponte formulário → CRM/CAPI | Endpoint seguro | Com retentativa e log de falhas. Segredos só em variáveis de ambiente |
+| **Webhooks** | Ponte formulário → CRM/CAPI | Endpoint seguro | Com retentativa e log de falhas. Segredos só em variáveis de ambiente. Cada integração tratada separadamente (DEC-032) |
 | **WhatsApp** | Canal principal de conversa | Telefones oficiais (DEC-018) | Links `wa.me` com texto pré-preenchido contendo o contexto. Roteamento: geral (41) 99247-0605 · Royal/corporativo (41) 99262-0604 |
 | **APIs** | Extensões futuras (ex.: avaliações do Google, disponibilidade) | Caso a caso | Só com função comercial clara |
 | **UTMs** | Atribuição de origem | Padrão de nomenclatura | Ver abaixo |
@@ -65,6 +68,18 @@ Dashboards ◄── GA4 + Kommo + Ads + Meta + Search Console
 | Demais | Comercial geral (41) 99247-0605 |
 
 Estes são os **únicos** destinos do site principal (DEC-018). O número (41) 9 8535-0605 pertence só à linha Divina Essência, que está fora da v1 (DEC-020), e **não** entra no roteamento.
+
+## Formulário resiliente e fallback de contato (DEC-032)
+
+Requisitos completos em [`decisoes.md`](../07-decisoes/decisoes.md#dec-032) e em [`arquitetura-site.md`](../02-arquitetura/arquitetura-site.md#formulários-resilientes-e-fallback-de-contato-dec-032). Resumo para as integrações:
+
+- **Fluxo:** frontend Astro → HTTPS → `api.divinafesta.com.br` (Fastify) → Kommo → integrações secundárias (Meta CAPI etc., quando autorizadas).
+- **O navegador nunca fala direto** com Kommo, Meta CAPI ou outro serviço autenticado. Credenciais só no backend.
+- **Prioridade:** capturar o contato primeiro. Kommo e integrações secundárias são tratadas separadamente, com logs e possibilidade de reprocessamento.
+- **Falha da API ou timeout:** dados preservados e WhatsApp oferecido na hora, com tipo de evento, data e convidados na mensagem. Texto definitivo na etapa de UX/CRO (L-23). Destino conforme o roteamento abaixo.
+- **Logs:** sem tokens, segredos, credenciais ou payloads sensíveis desnecessários; dados pessoais no mínimo.
+- **Tracking:** `form_submit` só conta envio confirmado pelo backend. Como medir o uso do fallback fica para a etapa de tracking.
+- **Não implementado:** formulário definitivo, Fastify, Kommo, Meta CAPI, CAPTCHA/Turnstile, banco, filas, analytics e webhooks.
 
 ## Padrão de UTMs [proposta]
 

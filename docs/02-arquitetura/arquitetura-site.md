@@ -1,6 +1,6 @@
 # Arquitetura do site
 
-**Versão:** 1.6 — 03/10/2026 (arquitetura técnica: DEC-026 a DEC-030)
+**Versão:** 1.7 — 03/10/2026 (arquitetura técnica: DEC-026 a DEC-030; formulários: DEC-032)
 **Fontes:** NORTE §9–14 · SÍNTESE §18, §23, §29 · HANDOFF §8
 **Regra de criação de página:** só existe página quando há **intenção diferente + necessidade diferente + conteúdo diferente + função comercial própria**. Não criar páginas por palavra-chave ou bairro.
 
@@ -131,8 +131,44 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 - Subdomínio futuro: **`api.divinafesta.com.br`**. O Nginx pode atuar como reverse proxy na VPS; a configuração fica para a etapa de infraestrutura.
 - Responsabilidades futuras: formulários, Kommo, Meta Conversions API, webhooks, roteamento de WhatsApp e integrações adicionais.
 - **Não é requisito para o funcionamento normal das páginas institucionais:** o site continua funcionando mesmo se o backend ou uma integração falhar.
-- Princípio de degradação: se o envio do formulário falhar, o visitante ainda precisa de um caminho de contato (ex.: link direto para o WhatsApp correto). O mecanismo exato será definido na etapa do backend.
+- Princípio de degradação: se o envio do formulário falhar, o visitante ainda precisa de um caminho de contato. Mecanismo definido pela **DEC-032** (abaixo).
 - Segredos (tokens do Kommo e da Meta) só no backend, em variáveis de ambiente. **Nunca no frontend nem no Git.**
+
+### Formulários resilientes e fallback de contato (DEC-032)
+
+**Divisão de responsabilidades**
+
+| Camada | Responsável por |
+|---|---|
+| Frontend (Astro, estático) | Campos, labels, validação de interface, estados de carregamento, mensagens, preservação temporária dos dados, timeout da chamada e fallback para WhatsApp. Não depende da VPS para aparecer nem para funcionar visualmente |
+| Backend (Fastify, `api.divinafesta.com.br`) | Revalidação de todos os campos, normalização, antiabuso e rate limit, origem/UTMs, lead no Kommo, eventos server-side futuros (Meta CAPI, com autorização), logs técnicos e resposta clara de sucesso ou falha |
+
+**Fluxo**
+
+```text
+usuário envia o formulário
+   │  HTTPS, com timeout controlado
+   ▼
+API responde com sucesso? ── SIM ──► confirmação ao usuário (só agora o formulário pode ser limpo)
+   │
+   NÃO (erro, timeout, indisponível)
+   ▼
+dados preservados → aviso simples de que o envio não foi concluído
+   → WhatsApp oferecido na hora, com os dados já na mensagem
+     (geral ou Royal, conforme o tipo de evento — DEC-018)
+```
+
+**Requisitos**
+- **Segurança:** nenhuma credencial no frontend. O navegador nunca fala com Kommo, Meta CAPI ou outro serviço que exija segredo.
+- **Validação em duas camadas:** a do frontend melhora a experiência; a do backend é a que vale.
+- **Preservação dos dados:** em memória enquanto o usuário está na página; não limpar antes da confirmação real; armazenamento no navegador só se necessário e por pouco tempo; sem persistência permanente.
+- **Timeout:** o frontend não fica carregando indefinidamente. Valor exato definido na implementação (L-23).
+- **Antiabuso no backend:** rate limit por origem/IP, limites de tamanho e tipo, rejeição de payloads inválidos e de campos inesperados, logs de tentativas anormais, CORS restrito aos domínios autorizados, timeout nas chamadas externas. CAPTCHA/Turnstile **só com evidência real de abuso**.
+- **Falha parcial:** as integrações não formam uma operação única. Recebido o lead, a falha de uma integração secundária (ex.: Meta CAPI) não vira necessariamente erro para o cliente; ela tem tratamento, log e possibilidade de reprocessamento próprios. **Capturar o contato vem primeiro.**
+- **Logs:** horário, rota, resultado, erro técnico, integração que falhou e ID técnico da operação. Nunca tokens, senhas, segredos, credenciais completas ou payloads sensíveis sem necessidade; dados pessoais no mínimo.
+- **Monitoramento (operação futura):** site público, saúde da API, falhas recorrentes do formulário, erros com o Kommo, expiração de SSL e indisponibilidade do backend, com verificações independentes.
+
+**Princípio:** nenhuma falha técnica do backend pode eliminar o caminho de contato do cliente.
 
 ### Ambientes (DEC-027 a DEC-030)
 
@@ -158,6 +194,9 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 | Associação de `dev.divinafesta.com.br` em Custom domains e, **só depois**, CNAME no DNS da Hostinger (L-11) | etapa de infraestrutura, nessa ordem (DEC-030) |
 | Configuração do domínio principal `divinafesta.com.br` no Cloudflare Pages no lançamento (L-22) | etapa de lançamento |
 | Procedimento do deploy inicial do backend na VPS | a definir na etapa do backend |
+| Formulário definitivo, endpoint Fastify, Kommo, Meta CAPI, webhook, banco de dados e filas (requisitos já fixados pela DEC-032) | etapas do formulário e do backend, com autorização |
+| Texto final da mensagem de fallback no WhatsApp e valor do timeout (L-23) | etapa de UX/CRO do formulário / implementação |
+| Monitoramento (site, saúde da API, formulário, Kommo, SSL) | etapa de operação (DEC-032) |
 | Certificados HTTPS e, na VPS, reverse proxy do backend | a definir na etapa de infraestrutura, com autorização |
 | Implementação da proteção contra indexação do `dev` (meta robots e `X-Robots-Tag` `noindex, nofollow`, no mínimo; não só `robots.txt`). Cloudflare Access ou equivalente só se for decidido restringir o acesso humano | etapa de infraestrutura (DEC-030) |
 | CI/CD (GitHub Actions) | futuro; não configurar agora (DEC-027) |

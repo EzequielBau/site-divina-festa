@@ -45,6 +45,7 @@ Este arquivo vale para qualquer assistente de IA ou agente automatizado que trab
   - fatos do negócio em um único arquivo de dados;
   - nenhum segredo no frontend;
   - o site não pode depender do backend para funcionar;
+  - formulários (DEC-032): validação também no backend; o navegador nunca fala direto com Kommo, Meta CAPI ou outro serviço autenticado; se a API falhar ou exceder o timeout, preservar os dados e oferecer o WhatsApp com a mensagem pré-preenchida. Nenhuma falha do backend pode eliminar o caminho de contato;
   - não adicionar CMS nem implementar tracking (GTM/GA4/Pixel/Consent Mode) sem etapa autorizada;
   - **não instalar nada nem criar código sem autorização expressa.**
 
