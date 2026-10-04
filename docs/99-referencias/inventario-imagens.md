@@ -137,6 +137,7 @@ Ficam em `src/assets/` e não em `public/images/web/` porque passam pelo `astro:
 | Derivado | Original | Dimensão | Tamanho | Uso |
 |---|---|---|---|---|
 | `logo-divina-horizontal.png` | #36 Logo Divina Festa H-03.png | 2441×622 (área visível 2325×506 + 58 px por lado) | 52 KB | Header |
+| `logo-divina-stacked.png` | #37 Logo Divina Festa-01.png | 2212×1460 (área visível 2106×1354 + 53 px por lado) | 82 KB | Footer |
 
 ## `assets/images/source/Material Publicitário/`
 

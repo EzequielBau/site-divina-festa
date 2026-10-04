@@ -1,0 +1,264 @@
+---
+// Rodapé do site: encerramento compacto, sem rota paralela de contato direto.
+// O contato passa pelo fluxo de proposta (#contato). Zero JavaScript.
+// Ordem do DOM = ordem mobile: marca → CTA → navegação → localização → copyright.
+// No desktop, a grade reposiciona: marca | navegação | localização + CTA.
+// Links são âncoras temporárias (as páginas internas ainda não existem).
+import { Image } from 'astro:assets';
+import logo from '../../assets/brand/logo-divina-stacked.png';
+import Button from '../ui/Button.astro';
+import Container from '../ui/Container.astro';
+import { site } from '../../data/site';
+
+const links = [
+  { label: 'Eventos', href: '#eventos' },
+  { label: 'O Espaço', href: '#espaco' },
+  { label: 'Gastronomia', href: '#gastronomia' },
+  { label: 'Como funciona', href: '#como-funciona' },
+];
+
+const { address } = site;
+const year = new Date().getFullYear();
+
+// Exibida a 80px de altura no máximo (~121px de largura); 2x para telas densas.
+const logoWidth = 242;
+const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
+---
+
+<footer class="footer">
+  <Container>
+    <div class="grid">
+      <div class="brand-block">
+        <a class="brand" href="/">
+          <Image src={logo} alt={site.business.name} width={logoWidth} height={logoHeight} loading="lazy" />
+        </a>
+        <div class="about">
+          <p class="statement">Espaço de eventos e buffet em {address.city}.</p>
+          <p class="support">
+            Estrutura, gastronomia e organização para diferentes momentos de celebração.
+          </p>
+        </div>
+      </div>
+
+      <div class="cta">
+        <Button href="#contato">Solicitar proposta</Button>
+      </div>
+
+      <nav class="nav" aria-label="Rodapé">
+        <ul class="links">
+          {
+            links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <address class="place">
+        {address.street}, {address.number}<br />
+        {address.neighborhood} · {address.city}/{address.state}
+      </address>
+    </div>
+
+    <p class="copyright">© {year} {site.business.name}</p>
+  </Container>
+</footer>
+
+<style>
+  /* Mesmos papéis de cor de Section tone="dark": descendentes herdam o contraste. */
+  .footer {
+    --color-bg: var(--color-ink-strong);
+    --color-fg: var(--color-cream);
+    --color-fg-muted: color-mix(in srgb, var(--color-cream) 72%, var(--color-ink-strong));
+    --color-heading: var(--color-white);
+    --color-link: var(--color-cream);
+    --color-border: color-mix(in srgb, var(--color-cream) 16%, var(--color-ink-strong));
+    --color-focus: var(--color-cream);
+
+    padding-top: var(--space-48);
+    padding-bottom: var(--space-24);
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-areas:
+      'brand'
+      'cta'
+      'nav'
+      'place';
+    gap: var(--space-32);
+  }
+
+  .brand-block {
+    grid-area: brand;
+    display: grid;
+    justify-items: start;
+    gap: var(--space-16);
+  }
+
+  .brand {
+    display: block;
+    border-radius: var(--radius-sm);
+  }
+
+  .brand img {
+    width: auto;
+    height: 4.5rem; /* 72px */
+  }
+
+  .statement {
+    color: var(--color-heading);
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-h4);
+    text-wrap: balance;
+  }
+
+  .support {
+    max-width: 22rem;
+    margin-top: var(--space-8);
+    color: var(--color-fg-muted);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+
+  .cta {
+    grid-area: cta;
+  }
+
+  .cta :global(.button) {
+    width: 100%;
+  }
+
+  .nav {
+    grid-area: nav;
+  }
+
+  /* Mobile: duas colunas para não alongar o rodapé; cada item mantém 44px de toque. */
+  .links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-16);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .links a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+
+  .place {
+    grid-area: place;
+    color: var(--color-fg-muted);
+    font-size: var(--font-size-small);
+    font-style: normal;
+    line-height: var(--line-height-small);
+  }
+
+  .copyright {
+    margin-top: var(--space-32);
+    padding-top: var(--space-16);
+    border-top: var(--border-width) solid var(--color-border);
+    color: var(--color-fg-muted);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+
+  /* Tablet: marca + CTA na primeira linha; navegação + localização na segunda. */
+  @media (min-width: 48rem) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        'brand cta'
+        'nav place';
+      align-items: start;
+      column-gap: var(--space-48);
+    }
+
+    .brand-block {
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: var(--space-24);
+    }
+
+    .cta {
+      align-self: center;
+    }
+
+    .cta :global(.button) {
+      width: auto;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: var(--space-32);
+    }
+
+    .place {
+      align-self: center;
+      text-align: right;
+    }
+  }
+
+  /* Desktop: marca | navegação | localização + CTA. Colunas baixas, alinhadas ao topo. */
+  @media (min-width: 64rem) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        'brand nav place'
+        'brand nav cta';
+      column-gap: var(--space-64);
+      row-gap: var(--space-16);
+    }
+
+    .brand-block {
+      align-items: start;
+    }
+
+    .brand img {
+      height: 5rem; /* 80px */
+    }
+
+    .about {
+      padding-top: var(--space-4);
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: auto;
+      margin-top: calc(-1 * var(--space-8)); /* alinha o texto do 1º item ao topo da coluna */
+    }
+
+    .links a {
+      min-height: 32px;
+    }
+
+    .place {
+      align-self: start;
+      text-align: left;
+    }
+
+    .cta {
+      align-self: start;
+    }
+  }
+</style>
