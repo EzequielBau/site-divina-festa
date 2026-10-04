@@ -1,14 +1,20 @@
 ---
-// Cabeçalho do site. Mobile-first: menu colapsado (painel lateral) até 70rem; acima disso, navegação em linha.
+// Cabeçalho do site. Mobile-first: menu colapsado (painel lateral) até 64rem; acima disso, navegação em linha.
+// Sticky; compacta depois de um pequeno scroll. "Eventos" abre um submenu (disclosure: button + aria-expanded).
 // Links são âncoras temporárias (as páginas internas ainda não existem).
 import { Image } from 'astro:assets';
 import logo from '../../assets/brand/logo-divina-horizontal.png';
-import Button from '../ui/Button.astro';
 import Container from '../ui/Container.astro';
 import { site } from '../../data/site';
 
+const eventTypes = [
+  { label: 'Festas infantis', href: '#festas-infantis' },
+  { label: 'Eventos familiares', href: '#eventos-familiares' },
+  { label: 'Festa de 15 anos', href: '#15-anos' },
+  { label: 'Eventos corporativos', href: '#corporativo' },
+];
+
 const links = [
-  { label: 'Eventos', href: '#eventos' },
   { label: 'O Espaço', href: '#espaco' },
   { label: 'Gastronomia', href: '#gastronomia' },
   { label: 'Como funciona', href: '#como-funciona' },
@@ -54,26 +60,57 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
 
       <nav aria-label="Principal">
         <ul class="links">
+          <li class="has-sub">
+            <button
+              type="button"
+              class="sub-toggle"
+              aria-expanded="false"
+              aria-controls="submenu-eventos"
+            >
+              Eventos
+              <svg class="chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false">
+                <path d="M2.5 4.5L6 8l3.5-3.5" />
+              </svg>
+              <svg class="plus" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+                <path class="plus-h" d="M2 8h12" />
+                <path class="plus-v" d="M8 2v12" />
+              </svg>
+            </button>
+
+            <div class="submenu" id="submenu-eventos">
+              <ul class="sub-list" aria-label="Tipos de evento">
+                {
+                  eventTypes.map((item) => (
+                    <li>
+                      <a href={item.href}>{item.label}</a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </li>
           {
             links.map((link) => (
               <li>
-                <a href={link.href}>{link.label}</a>
+                <a class="link" href={link.href}>
+                  {link.label}
+                </a>
               </li>
             ))
           }
         </ul>
       </nav>
 
-      <div class="cta">
-        <Button href="#contato">Solicitar proposta</Button>
-      </div>
-
       <p class="place">{site.address.neighborhood} · {site.address.city}</p>
     </div>
   </Container>
 </header>
 
-<!-- Sem JS o menu permanece aberto e visível; o JS o recolhe em painel lateral no mobile. Inline, sem arquivo extra. -->
+<!--
+  Sem JS: menu e submenu ficam visíveis (no desktop, o submenu abre por hover/foco via CSS) e o header não compacta.
+  Com JS: painel lateral no mobile, submenu por clique/teclado (hover complementa no desktop) e estado compacto.
+  Inline, sem arquivo extra.
+-->
 <script is:inline>
   (function () {
     var header = document.querySelector('.header');
@@ -81,27 +118,40 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
     var panel = header && header.querySelector('.panel');
     var close = header && header.querySelector('.close');
     var scrim = header && header.querySelector('.scrim');
-    if (!toggle || !panel || !close || !scrim) return;
+    var sub = header && header.querySelector('.has-sub');
+    var subToggle = sub && sub.querySelector('.sub-toggle');
+    var submenu = sub && sub.querySelector('.submenu');
+    if (!toggle || !panel || !close || !scrim || !subToggle || !submenu) return;
 
-    var desktop = window.matchMedia('(min-width: 70rem)');
+    var desktop = window.matchMedia('(min-width: 64rem)');
+    var hover = window.matchMedia('(hover: hover) and (pointer: fine)');
     var root = document.documentElement;
-    // Tudo que fica atrás do painel: o resto da página e a barra do cabeçalho.
-    var behind = [].filter.call(document.body.children, function (el) {
-      return el !== header && el.tagName !== 'SCRIPT';
-    });
-    behind.push(header.querySelector('.bar > .brand'), toggle);
     header.setAttribute('data-js', '');
+
+    // Tudo que fica atrás do painel: o resto da página e a barra do cabeçalho.
+    // Calculado na hora: este script roda antes de main e footer existirem no DOM.
+    function behind() {
+      var els = [].filter.call(document.body.children, function (el) {
+        return el !== header && el.tagName !== 'SCRIPT';
+      });
+      return els.concat(header.querySelector('.bar > .brand'), toggle);
+    }
+
+    /* Painel lateral (mobile) */
 
     function setOpen(open, returnFocus) {
       toggle.setAttribute('aria-expanded', String(open));
       if (open) panel.setAttribute('data-open', '');
       else panel.removeAttribute('data-open');
       root.style.overflow = open ? 'hidden' : '';
-      behind.forEach(function (el) {
+      behind().forEach(function (el) {
         if (el) el.inert = open;
       });
       if (open) close.focus();
-      else if (returnFocus) toggle.focus();
+      else {
+        setSub(false);
+        if (returnFocus) toggle.focus();
+      }
     }
 
     function isOpen() {
@@ -118,26 +168,117 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
       setOpen(false, true);
     });
 
+    /* Submenu de Eventos: dropdown no desktop, acordeão no painel mobile */
+
+    var hoverOpened = false;
+    var hoverTimer = 0;
+
+    function isSubOpen() {
+      return subToggle.getAttribute('aria-expanded') === 'true';
+    }
+
+    function setSub(open) {
+      clearTimeout(hoverTimer);
+      hoverOpened = false;
+      subToggle.setAttribute('aria-expanded', String(open));
+      if (open) submenu.setAttribute('data-open', '');
+      else submenu.removeAttribute('data-open');
+    }
+
+    subToggle.addEventListener('click', function () {
+      // Aberto por hover: o clique confirma em vez de fechar.
+      if (hoverOpened) hoverOpened = false;
+      else setSub(!isSubOpen());
+    });
+
+    sub.addEventListener('mouseenter', function () {
+      if (!desktop.matches || !hover.matches) return;
+      clearTimeout(hoverTimer);
+      if (!isSubOpen()) {
+        setSub(true);
+        hoverOpened = true;
+      }
+    });
+
+    sub.addEventListener('mouseleave', function () {
+      if (!hoverOpened) return;
+      hoverTimer = setTimeout(function () {
+        setSub(false);
+      }, 200);
+    });
+
+    // Desktop: foco saiu do grupo (Tab) ou clique fora fecham.
+    sub.addEventListener('focusout', function (event) {
+      if (desktop.matches && event.relatedTarget && !sub.contains(event.relatedTarget)) setSub(false);
+    });
+
+    document.addEventListener('click', function (event) {
+      if (desktop.matches && isSubOpen() && !sub.contains(event.target)) setSub(false);
+    });
+
+    /* Teclado e links */
+
     header.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && isOpen()) setOpen(false, true);
+      if (event.key !== 'Escape') return;
+      if (isOpen()) setOpen(false, true);
+      else if (isSubOpen()) {
+        setSub(false);
+        subToggle.focus();
+      }
     });
 
     panel.addEventListener('click', function (event) {
-      if (event.target.closest && event.target.closest('nav a, .cta a')) setOpen(false);
+      if (!event.target.closest || !event.target.closest('nav a')) return;
+      if (isOpen()) setOpen(false);
+      else setSub(false);
     });
 
     desktop.addEventListener('change', function () {
       if (isOpen()) setOpen(false);
+      setSub(false);
     });
+
+    /* Estado compacto: um sentinela no topo da página, sem listener de scroll. */
+
+    if ('IntersectionObserver' in window) {
+      var sentinel = document.createElement('div');
+      sentinel.setAttribute('aria-hidden', 'true');
+      sentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:24px;pointer-events:none;visibility:hidden';
+      document.body.prepend(sentinel);
+      new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) header.removeAttribute('data-compact');
+        else header.setAttribute('data-compact', '');
+      }).observe(sentinel);
+    }
   })();
 </script>
 
 <style>
   .header {
-    position: relative;
+    /* Altura da barra: confortável no topo, compacta após scroll. */
+    --bar-h: 4rem; /* 64px */
+    --bar-h-compact: 3.5rem; /* 56px */
+    --bar-now: var(--bar-h);
+    --logo-h: 2.25rem; /* 36px */
+    --logo-h-compact: 2rem; /* 32px */
+    --logo-now: var(--logo-h);
+
+    position: sticky;
+    top: 0;
     z-index: 30;
     background: var(--color-white);
     border-bottom: var(--border-width) solid var(--color-border);
+    transition:
+      margin-bottom var(--motion-duration) var(--motion-ease),
+      box-shadow var(--motion-duration) var(--motion-ease);
+  }
+
+  /* A margem compensa a redução da barra: o conteúdo abaixo não salta. */
+  .header[data-compact] {
+    --bar-now: var(--bar-h-compact);
+    --logo-now: var(--logo-h-compact);
+    margin-bottom: calc(var(--bar-h) - var(--bar-h-compact));
+    box-shadow: var(--shadow-float);
   }
 
   .header :global(.bar) {
@@ -145,7 +286,8 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    min-height: 4rem; /* 64px */
+    min-height: var(--bar-now);
+    transition: min-height var(--motion-duration) var(--motion-ease);
   }
 
   .brand {
@@ -156,7 +298,8 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
 
   .brand img {
     width: auto;
-    height: 2.25rem; /* 36px */
+    height: var(--logo-now);
+    transition: height var(--motion-duration) var(--motion-ease);
   }
 
   /* Botão de menu: só existe com JS. Neutro e leve, para pesar menos que o logo. */
@@ -177,16 +320,20 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
     transition: background-color var(--motion-duration) var(--motion-ease);
   }
 
-  .toggle:hover {
-    background: var(--color-cream);
+  @media (hover: hover) and (pointer: fine) {
+    .toggle:hover {
+      background: var(--color-cream);
+    }
   }
 
   .toggle svg,
-  .close svg {
+  .close svg,
+  .sub-toggle svg {
     fill: none;
     stroke: currentColor;
     stroke-width: 1.75;
     stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .header[data-js] .toggle {
@@ -206,13 +353,15 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
     display: none;
   }
 
-  .links {
+  .links,
+  .sub-list {
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .links a {
+  .link,
+  .sub-toggle {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -225,16 +374,62 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
     text-decoration: none;
   }
 
-  .cta {
-    margin-top: var(--space-16);
+  .sub-toggle {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    line-height: inherit;
+    text-align: left;
+    cursor: pointer;
   }
 
-  .cta :global(.button) {
-    width: 100%;
+  .chevron,
+  .plus {
+    flex: none;
+    color: var(--color-brown);
+    transition: transform var(--motion-duration) var(--motion-ease);
+  }
+
+  .chevron {
+    display: none;
+  }
+
+  .header:not([data-js]) .plus {
+    display: none;
+  }
+
+  .plus-v {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform var(--motion-duration) var(--motion-ease);
+  }
+
+  .sub-toggle[aria-expanded='true'] .plus-v {
+    transform: scaleY(0);
+  }
+
+  .sub-list a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 44px;
+    color: var(--color-heading);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-small);
+    text-decoration: none;
   }
 
   /* Mobile/tablet com JS: painel lateral vindo da direita. */
-  @media (max-width: 69.9375rem) {
+  @media (max-width: 63.9375rem) {
+    .submenu {
+      padding: 0 0 var(--space-12) var(--space-16);
+    }
+
+    .header[data-js] .submenu:not([data-open]) {
+      display: none;
+    }
+
     .header[data-js] .scrim {
       display: block;
       position: fixed;
@@ -297,7 +492,11 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
       align-items: center;
       justify-content: space-between;
       flex: none;
-      min-height: 4rem; /* mesma altura da barra: logo na mesma escala */
+      min-height: 4rem; /* mesma altura da barra no topo: logo na mesma escala */
+    }
+
+    .header[data-js] .panel-head img {
+      height: var(--logo-h);
     }
 
     .header[data-js] .close {
@@ -321,8 +520,10 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
       height: 22px;
     }
 
-    .header[data-js] .close:hover {
-      background: var(--color-white);
+    @media (hover: hover) and (pointer: fine) {
+      .header[data-js] .close:hover {
+        background: var(--color-white);
+      }
     }
 
     .header[data-js] nav {
@@ -330,7 +531,8 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
       padding-top: var(--space-24);
     }
 
-    .header[data-js] .links a {
+    .header[data-js] .link,
+    .header[data-js] .sub-toggle {
       min-height: 56px;
       margin-inline: calc(-1 * var(--space-12));
       padding-inline: var(--space-12);
@@ -338,8 +540,12 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
       transition: background-color var(--motion-duration) var(--motion-ease);
     }
 
+    .header[data-js] .sub-toggle {
+      width: calc(100% + 2 * var(--space-12));
+    }
+
     /* Indicação mínima de direção. */
-    .header[data-js] .links a::after {
+    .header[data-js] .link::after {
       content: '';
       width: 0.5rem;
       height: 0.5rem;
@@ -349,13 +555,24 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
       opacity: 0.7;
     }
 
-    .header[data-js] .links a:hover {
+    .header[data-js] .link:active,
+    .header[data-js] .sub-toggle:active,
+    .header[data-js] .sub-list a:active {
       background: var(--color-cream-alt);
     }
 
-    .header[data-js] .cta {
-      flex: none;
-      margin-top: var(--space-32);
+    .header[data-js] .sub-list a {
+      margin-inline: calc(-1 * var(--space-12));
+      padding-inline: var(--space-12);
+      border-radius: var(--radius-md);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .header[data-js] .link:hover,
+      .header[data-js] .sub-toggle:hover,
+      .header[data-js] .sub-list a:hover {
+        background: var(--color-cream-alt);
+      }
     }
 
     .header[data-js] .place {
@@ -369,15 +586,17 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
     }
   }
 
-  @media (min-width: 70rem) {
+  @media (min-width: 64rem) {
+    .header {
+      --bar-h: 5rem; /* 80px */
+      --bar-h-compact: 4rem; /* 64px */
+      --logo-h: 2.75rem; /* 44px */
+      --logo-h-compact: 2.25rem; /* 36px */
+    }
+
     .header :global(.bar) {
       flex-wrap: nowrap;
       gap: var(--space-32);
-      min-height: 4.75rem; /* 76px */
-    }
-
-    .brand img {
-      height: 2.75rem; /* 44px */
     }
 
     /* Nada do painel mobile pode aparecer no desktop. */
@@ -385,7 +604,8 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
     .header .scrim,
     .header .panel-head,
     .header .close,
-    .header .place {
+    .header .place,
+    .header .plus {
       display: none !important;
     }
 
@@ -408,24 +628,94 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
       gap: var(--space-32);
     }
 
-    .links a {
+    .link,
+    .sub-toggle {
       min-height: 48px;
       font-size: var(--font-size-body);
     }
 
-    .links a:hover {
-      text-decoration: underline;
-      text-decoration-color: var(--color-gold);
-      text-decoration-thickness: 2px;
-      text-underline-offset: 0.3em;
-    }
-
-    .cta {
-      margin: 0;
-    }
-
-    .cta :global(.button) {
+    .sub-toggle {
+      justify-content: flex-start;
+      gap: var(--space-8);
       width: auto;
+    }
+
+    .chevron {
+      display: block;
+    }
+
+    .sub-toggle[aria-expanded='true'] .chevron {
+      transform: rotate(180deg);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .link:hover,
+      .sub-toggle:hover {
+        text-decoration: underline;
+        text-decoration-color: var(--color-gold);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 0.3em;
+      }
+    }
+
+    /* Dropdown: alinhado ao texto de "Eventos", encostado na borda inferior do header. */
+    .has-sub {
+      position: relative;
+    }
+
+    .submenu {
+      position: absolute;
+      top: calc(100% + (var(--bar-now) - 48px) / 2 + var(--space-8));
+      left: calc(-1 * (var(--space-8) + var(--space-12) + var(--border-width))); /* texto dos itens alinhado ao de Eventos */
+      width: 17.5rem; /* 280px */
+      padding: var(--space-8);
+      background: var(--color-white);
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow:
+        var(--shadow-float),
+        0 16px 40px rgb(40 33 32 / 0.08);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-4px);
+      transition:
+        opacity var(--motion-duration) var(--motion-ease),
+        transform var(--motion-duration) var(--motion-ease),
+        visibility 0s linear var(--motion-duration);
+    }
+
+    /* Ponte invisível sobre o vão: o hover não se perde no caminho até o painel. */
+    .submenu::before {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 100%;
+      left: 0;
+      height: calc((var(--bar-now) - 48px) / 2 + var(--space-8) + 2px);
+    }
+
+    .submenu[data-open],
+    .header:not([data-js]) .has-sub:is(:hover, :focus-within) .submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition-delay: 0s;
+    }
+
+    .sub-list a {
+      padding: var(--space-8) var(--space-12);
+      border-radius: var(--radius-md);
+      transition: background-color var(--motion-duration) var(--motion-ease);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .sub-list a:hover {
+        background: var(--color-cream-alt);
+      }
+    }
+
+    .sub-list a:focus-visible {
+      outline-offset: -2px;
     }
   }
 </style>

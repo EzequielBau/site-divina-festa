@@ -42,8 +42,9 @@ O HANDOFF cita `01-documento-norte.md`, `02-arquitetura-site.md`, `03-identidade
 ### DIV-06 — Sequência da Home: 9 × 12 itens · ABERTO · baixa
 O NORTE §10 lista 9 seções; a ETAPA 00 lista 12 (Header e Footer explícitos; Localização e CTA final separados). É um refinamento compatível. Falta ratificação.
 
-### DIV-07 — Menu do Header × arquitetura P0 · ABERTO · média
+### DIV-07 — Menu do Header × arquitetura P0 · RESOLVIDO (DEC-035) · média
 O menu do HANDOFF (Início · Eventos · O Divina · Contato · Solicitar proposta) não inclui Espaço e Estrutura, Gastronomia e Como Funciona, que são P0 ou P0/P1, mas inclui O Divina (P2). Decidir na etapa do Header.
+**Resolvido na DEC-035 (04/10/2026):** Eventos ▾ (Festas infantis, Eventos familiares, Festa de 15 anos, Eventos corporativos) · O Espaço · Gastronomia · Como funciona. Sem Início, Contato, O Divina nem CTA "Solicitar proposta".
 
 ### DIV-08 — CTA do Hero: primário único × dois CTAs · ABERTO · baixa
 A SÍNTESE §20 pede um CTA primário único. O Hero aprovado tem "Solicitar Proposta" + "Conhecer o Espaço". É compatível se o segundo for visualmente secundário. Validar na etapa do Hero.
@@ -83,7 +84,7 @@ Os códigos L-xx são estáveis. Itens resolvidos ficam riscados para manter a r
 | L-10 | **Não há logo em SVG confirmado** (nem favicon). Não vetorizar nem redesenhar agora (DEC-023) | Header, Footer, favicon | Designer / arquivos da marca |
 | L-11 | `dev.divinafesta.com.br` ainda precisa ser criado na Hostinger Web Hosting, com pasta própria (isolada da produção), HTTPS e `X-Robots-Tag: noindex, nofollow`, e receber a primeira publicação manual do `dist/` (DEC-033). *(Acesso ao DNS confirmado, DEC-030)* | Implantação, SEO | Etapa de infraestrutura |
 | L-12 | E-mail de contato, CNPJ/razão social e política de privacidade (LGPD) | Footer, formulários | Gestor / jurídico |
-| L-13 | URL e categoria do Google Business Profile; demais perfis sociais | SEO local, schema | Gestor |
+| L-13 | URL e categoria do Google Business Profile; demais perfis sociais (Instagram, Facebook, LinkedIn) e link do Google Maps. O Footer poderá recebê-los só com URLs oficiais validadas (DEC-035) | SEO local, schema, Footer | Gestor |
 | L-14 | Existência e plano do Kommo CRM; contas de GA4/GTM/Ads/Meta já existentes | Integrações | Gestor |
 | L-15 | Horário de funcionamento dos eventos (o NORTE só traz o atendimento comercial, 9h–19h) | Localização, schema | Gestor |
 | L-16 | Destino do QR code da Essência | Materiais da linha Essência | Verificação |

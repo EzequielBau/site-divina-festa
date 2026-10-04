@@ -10,7 +10,7 @@
 
 | # | Seção | Status do conteúdo | Implementação neste projeto | Etapa do funil |
 |---|---|---|---|---|
-| 1 | Header | estrutura definida | a fazer | navegação / conversão |
+| 1 | Header | estrutura definida | **implementado e aprovado (DEC-035)** | navegação / conversão |
 | 2 | Hero | **texto aprovado** | a fazer | descoberta → identificação |
 | 3 | Prova rápida | copy definida; capacidade conforme DEC-017 | a fazer | interesse → adequação |
 | 4 | Tipos de evento | textos criados; **fotos pendentes** | a fazer | identificação |
@@ -29,14 +29,14 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 
 ## 1. Header
 
-- **Objetivo:** dar acesso rápido às jornadas e manter o CTA sempre visível.
+- **Objetivo:** dar acesso rápido às jornadas, de forma leve e institucional.
 - **Mensagem principal:** a identidade (logo) e o próximo passo.
 - **Prova:** não se aplica.
-- **CTA:** "Solicitar proposta" (destacado).
-- **Estrutura:** desktop `Logo | Menu | Solicitar proposta`; mobile com logo + hamburger e CTA dentro do drawer; sticky. Menu: Início · Eventos · O Divina · Contato. Ver DIV-07.
+- **CTA:** nenhum (DEC-035). A conversão fica no Hero, nas seções de decisão, no formulário e no botão flutuante de contato (futuro).
+- **Estrutura:** desktop `Logo | Menu`; mobile com logo + menu lateral; sticky, com estado compacto. Menu: Eventos ▾ (Festas infantis, Eventos familiares, Festa de 15 anos, Eventos corporativos) · O Espaço · Gastronomia · Como funciona. Divina Essência fora do menu. Ver DIV-07 (resolvida).
 - **Dependências de fotografia:** logo horizontal. Não há SVG confirmado (L-10, DEC-023); por enquanto vale o PNG `Logo Divina Festa H-03.png`.
 - **SEO:** links internos para as páginas principais; o logo leva à Home.
-- **Função no funil:** navegação e conversão permanente.
+- **Função no funil:** navegação.
 
 ## 2. Hero — ✅ texto aprovado
 
@@ -152,10 +152,10 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 
 ## 12. Footer
 
-- **Objetivo:** fechar com confiança e informações de contato.
-- **Mensagem principal (HANDOFF §8):** logo · *"Seu evento nas mãos certas."* · *"Buffet, estrutura e organização para celebrar com tranquilidade."* · redes sociais (se mantidas) · copyright.
-- **Prova:** NAP completo, telefones e horário.
-- **CTA:** WhatsApp / Solicitar proposta.
+- **Objetivo:** encerrar de forma institucional e discreta. **Implementado e aprovado (DEC-035).**
+- **Mensagem principal:** logo pequena · *"Espaço de eventos e buffet em Curitiba."* · *"Estrutura, gastronomia e organização para diferentes momentos de celebração."* · navegação · endereço · copyright.
+- **Prova:** endereço (NAP), uma única vez. Sem telefone, WhatsApp nem horário.
+- **CTA:** nenhum. Redes sociais e Google Maps só com URLs oficiais validadas (L-13).
 - **Visual:** fundo `#282120`. Não ajustar o espaço antes do footer até a Home estar completa.
 - **SEO:** NAP consistente com o GBP; links para as páginas principais e para a política de privacidade (L-12).
-- **Função no funil:** confiança e navegação.
+- **Função no funil:** navegação e confiança.

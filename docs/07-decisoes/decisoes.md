@@ -590,3 +590,16 @@ Decisão: **Fundação visual do Design System implementada e aprovada** (Astro 
 Motivo: A validação visual da fundação foi aprovada pelo gestor. Fecha a pendência da DEC-022 (dourado escuro para texto pequeno): o CTA usa `#B88917` com texto `#282120` (4,99:1) e o texto pequeno sobre fundo claro usa `#282120`, `#2F2F2F`, `#6F5426` ou `#6B6B6B`.
 Impacto: Atualiza [`design-system.md`](../03-design-system/design-system.md) (v2.0), que passa a ser a referência detalhada dos valores; os tokens ficam em `src/styles/tokens.css` e os componentes em `src/components/ui/`. Substitui, no design system, a paleta com `#8F6B16`, a escala por faixa (56/46/38), o fundo base creme, o radius de 4–8 px e a escala de espaçamento com 128. A página `src/pages/index.astro` é **temporária** (validação visual) e será substituída pela Home.
 Status: Aprovada
+
+## DEC-035
+Data: 04/10/2026
+Decisão: **Header e Footer implementados e aprovados, sem CTA comercial.**
+
+- **Header:** logo · Eventos ▾ (Festas infantis, Eventos familiares, Festa de 15 anos, Eventos corporativos) · O Espaço · Gastronomia · Como funciona. **Sem o botão "Solicitar proposta"**, no desktop e no mobile. Sticky, estado compacto após scroll, dropdown acessível, menu lateral mobile abaixo de 64rem. Divina Essência fora do menu nesta fase (DEC-020).
+- **Footer:** institucional e discreto, sem CTA comercial, telefone, WhatsApp ou horário. Logo pequena, linha institucional, navegação, endereço uma única vez e copyright. Altura aproximada de 133 px no desktop.
+- **Conversão concentrada em:** Hero, seções de decisão, formulário e botão flutuante de contato (futuro).
+- **Redes sociais e Google Maps:** fora do Footer por enquanto. Instagram, Facebook, LinkedIn e link do Google Maps só entram quando URLs oficiais forem fornecidas e validadas (L-13). Nenhuma URL deve ser inventada.
+
+Motivo: O site terá botão flutuante de contato e CTAs dentro das páginas; Header e Footer ficam mais leves e institucionais.
+Impacto: Substitui o menu e o CTA do Header previstos no HANDOFF (resolve a DIV-07) e o CTA e os dados de contato do Footer previstos no HANDOFF §8. Atualiza [`home-estrutura.md`](../04-conteudo/home-estrutura.md) (seções 1 e 12). Mantém o Footer sem rota paralela de contato direto, fora do botão flutuante futuro.
+Status: Aprovada
