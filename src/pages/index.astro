@@ -2,6 +2,7 @@
 // Página TEMPORÁRIA de validação visual do Design System. Não é a Home.
 // Será substituída quando o desenvolvimento da Home começar.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
 import Button from '../components/ui/Button.astro';
 import Container from '../components/ui/Container.astro';
 import Eyebrow from '../components/ui/Eyebrow.astro';
@@ -16,28 +17,11 @@ import { site } from '../data/site';
   noindex
 >
   <main>
-    <Section spacing="spacious" aria-labelledby="ds-display">
-      <Container>
-        <p class="spec">Section spacious · tone default · Container default</p>
-        <div class="stack">
-          <Eyebrow>Buffet e espaço de eventos • {site.address.neighborhood}, {site.address.city}</Eyebrow>
-          <h1 id="ds-display">Um espaço completo para celebrar em Curitiba</h1>
-          <p class="text-lead measure">
-            Buffet, estrutura, gastronomia e organização para você aproveitar seu evento com mais
-            tranquilidade.
-          </p>
-          <div class="actions">
-            <Button>Solicitar proposta</Button>
-            <Button variant="secondary" href="#ds-estrutura">Conhecer o espaço</Button>
-          </div>
-          <TextLink href="#ds-estrutura">Conhecer nossa estrutura</TextLink>
-        </div>
-      </Container>
-    </Section>
+    <Hero />
 
-    <Section tone="soft" aria-labelledby="ds-estrutura">
+    <Section aria-labelledby="ds-estrutura">
       <Container size="narrow">
-        <p class="spec">Section default · tone soft · Container narrow</p>
+        <p class="spec">Section default · tone default · Container narrow</p>
         <div class="stack">
           <Eyebrow>Espaço e estrutura</Eyebrow>
           <h2 id="ds-estrutura">Estrutura própria para receber seus convidados</h2>
@@ -53,6 +37,11 @@ import { site } from '../data/site';
           <p class="text-small muted">
             {`Small: ${site.address.street}, ${site.address.number} — ${site.address.neighborhood}, ${site.address.city}/${site.address.state}. Atendimento comercial das ${site.contact.commercialHours}.`}
           </p>
+          <div class="actions">
+            <Button href="#hero-title">Solicitar proposta</Button>
+            <Button href="#hero-title" variant="secondary">Conhecer o espaço</Button>
+            <Button href="#hero-title" variant="outline">Botão outline</Button>
+          </div>
           <TextLink href="#ds-tipografia">Conhecer nossa estrutura</TextLink>
         </div>
       </Container>
@@ -85,10 +74,10 @@ import { site } from '../data/site';
           </p>
           <p class="text-small muted">Texto secundário em fundo escuro.</p>
           <div class="actions">
-            <Button href="#ds-display">Solicitar proposta</Button>
+            <Button href="#hero-title">Solicitar proposta</Button>
             <Button variant="secondary">Conhecer o espaço</Button>
           </div>
-          <TextLink href="#ds-display">Conhecer nossa estrutura</TextLink>
+          <TextLink href="#hero-title">Conhecer nossa estrutura</TextLink>
         </div>
       </Container>
     </Section>

@@ -1,0 +1,109 @@
+---
+// Hero da Home: texto à esquerda e foto real do salão à direita (uma coluna abaixo de 64rem).
+// Sem JavaScript. A foto é o provável LCP: carregamento imediato e prioridade alta.
+import { Picture } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import Container from '../ui/Container.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import Section from '../ui/Section.astro';
+import { site } from '../../data/site';
+import salao from '../../assets/images/home/salao-divina-social-panoramico.png';
+---
+
+<Section tone="soft" spacing="compact" class="hero" aria-labelledby="hero-title">
+  <Container class="hero__grid">
+    <div class="hero__content">
+      <Eyebrow>
+        Buffet e espaço de eventos •
+        <span class="nowrap">{site.address.neighborhood}, {site.address.city}</span>
+      </Eyebrow>
+      <h1 id="hero-title">Um espaço completo para celebrar em Curitiba</h1>
+      <p class="text-lead hero__text">
+        Buffet, estrutura, gastronomia e organização para você aproveitar seu evento com mais
+        tranquilidade.
+      </p>
+      <div class="hero__actions">
+        <Button href="#contato">Solicitar proposta</Button>
+        <Button href="#espaco" variant="secondary">Conhecer o espaço</Button>
+      </div>
+    </div>
+
+    <Picture
+      src={salao}
+      alt="Salão do Divina Festa preparado para evento em Curitiba"
+      formats={['avif', 'webp']}
+      fallbackFormat="jpg"
+      quality={90}
+      widths={[480, 720, 960, 1306]}
+      sizes="(min-width: 80rem) 640px, (min-width: 64rem) 50vw, calc(100vw - 2.5rem)"
+      loading="eager"
+      fetchpriority="high"
+      class="hero__image"
+    />
+  </Container>
+</Section>
+
+<style>
+  .hero :global(.hero__grid) {
+    display: grid;
+    gap: var(--space-32);
+  }
+
+  .hero__content {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-16);
+  }
+
+  /* Evita que a cidade fique sozinha na linha em telas estreitas. */
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  .hero__text {
+    max-width: 34rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-12) var(--space-16);
+    margin-top: var(--space-8);
+  }
+
+  /* Mantém o recorte estável enquanto a imagem carrega e preserva o centro do salão. */
+  .hero :global(.hero__image) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: 45% 50%;
+    border-radius: var(--radius-md);
+  }
+
+  @media (min-width: 48rem) {
+    .hero :global(.hero__image) {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .hero :global(.hero__grid) {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: center;
+      gap: var(--space-48);
+    }
+
+    .hero__content {
+      gap: var(--space-24);
+    }
+
+    .hero__actions {
+      margin-top: 0;
+    }
+
+    .hero :global(.hero__image) {
+      aspect-ratio: 4 / 3;
+    }
+  }
+</style>

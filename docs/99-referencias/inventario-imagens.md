@@ -139,6 +139,14 @@ Ficam em `src/assets/` e não em `public/images/web/` porque passam pelo `astro:
 | `logo-divina-horizontal.png` | #36 Logo Divina Festa H-03.png | 2441×622 (área visível 2325×506 + 58 px por lado) | 52 KB | Header |
 | `logo-divina-stacked.png` | #37 Logo Divina Festa-01.png | 2212×1460 (área visível 2106×1354 + 53 px por lado) | 82 KB | Footer |
 
+### Derivados de fotos usados pelo site (`src/assets/images/`)
+
+Mesmo motivo dos logos: passam pelo `astro:assets`, que gera AVIF/WebP/JPEG redimensionados no build. O arquivo em `src/assets/` é cópia byte a byte do original (SHA256 conferido); recorte só por CSS (`object-fit`), sem filtro, recolor ou edição.
+
+| Derivado | Original | Dimensão | Tamanho | Uso |
+|---|---|---|---|---|
+| `home/salao-divina-social-panoramico.png` | #29 Salão Divina Social2.png (SHA256 `679F0521…2D68`) | 1306×714 | 1,7 MB | Hero da Home (larguras geradas: 480, 720, 960 e 1306 px) |
+
 ## `assets/images/source/Material Publicitário/`
 
 | # | Arquivo | Dimensão | Tamanho | Categoria | Possível uso | Qualidade | Desktop | Mobile | Crop | Risco visual | Observações |
