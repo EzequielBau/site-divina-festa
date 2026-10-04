@@ -23,6 +23,8 @@
   --color-cream-alt: #f8f3e8;
   --color-white: #ffffff;
   --color-sand: #ded5c8; /* borda neutra */
+  --color-gold-dark: #8e6b1f; /* só hover do CTA principal, com texto branco (4,92:1) */
+  --color-gold-soft: #d7c39c; /* borda do botão secundário */
 
   /* Papéis (semânticos). Section tone="dark" redefine estes valores localmente. */
   --color-bg: var(--color-white);
@@ -33,10 +35,12 @@
   --color-link: var(--color-ink-strong);
   --color-border: var(--color-sand);
   --color-focus: var(--color-ink-strong);
-  /* CTA principal: dourado + ink (≈5:1). Hover clareia, preservando o contraste do texto. */
+  /* CTA principal: dourado + ink (4,99:1). Hover escurece o dourado e troca o texto
+     para branco (4,92:1): branco sobre o dourado normal teria só 3,17:1. */
   --color-action-bg: var(--color-gold);
-  --color-action-bg-hover: color-mix(in srgb, var(--color-gold) 86%, var(--color-white));
   --color-action-fg: var(--color-ink-strong);
+  --color-action-bg-hover: var(--color-gold-dark);
+  --color-action-fg-hover: var(--color-white);
 
   /* Tipografia — famílias definidas pela API de fontes do Astro (astro.config.mjs) */
   --font-family-heading: var(--font-heading, sans-serif);
@@ -98,6 +102,7 @@
   --radius-sm: 6px;
   --radius-md: 10px; /* padrão do site */
   --radius-lg: 16px;
+  --radius-button: 24px; /* botões: com 48–50 px de altura, cantos totalmente arredondados */
   --border-width: 1px;
   /* Única sombra prevista: elementos flutuantes (header sticky, drawer). Cards não recebem sombra. */
   --shadow-float: 0 2px 8px rgb(40 33 32 / 0.08);

@@ -29,5 +29,8 @@ desktop.ini
 *.tmp
 ~$*
 
+# Prints de referência usados só durante a construção (DEC-036)
+Referências para design/
+
 # Observação: documentos estratégicos (docs/) e imagens-fonte (assets/) são versionados.
 # Não adicionar aqui regras que os ignorem.
