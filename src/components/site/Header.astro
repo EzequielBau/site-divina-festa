@@ -1,0 +1,431 @@
+---
+// Cabeçalho do site. Mobile-first: menu colapsado (painel lateral) até 70rem; acima disso, navegação em linha.
+// Links são âncoras temporárias (as páginas internas ainda não existem).
+import { Image } from 'astro:assets';
+import logo from '../../assets/brand/logo-divina-horizontal.png';
+import Button from '../ui/Button.astro';
+import Container from '../ui/Container.astro';
+import { site } from '../../data/site';
+
+const links = [
+  { label: 'Eventos', href: '#eventos' },
+  { label: 'O Espaço', href: '#espaco' },
+  { label: 'Gastronomia', href: '#gastronomia' },
+  { label: 'Como funciona', href: '#como-funciona' },
+];
+
+// Exibida a 44px de altura no máximo (~173px de largura); 2x para telas densas.
+const logoWidth = 346;
+const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
+---
+
+<header class="header">
+  <Container class="bar">
+    <a class="brand" href="/">
+      <Image src={logo} alt={site.business.name} width={logoWidth} height={logoHeight} loading="eager" />
+    </a>
+
+    <button
+      type="button"
+      class="toggle"
+      aria-label="Menu"
+      aria-expanded="false"
+      aria-controls="menu-principal"
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+      <span>Menu</span>
+    </button>
+
+    <div class="scrim" aria-hidden="true"></div>
+
+    <div class="panel" id="menu-principal">
+      <div class="panel-head">
+        <a class="brand" href="/" tabindex="-1" aria-hidden="true">
+          <Image src={logo} alt="" width={logoWidth} height={logoHeight} loading="lazy" />
+        </a>
+        <button type="button" class="close" aria-label="Fechar menu">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+      </div>
+
+      <nav aria-label="Principal">
+        <ul class="links">
+          {
+            links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="cta">
+        <Button href="#contato">Solicitar proposta</Button>
+      </div>
+
+      <p class="place">{site.address.neighborhood} · {site.address.city}</p>
+    </div>
+  </Container>
+</header>
+
+<!-- Sem JS o menu permanece aberto e visível; o JS o recolhe em painel lateral no mobile. Inline, sem arquivo extra. -->
+<script is:inline>
+  (function () {
+    var header = document.querySelector('.header');
+    var toggle = header && header.querySelector('.toggle');
+    var panel = header && header.querySelector('.panel');
+    var close = header && header.querySelector('.close');
+    var scrim = header && header.querySelector('.scrim');
+    if (!toggle || !panel || !close || !scrim) return;
+
+    var desktop = window.matchMedia('(min-width: 70rem)');
+    var root = document.documentElement;
+    // Tudo que fica atrás do painel: o resto da página e a barra do cabeçalho.
+    var behind = [].filter.call(document.body.children, function (el) {
+      return el !== header && el.tagName !== 'SCRIPT';
+    });
+    behind.push(header.querySelector('.bar > .brand'), toggle);
+    header.setAttribute('data-js', '');
+
+    function setOpen(open, returnFocus) {
+      toggle.setAttribute('aria-expanded', String(open));
+      if (open) panel.setAttribute('data-open', '');
+      else panel.removeAttribute('data-open');
+      root.style.overflow = open ? 'hidden' : '';
+      behind.forEach(function (el) {
+        if (el) el.inert = open;
+      });
+      if (open) close.focus();
+      else if (returnFocus) toggle.focus();
+    }
+
+    function isOpen() {
+      return toggle.getAttribute('aria-expanded') === 'true';
+    }
+
+    toggle.addEventListener('click', function () {
+      setOpen(true);
+    });
+    close.addEventListener('click', function () {
+      setOpen(false, true);
+    });
+    scrim.addEventListener('click', function () {
+      setOpen(false, true);
+    });
+
+    header.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && isOpen()) setOpen(false, true);
+    });
+
+    panel.addEventListener('click', function (event) {
+      if (event.target.closest && event.target.closest('nav a, .cta a')) setOpen(false);
+    });
+
+    desktop.addEventListener('change', function () {
+      if (isOpen()) setOpen(false);
+    });
+  })();
+</script>
+
+<style>
+  .header {
+    position: relative;
+    z-index: 30;
+    background: var(--color-white);
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  .header :global(.bar) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    min-height: 4rem; /* 64px */
+  }
+
+  .brand {
+    display: block;
+    flex: none;
+    border-radius: var(--radius-sm);
+  }
+
+  .brand img {
+    width: auto;
+    height: 2.25rem; /* 36px */
+  }
+
+  /* Botão de menu: só existe com JS. Neutro e leve, para pesar menos que o logo. */
+  .toggle {
+    display: none;
+    align-items: center;
+    gap: var(--space-8);
+    min-height: 44px;
+    padding: 0 var(--space-12);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-fg);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: background-color var(--motion-duration) var(--motion-ease);
+  }
+
+  .toggle:hover {
+    background: var(--color-cream);
+  }
+
+  .toggle svg,
+  .close svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+  }
+
+  .header[data-js] .toggle {
+    display: inline-flex;
+  }
+
+  /* Sem JS: painel em fluxo, abaixo da barra. Elementos de drawer ficam ocultos. */
+  .panel {
+    flex-basis: 100%;
+    padding-bottom: var(--space-24);
+  }
+
+  .panel-head,
+  .close,
+  .place,
+  .scrim {
+    display: none;
+  }
+
+  .links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+    color: var(--color-heading);
+    white-space: nowrap;
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
+  .cta {
+    margin-top: var(--space-16);
+  }
+
+  .cta :global(.button) {
+    width: 100%;
+  }
+
+  /* Mobile/tablet com JS: painel lateral vindo da direita. */
+  @media (max-width: 69.9375rem) {
+    .header[data-js] .scrim {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgb(40 33 32 / 0.45);
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity var(--motion-duration) var(--motion-ease),
+        visibility 0s linear var(--motion-duration);
+    }
+
+    .header[data-js]:has(.panel[data-open]) .scrim {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+
+    .header[data-js] .panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      width: min(92vw, 26rem);
+      height: 100dvh;
+      padding: 0 var(--space-24) var(--space-24);
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background: var(--color-cream); /* fallback sólido */
+      border-left: var(--border-width) solid var(--color-border);
+      border-radius: 20px 0 0 20px;
+      box-shadow: -8px 0 48px rgb(40 33 32 / 0.14);
+      transform: translateX(100%);
+      visibility: hidden;
+      transition:
+        transform var(--motion-duration) var(--motion-ease),
+        visibility 0s linear var(--motion-duration);
+    }
+
+    @supports (backdrop-filter: blur(1px)) {
+      .header[data-js] .panel {
+        background: color-mix(in srgb, var(--color-cream) 95%, transparent);
+        backdrop-filter: blur(12px);
+      }
+    }
+
+    .header[data-js] .panel[data-open] {
+      transform: none;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+
+    .header[data-js] .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: none;
+      min-height: 4rem; /* mesma altura da barra: logo na mesma escala */
+    }
+
+    .header[data-js] .close {
+      display: inline-flex;
+      flex: none;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: transparent;
+      color: var(--color-fg);
+      cursor: pointer;
+      transition: background-color var(--motion-duration) var(--motion-ease);
+    }
+
+    .header[data-js] .close svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .header[data-js] .close:hover {
+      background: var(--color-white);
+    }
+
+    .header[data-js] nav {
+      flex: 1;
+      padding-top: var(--space-24);
+    }
+
+    .header[data-js] .links a {
+      min-height: 56px;
+      margin-inline: calc(-1 * var(--space-12));
+      padding-inline: var(--space-12);
+      border-radius: var(--radius-md);
+      transition: background-color var(--motion-duration) var(--motion-ease);
+    }
+
+    /* Indicação mínima de direção. */
+    .header[data-js] .links a::after {
+      content: '';
+      width: 0.5rem;
+      height: 0.5rem;
+      border-top: 1.5px solid var(--color-brown);
+      border-right: 1.5px solid var(--color-brown);
+      transform: rotate(45deg);
+      opacity: 0.7;
+    }
+
+    .header[data-js] .links a:hover {
+      background: var(--color-cream-alt);
+    }
+
+    .header[data-js] .cta {
+      flex: none;
+      margin-top: var(--space-32);
+    }
+
+    .header[data-js] .place {
+      display: block;
+      flex: none;
+      margin: var(--space-24) 0 0;
+      color: var(--color-fg-muted);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+      text-align: left;
+    }
+  }
+
+  @media (min-width: 70rem) {
+    .header :global(.bar) {
+      flex-wrap: nowrap;
+      gap: var(--space-32);
+      min-height: 4.75rem; /* 76px */
+    }
+
+    .brand img {
+      height: 2.75rem; /* 44px */
+    }
+
+    /* Nada do painel mobile pode aparecer no desktop. */
+    .header .toggle,
+    .header .scrim,
+    .header .panel-head,
+    .header .close,
+    .header .place {
+      display: none !important;
+    }
+
+    .header .panel {
+      position: static;
+      visibility: visible;
+      transform: none;
+      overflow: visible;
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-32);
+      padding: 0;
+    }
+
+    .links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-32);
+    }
+
+    .links a {
+      min-height: 48px;
+      font-size: var(--font-size-body);
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+      text-decoration-color: var(--color-gold);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.3em;
+    }
+
+    .cta {
+      margin: 0;
+    }
+
+    .cta :global(.button) {
+      width: auto;
+    }
+  }
+</style>

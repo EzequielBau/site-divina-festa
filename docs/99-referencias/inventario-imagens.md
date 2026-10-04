@@ -130,6 +130,14 @@ Observação: `Salão Divina Social.png`, `Salão Divina Social2.png` e `Fotos S
 | 38 | Logo Divina Festa1.png | 2504×1778 | 154 KB | marca | — (fundo branco) | boa | ⚠️ | ⚠️ | — | fundo branco não combina com creme | Preferir #37 |
 | 39 | Logo vetor.png | 717×348 | 149 KB | marca (legado) | **não recomendada** | baixa | ❌ | ❌ | — | logo antigo "Divina Festa Buffet" com relevo | Apesar do nome, **não é vetor** (PNG de 2022) |
 
+### Derivados de logo usados pelo site (`src/assets/brand/`)
+
+Ficam em `src/assets/` e não em `public/images/web/` porque passam pelo `astro:assets`, que gera o WebP redimensionado no build. Derivado = área visível do original + margem transparente uniforme; sem redimensionar, recolorir ou redesenhar (DEC-023).
+
+| Derivado | Original | Dimensão | Tamanho | Uso |
+|---|---|---|---|---|
+| `logo-divina-horizontal.png` | #36 Logo Divina Festa H-03.png | 2441×622 (área visível 2325×506 + 58 px por lado) | 52 KB | Header |
+
 ## `assets/images/source/Material Publicitário/`
 
 | # | Arquivo | Dimensão | Tamanho | Categoria | Possível uso | Qualidade | Desktop | Mobile | Crop | Risco visual | Observações |
