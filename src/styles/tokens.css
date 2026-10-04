@@ -3,15 +3,18 @@
  * Fonte: docs/03-design-system/design-system.md (DEC-021, DEC-022).
  * Base pequena de propósito: novos tokens só quando houver uso real.
  *
- * Breakpoints conceituais (CSS não aceita variáveis em media queries):
- *   mobile  < 768px · tablet 768–1024px · desktop > 1024px
- *   Usar: @media (min-width: 768px) e @media (min-width: 1025px).
+ * Mobile-first. Tamanhos fluidos com clamp(), interpolados entre 360px e 1280px
+ * de viewport (parte em rem preserva o zoom do navegador).
+ *
+ * Breakpoints de referência (CSS não aceita variáveis em media queries):
+ *   tablet  @media (min-width: 48rem)  — 768px
+ *   desktop @media (min-width: 64rem)  — 1024px
+ *   80rem (1280px) só se um componente real exigir.
  */
 
 :root {
-  /* Cores institucionais [aprovado] */
-  --color-gold: #b88917; /* acento: ícones, filetes, títulos ≥ 24px em branco/creme. NÃO usar em texto pequeno sobre fundo claro (≈3:1) */
-  --color-gold-dark: #8f6b16; /* referência da DEC-022. NÃO é a cor definitiva de texto pequeno: 4,43:1 em cream-alt (< AA 4,5:1) */
+  /* Cores físicas [aprovado]. Não usar direto em componentes: preferir os papéis abaixo. */
+  --color-gold: #b88917; /* acento e fundo do CTA principal. NÃO usar em texto pequeno sobre fundo claro (≈3:1) */
   --color-brown: #6f5426;
   --color-ink-strong: #282120;
   --color-text: #2f2f2f;
@@ -19,32 +22,54 @@
   --color-cream: #fff9f2;
   --color-cream-alt: #f8f3e8;
   --color-white: #ffffff;
+  --color-sand: #ded5c8; /* borda neutra */
 
-  /* Papéis */
-  --color-bg: var(--color-cream);
-  --color-bg-alt: var(--color-cream-alt);
-  --color-accent: var(--color-gold);
-  /* Texto com destaque: provisoriamente o texto escuro (≥ 12:1 em todos os fundos claros).
-     O tom marrom/dourado acessível definitivo será escolhido na etapa de Design System. */
-  --color-accent-text: var(--color-text);
+  /* Papéis (semânticos). Section tone="dark" redefine estes valores localmente. */
+  --color-bg: var(--color-white);
+  --color-fg: var(--color-text);
+  --color-fg-muted: var(--color-text-muted);
+  --color-heading: var(--color-ink-strong);
+  --color-eyebrow: var(--color-brown); /* 6,39:1 no fundo claro mais escuro (cream-alt) */
+  --color-link: var(--color-ink-strong);
+  --color-border: var(--color-sand);
   --color-focus: var(--color-ink-strong);
+  /* CTA principal: dourado + ink (≈5:1). Hover clareia, preservando o contraste do texto. */
+  --color-action-bg: var(--color-gold);
+  --color-action-bg-hover: color-mix(in srgb, var(--color-gold) 86%, var(--color-white));
+  --color-action-fg: var(--color-ink-strong);
 
   /* Tipografia — famílias definidas pela API de fontes do Astro (astro.config.mjs) */
   --font-family-heading: var(--font-heading, sans-serif);
   --font-family-body: var(--font-body, sans-serif);
-  --font-weight-regular: 400;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
+  --font-weight-regular: 400; /* texto */
+  --font-weight-medium: 500; /* interface; heading secundário */
+  --font-weight-semibold: 600; /* headings, botões, labels */
+  --font-weight-bold: 700; /* pontual */
 
-  /* Escala [aprovado — HANDOFF §7]. Valores mobile; tablet e desktop abaixo */
-  --font-size-h1: 2.375rem; /* 38px */
-  --font-size-h2: 1.875rem; /* 30px */
-  --font-size-h3: 1.5rem; /* 24px */
-  --font-size-body: 1rem; /* 16px */
-  --font-size-small: 0.875rem; /* 14px: eyebrow, legenda */
+  /* Escala fluida: mobile → desktop */
+  --font-size-display: clamp(2.375rem, 1.9348rem + 1.9565vw, 3.5rem); /* 38 → 56px */
+  --font-size-h2: clamp(1.875rem, 1.6304rem + 1.087vw, 2.5rem); /* 30 → 40px */
+  --font-size-h3: clamp(1.5rem, 1.3533rem + 0.6522vw, 1.875rem); /* 24 → 30px */
+  --font-size-h4: clamp(1.25rem, 1.2011rem + 0.2174vw, 1.375rem); /* 20 → 22px */
+  --font-size-lead: clamp(1.125rem, 1.0761rem + 0.2174vw, 1.25rem); /* 18 → 20px */
+  --font-size-large: clamp(1.0625rem, 1.038rem + 0.1087vw, 1.125rem); /* 17 → 18px */
+  --font-size-body: clamp(1rem, 0.9755rem + 0.1087vw, 1.0625rem); /* 16 → 17px */
+  --font-size-small: clamp(0.875rem, 0.8505rem + 0.1087vw, 0.9375rem); /* 14 → 15px */
+  --font-size-eyebrow: clamp(0.75rem, 0.7255rem + 0.1087vw, 0.8125rem); /* 12 → 13px */
+  --font-size-button: 1rem; /* 16px */
 
-  --line-height-heading: 1.15;
-  --line-height-body: 1.55;
+  --line-height-display: 1.05;
+  --line-height-h2: 1.1;
+  --line-height-h3: 1.15;
+  --line-height-h4: 1.2;
+  --line-height-lead: 1.55;
+  --line-height-body: 1.6;
+  --line-height-small: 1.5;
+  --line-height-eyebrow: 1.3;
+
+  --tracking-tight: -0.02em; /* H1 */
+  --tracking-snug: -0.01em; /* H2, H3 */
+  --tracking-eyebrow: 0.12em;
 
   /* Espaçamento: escala base de 4px */
   --space-4: 0.25rem;
@@ -55,38 +80,29 @@
   --space-32: 2rem;
   --space-48: 3rem;
   --space-64: 4rem;
+  --space-80: 5rem;
   --space-96: 6rem;
-  --space-128: 8rem;
+  --space-120: 7.5rem;
 
-  /* Layout */
-  --container-max: 75rem; /* 1200px */
-  --text-max: 45rem; /* 720px */
-  --gutter: 1.25rem; /* 20px mobile */
+  /* Ritmo vertical de Section: mobile → desktop */
+  --section-space-compact: clamp(var(--space-48), 2.6087rem + 1.7391vw, var(--space-64)); /* 48 → 64px */
+  --section-space-default: clamp(var(--space-64), 3.2174rem + 3.4783vw, var(--space-96)); /* 64 → 96px */
+  --section-space-spacious: clamp(var(--space-80), 4.0217rem + 4.3478vw, var(--space-120)); /* 80 → 120px */
+
+  /* Layout. Larguras são de área útil; o gutter fica fora delas. */
+  --container-default: 75rem; /* 1200px */
+  --container-narrow: 48rem; /* 768px */
+  --gutter: clamp(1.25rem, 0.7609rem + 2.1739vw, 2.5rem); /* 20 → ~30 (tablet) → 40px */
 
   /* Forma */
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  --radius-sm: 6px;
+  --radius-md: 10px; /* padrão do site */
+  --radius-lg: 16px;
   --border-width: 1px;
-  /* Única sombra prevista: elementos flutuantes (header sticky, drawer) */
+  /* Única sombra prevista: elementos flutuantes (header sticky, drawer). Cards não recebem sombra. */
   --shadow-float: 0 2px 8px rgb(40 33 32 / 0.08);
-}
 
-@media (min-width: 768px) {
-  :root {
-    --font-size-h1: 2.875rem; /* 46px */
-    --font-size-h2: 2.125rem; /* 34px */
-    --font-size-h3: 1.6875rem; /* 27px */
-    --font-size-body: 1.0625rem; /* 17px */
-    --gutter: 2rem; /* 32px */
-  }
-}
-
-@media (min-width: 1025px) {
-  :root {
-    --font-size-h1: 3.5rem; /* 56px */
-    --font-size-h2: 2.5rem; /* 40px */
-    --font-size-h3: 1.875rem; /* 30px */
-    --font-size-body: 1.125rem; /* 18px */
-    --gutter: 2.5rem; /* 40px */
-  }
+  /* Movimento: funcional e discreto. Reduced motion em global.css. */
+  --motion-duration: 180ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
 }

@@ -1,0 +1,22 @@
+---
+// Rótulo curto acima do título. Cor acessível (marrom no claro, dourado no escuro).
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'p'>;
+
+const { class: className, ...attrs } = Astro.props;
+---
+
+<p class:list={['eyebrow', className]} {...attrs}><slot /></p>
+
+<style>
+  .eyebrow {
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-eyebrow);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-eyebrow);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-eyebrow);
+  }
+</style>

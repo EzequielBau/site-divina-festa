@@ -1,0 +1,59 @@
+---
+// Ritmo vertical e tom de fundo. Não embute Container: use <Section><Container>…</Container></Section>.
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'section'> {
+  spacing?: 'compact' | 'default' | 'spacious';
+  tone?: 'default' | 'soft' | 'warm' | 'dark';
+}
+
+const { spacing = 'default', tone = 'default', class: className, ...attrs } = Astro.props;
+---
+
+<section
+  class:list={['section', `section--${spacing}`, `section--${tone}`, className]}
+  {...attrs}
+>
+  <slot />
+</section>
+
+<style>
+  .section {
+    padding-block: var(--section-space);
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  .section--compact {
+    --section-space: var(--section-space-compact);
+  }
+
+  .section--default {
+    --section-space: var(--section-space-default);
+  }
+
+  .section--spacious {
+    --section-space: var(--section-space-spacious);
+  }
+
+  .section--soft {
+    --color-bg: var(--color-cream);
+  }
+
+  .section--warm {
+    --color-bg: var(--color-cream-alt);
+  }
+
+  /* Tom escuro: redefine os papéis de cor; títulos, links, foco e componentes
+     descendentes herdam o contraste correto sem regras específicas. */
+  .section--dark {
+    --color-bg: var(--color-ink-strong);
+    --color-fg: var(--color-cream);
+    --color-fg-muted: color-mix(in srgb, var(--color-cream) 78%, var(--color-ink-strong));
+    --color-heading: var(--color-white);
+    --color-eyebrow: var(--color-gold); /* 4,99:1 sobre ink-strong */
+    --color-link: var(--color-cream);
+    --color-border: color-mix(in srgb, var(--color-cream) 22%, var(--color-ink-strong));
+    --color-focus: var(--color-cream);
+  }
+</style>

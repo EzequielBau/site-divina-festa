@@ -21,7 +21,7 @@ Este repositório é o **projeto paralelo programado** do novo site (DEC-016). A
 
 Detalhes em [`arquitetura-site.md`](../02-arquitetura/arquitetura-site.md#arquitetura-técnica-dec-026-dec-027-dec-028-e-dec-033). Roteiro da infraestrutura (dev, produção e publicação) em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md).
 
-**Código:** existe só a base técnica (Etapa 01): fonte factual em `src/data/site.ts`, tokens, `BaseLayout` e uma página técnica provisória. Cada etapa seguinte só começa com autorização expressa.
+**Código:** existem a base técnica (Etapa 01: fonte factual em `src/data/site.ts`, `BaseLayout`) e a fundação visual do Design System (Etapa 02, DEC-034: tokens e componentes-base em `src/components/ui/`), com uma página temporária de validação. Cada etapa seguinte só começa com autorização expressa.
 
 ---
 

@@ -1,12 +1,12 @@
 # Design system
 
-**Versão:** 1.1 — 03/10/2026 (Etapa 00, revisada após aprovação) — **documentação, não implementação**
-**Fontes:** HANDOFF §3, §7, §8 · NORTE §19 · SÍNTESE §13, §27 · ETAPA 00 · DEC-021, DEC-022, DEC-023
-**Stack:** Astro static-first (DEC-026). Os valores abaixo serão implementados como tokens (variáveis CSS) quando a implementação for autorizada.
-**Legenda:** **[aprovado]** = consta nas fontes · **[proposta]** = sugestão técnica desta etapa, aguardando aprovação
+**Versão:** 2.0 — 04/10/2026 — **fundação visual implementada e aprovada** (DEC-034). Substitui a v1.1 (Etapa 00, documental).
+**Fontes:** HANDOFF §3, §7, §8 · NORTE §19 · SÍNTESE §13, §27 · DEC-021, DEC-022, DEC-023, **DEC-034**
+**Stack:** Astro static-first (DEC-026), CSS próprio, **zero JavaScript no cliente** nesta etapa, sem biblioteca de UI e sem framework JS.
+**Implementação:** tokens em `src/styles/tokens.css`; estilos globais em `src/styles/global.css`; componentes-base em `src/components/ui/`; página temporária de validação em `src/pages/index.astro` (será substituída pela Home).
+**Legenda:** **[vigente]** = implementado e aprovado (DEC-034) · **[aprovado]** = consta nas fontes · **[proposta]** = ainda sem decisão
 
 ---
-
 ## 1. Princípios
 
 - **Atemporalidade:** os elementos devem envelhecer bem por anos, não apenas parecer atuais no lançamento. *(NORTE §19)*
@@ -15,21 +15,29 @@
 - **Evitar:** parallax excessivo, vídeo em autoplay, animação gratuita, neon, luxo artificial, preto/dourado como atalho para "premium" (SÍNTESE §27, ver DIV-14), cards pesados, sombras e excesso de ícones (HANDOFF §3.2).
 - O visual infantil não pode dominar a marca, e o espaço infantil também não pode desaparecer.
 
-## 2. Paleta [aprovado]
+## 2. Cores e superfícies [vigente — DEC-034]
 
-| Token sugerido | Hex | Papel |
+| Token | Hex | Papel |
 |---|---|---|
-| `--color-gold` | `#B88917` | **cor institucional / acento** (detalhes, ícones, títulos grandes) |
-| `--color-gold-dark` | `#8F6B16` | dourado escuro: **texto pequeno, botões e elementos que exigem contraste WCAG**; hover (DEC-022) |
-| `--color-brown` | `#6F5426` | marrom institucional |
-| `--color-ink-strong` | `#282120` | contraste forte (footer, superfícies escuras) |
-| `--color-text` | `#2F2F2F` | texto principal |
-| `--color-text-muted` | `#6B6B6B` | texto secundário |
-| `--color-cream` | `#FFF9F2` | creme principal (fundo base) |
-| `--color-cream-alt` | `#F8F3E8` | creme secundário (seções alternadas) |
-| `--color-white` | `#FFFFFF` | branco |
+| `--color-gold` | `#B88917` | dourado principal: **fundo do CTA principal**, acento, ícones, filetes, títulos grandes |
+| `--color-brown` | `#6F5426` | marrom institucional; cor do eyebrow sobre fundo claro |
+| `--color-ink-strong` | `#282120` | texto forte, títulos, texto do CTA, superfície escura |
+| `--color-text` | `#2F2F2F` | texto |
+| `--color-text-muted` | `#6B6B6B` | texto secundário (não usar sobre `#282120`) |
+| `--color-sand` | `#DED5C8` | borda neutra |
+| `--color-white` | `#FFFFFF` | superfície `default` |
+| `--color-cream` | `#FFF9F2` | superfície `soft` |
+| `--color-cream-alt` | `#F8F3E8` | superfície `warm` |
 
-### Contraste (WCAG 2.x), calculado nesta etapa
+**Superfícies (`Section tone`):** `default` `#FFFFFF` · `soft` `#FFF9F2` · `warm` `#F8F3E8` · `dark` `#282120`. O fundo base do site é branco (antes, a v1.1 indicava o creme).
+
+**Papéis semânticos:** os componentes usam papéis (`--color-bg`, `--color-fg`, `--color-heading`, `--color-eyebrow`, `--color-link`, `--color-border`, `--color-focus`, `--color-action-*`), não os hex. `Section tone="dark"` redefine esses papéis localmente.
+
+**CTA principal:** fundo `#B88917`, texto `#282120` (contraste 4,99:1). Hover clareia o fundo (mistura com branco), preservando o contraste do texto.
+
+**`#8F6B16` não é mais cor vigente** de texto nem de CTA. Estava prevista na DEC-022 como "inicialmente" e foi substituída pelo conjunto acima (DEC-034). Não reintroduzir.
+
+### Contraste (WCAG 2.x)
 
 | Texto \ Fundo | `#FFFFFF` | `#FFF9F2` | `#F8F3E8` | `#282120` |
 |---|---|---|---|---|
@@ -37,84 +45,98 @@
 | `#6B6B6B` secundário | 5,33 ✅ | 5,10 ✅ | 4,82 ✅ | 2,97 ❌ |
 | `#282120` forte | 15,81 ✅ | 15,12 ✅ | 14,28 ✅ | — |
 | `#6F5426` marrom | 7,07 ✅ | 6,76 ✅ | 6,39 ✅ | 2,24 ❌ |
-| `#8F6B16` dourado escuro | 4,90 ✅ | 4,69 ✅ | **4,43 ⚠️** | 3,22 ⚠️ |
 | `#B88917` dourado | **3,17 ⚠️** | **3,03 ⚠️** | **2,86 ❌** | 4,99 ✅ |
 | `#FFFFFF` branco | — | — | — | 15,81 ✅ |
 
-Referência: AA exige 4,5:1 para texto normal e 3:1 para texto grande (≥ 24 px regular ou ≥ 18,66 px bold) e para componentes de interface.
+AA exige 4,5:1 para texto normal e 3:1 para texto grande (≥ 24 px regular ou ≥ 18,66 px bold) e para componentes de interface.
 
-**Regra de uso do dourado [aprovado — DEC-022]:**
-1. **`#B88917` continua sendo a cor institucional/acento.** Serve para ícones, detalhes, filetes, títulos grandes (≥ 24 px) sobre branco ou creme principal, e texto sobre o footer `#282120` (4,99). **Não usar** em texto pequeno ou corrido sobre fundos claros. Sobre `#F8F3E8` não atinge nem 3:1.
-2. **Texto pequeno, botões e elementos que exigem contraste WCAG** usam a versão escura, **inicialmente `#8F6B16`**: botão primário com fundo `#8F6B16` e texto branco (≈ 4,9:1); eyebrows em `#8F6B16` ou `#6F5426`.
-3. **Pendente de validação no design system:** `#8F6B16` sobre `#F8F3E8` dá **4,43:1**, abaixo de 4,5:1 para texto pequeno. Opções: usar `#6F5426` nas seções em creme secundário, ou escurecer levemente o dourado escuro. O valor final será validado antes da implementação.
-   **Situação na Etapa 01:** `#8F6B16` **não** foi consolidado como cor de texto pequeno. Em `src/styles/tokens.css`, o token `--color-accent-text` usa provisoriamente `#2F2F2F` (texto escuro, seguro em todos os fundos claros). `#B88917` segue como dourado institucional/acento. O tom marrom/dourado acessível definitivo será escolhido na **etapa de Design System**.
-4. No footer `#282120`, usar branco ou creme para o texto.
+**Regras de uso do dourado:**
+1. `#B88917` **não** é usado em texto pequeno ou corrido sobre fundo claro (≈ 3:1; sobre `#F8F3E8` nem 3:1).
+2. Pode ser usado como fundo do CTA (com texto `#282120`), em detalhes e ícones, e como texto/eyebrow sobre a superfície escura `#282120` (4,99:1).
+3. Texto pequeno sobre fundo claro usa `#282120`, `#2F2F2F`, `#6F5426` (eyebrow) ou `#6B6B6B` (secundário).
+4. Na superfície escura, o texto usa creme/branco.
 
-## 3. Tipografia [aprovado]
+## 3. Tipografia [vigente — DEC-034]
 
-| Uso | Família | Observação |
+| Uso | Família |
+|---|---|
+| Headings | **Familjen Grotesk** (DEC-021) |
+| Corpo e interface | **Source Sans 3** |
+
+Fontes pela API nativa do Astro (baixadas no build e servidas pelo próprio site, arquivo variável 400–700, subset latin, `font-display: swap`). Pesos de uso: 400 texto, 500 interface, 600 headings, botões e labels, 700 pontual.
+
+### Escala fluida (`clamp()`, mobile → desktop)
+
+| Nível | Token | Tamanho |
 |---|---|---|
-| Headings | **Familjen Grotesk** | Google Fonts. A grafia "Familien", no handoff, foi corrigida (DEC-021) |
-| Body | **Source Sans 3** | Google Fonts |
+| H1 | `--font-size-display` | 38 → 56 px |
+| H2 | `--font-size-h2` | 30 → 40 px |
+| H3 | `--font-size-h3` | 24 → 30 px |
+| H4 | `--font-size-h4` | 20 → 22 px |
+| Lead | `--font-size-lead` | 18 → 20 px |
+| Body large | `--font-size-large` | 17 → 18 px |
+| Body | `--font-size-body` | 16 → 17 px |
+| Small | `--font-size-small` | 14 → 15 px |
+| Eyebrow | `--font-size-eyebrow` | 12 → 13 px |
 
-**[proposta]** Hospedar as fontes localmente (self-host, WOFF2, `font-display: swap`) e carregar só os pesos usados (ex.: 400/600/700), por performance e LGPD.
+Interpolação entre 360 px e 1280 px de viewport; a parte em `rem` preserva o zoom do navegador. A escala por faixa (56/46/38) da v1.1 foi substituída pela escala fluida.
 
-### Escala [aprovado — HANDOFF §7]
+Entrelinhas: headings 1,05–1,2; lead 1,55; corpo 1,6; small 1,5. Largura de leitura de 60–75 caracteres. Eyebrow em caixa alta com tracking 0,12 em.
 
-| Nível | Desktop | Tablet | Mobile |
-|---|---|---|---|
-| H1 | 56 px | 46 px | 38 px |
-| H2 | 40 px | 34 px | 30 px |
-| H3 | 30 px | 27 px | 24 px |
-| Body | 18 px | 17 px | 16 px |
+## 4. Breakpoints de referência [vigente]
 
-**[proposta]** complementos: eyebrow 14 px caixa alta com tracking ~0,08 em; texto pequeno/legenda 14–15 px; line-height de 1,1–1,2 nos headings e 1,5–1,6 no body; largura de leitura de 60–75 caracteres.
-
-Regra [aprovado]: só configurar valores responsivos quando o controle realmente suportar valores por dispositivo.
-
-## 4. Breakpoints e grid [proposta]
-
-| Faixa | Largura | Grid |
+| Referência | Largura | Uso |
 |---|---|---|
-| Mobile | < 768 px | 1 coluna (4 colunas de base para alinhamento) |
-| Tablet | 768–1024 px | 2 colunas (8 colunas de base) |
-| Desktop | > 1024 px | até 4 colunas (12 colunas de base) |
+| tablet | `48rem` / 768 px | `@media (min-width: 48rem)` |
+| desktop | `64rem` / 1024 px | `@media (min-width: 64rem)` |
+| wide | `80rem` / 1280 px | **só se um componente real exigir** |
 
-Coerente com o HANDOFF: Tipos de evento em 4 / 2×2 / 1; Hero em 2 colunas / 1; Crianças + adultos em ~55/45 / empilhado. Os breakpoints exatos serão confirmados na implementação. Com Astro e CSS próprio, não há breakpoints impostos por tema.
+CSS não aceita variáveis em media queries; os valores são documentados em `tokens.css`. Abordagem mobile-first. A grade de colunas por faixa (1 / 2 / até 4) segue como orientação de composição das seções, definida em cada seção.
 
-## 5. Containers [proposta]
+## 5. Containers [vigente]
 
-- Conteúdo: largura máxima de **1200 px** (área útil), com padding lateral de 20 px no mobile, 32 px no tablet e 40 px no desktop.
-- Texto longo: no máximo **720 px**.
+- `default`: **1200 px** de área útil. `narrow`: **768 px**.
+- Gutter fluido de **20 → 40 px** (`clamp()`); a largura máxima considera o gutter fora da área útil.
 - Faixas full-width só para fundos de seção, nunca para linhas de texto.
 
-## 6. Espaçamento [proposta]
+## 6. Espaçamento [vigente]
 
-- Escala base de 4 px: `4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128`.
-- Ritmo vertical entre seções: 96–128 px no desktop, 64–80 px no tablet e 48–64 px no mobile.
-- O container controla o ritmo. Os filhos não carregam margens próprias. *(lição da implementação anterior, HANDOFF §4/§6: margens do tema somadas ao gap causaram discrepância editor × front-end)*
+- Escala: **4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 80 · 96 · 120 px** (`--space-4` a `--space-120`).
+- Ritmo vertical de `Section` (fluido): `compact` 48 → 64 px · `default` 64 → 96 px · `spacious` 80 → 120 px.
+- O container e a seção controlam o ritmo. Os filhos não carregam margens próprias. *(lição da implementação anterior, HANDOFF §4/§6)*
+- `Section` não embute `Container`: usar `<Section><Container>…</Container></Section>`.
 
-## 7. Botões
+## 7. Componentes-base [vigente — DEC-034]
+
+Cinco componentes em `src/components/ui/`, em Astro, com CSS escopado e sem JavaScript:
+
+| Componente | Função |
+|---|---|
+| `Container` | largura máxima e gutter (`size`: `default` · `narrow`) |
+| `Section` | ritmo vertical e superfície (`spacing`: `compact` · `default` · `spacious`; `tone`: `default` · `soft` · `warm` · `dark`) |
+| `Button` | `<a>` com `href`, senão `<button type="button">`; `variant`: `primary` · `secondary` |
+| `TextLink` | link editorial, sublinhado e seta em CSS |
+| `Eyebrow` | rótulo curto acima do título (marrom no claro, dourado no escuro) |
 
 - [aprovado] CTA principal: **"Solicitar proposta"**. Secundário: "Conhecer o espaço".
-- **Primário:** fundo `#8F6B16` [aprovado, DEC-022 — sujeito à validação], texto branco; [proposta] altura mínima de 48 px, padding horizontal de 24–32 px.
-- [proposta] **Secundário:** contorno de 1,5–2 px em dourado escuro e texto em dourado escuro/marrom, com a mesma altura.
-- [proposta] **Link de texto:** sublinhado no hover/focus.
-- Área de toque mínima de 44×44 px (WCAG 2.5.5 / diretrizes mobile).
+- **Primário:** fundo `#B88917`, texto `#282120`, altura mínima de 48 px.
+- **Secundário:** transparente, contorno de 1 px e texto em `#282120` (papel `--color-heading`).
+- **TextLink:** sublinhado, seta decorativa, área de toque mínima de 44 px.
+- Área de toque mínima de 44×44 px.
+- Novos componentes (Header, Footer, Hero, cards etc.) dependem de etapa própria.
 
-## 8. Bordas, radius e sombras [proposta]
+## 8. Bordas, radius e sombras [vigente]
 
-- Bordas finas de 1 px em tom de creme mais escuro ou dourado com baixa opacidade, para divisões.
-- Radius discreto: **4–8 px** em botões e imagens. Evitar pílulas e cantos muito arredondados (envelhecem rápido).
-- **Sombras:** evitar por padrão ([aprovado] HANDOFF: "sem sombras"). No máximo uma sombra muito suave para elementos flutuantes (header sticky, drawer).
+- Radius: `--radius-sm` **6 px** · `--radius-md` **10 px** (padrão do site) · `--radius-lg` **16 px**. Evitar pílulas.
+- Borda neutra de 1 px em `#DED5C8`.
+- **Sombras:** evitar por padrão ([aprovado] HANDOFF: "sem sombras"). Única prevista: `--shadow-float`, muito suave, para elementos flutuantes (header sticky, drawer). Cards não recebem sombra.
 
-## 9. Hover e focus [proposta]
+## 9. Hover, focus e movimento [vigente]
 
-- Hover discreto ([aprovado] HANDOFF §3.3): troca de cor para `#8F6B16`, leve zoom de imagem (≤ 1,03) com transição de 150–250 ms.
-- Respeitar `prefers-reduced-motion`.
-- **Focus visível obrigatório:** contorno de 2 px em cor de alto contraste (`#282120` sobre claro, branco sobre escuro), com offset de 2 px. Nunca `outline: none` sem substituto.
+- Transição discreta de 180 ms (`--motion-duration`). Hover do CTA clareia o fundo; imagens com zoom ≤ 1,03 ([aprovado] HANDOFF §3.3) quando houver.
+- `prefers-reduced-motion` respeitado em `global.css`.
+- **Foco visível obrigatório:** `:focus-visible` com contorno de 2 px e offset de 3 px, em `#282120` sobre claro e creme sobre a superfície escura. Nunca `outline: none` sem substituto.
 - Imagem e título dos cards clicáveis; descrição não clicável ([aprovado]).
-
 ## 10. Regras de imagem
 
 - Foto real sempre. Banco de imagem só se não houver alternativa real (blacklist do NORTE).
@@ -132,5 +154,4 @@ Uso mínimo ([aprovado]: "sem excesso de ícones"). Quando necessário, um únic
 ## 12. Dependências
 
 - Logo: **não há SVG confirmado** (L-10). Não vetorizar nem redesenhar agora (DEC-023); usar os PNGs de `assets/brand/logos/` como referência.
-- Validação final do dourado escuro para texto pequeno sobre `#F8F3E8` (DEC-022).
-- Na implementação (Astro, DEC-026): confirmar os breakpoints e carregar as fontes por self-hosting (WOFF2, só os pesos usados).
+- Fontes: carregadas pela API nativa do Astro e servidas pelo próprio site (Etapa 01, aprovada).

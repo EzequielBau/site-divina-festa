@@ -1,6 +1,6 @@
 # Status do projeto
 
-**Atualizado em:** 03/10/2026 — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032); hospedagem do frontend na Hostinger Web Hosting (DEC-033). Implementação ainda não autorizada.
+**Atualizado em:** 03/10/2026 — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032); hospedagem do frontend na Hostinger Web Hosting (DEC-033); fundação visual do Design System implementada e aprovada (DEC-034).
 
 ## Concluído
 
@@ -23,7 +23,7 @@
 - **Arquitetura resiliente de formulários decidida** (DEC-032, só documental): formulário no frontend estático; envio por HTTPS a `api.divinafesta.com.br` com revalidação no backend; credenciais só no backend; em falha ou timeout, dados preservados e WhatsApp com mensagem pré-preenchida; integrações secundárias tratadas à parte; CAPTCHA/Turnstile só com evidência de abuso. Nada implementado
 - Revisões de consistência interna da documentação
 - **Etapa 01: base técnica do projeto Astro** (Astro 7.3.5, Node 24): TypeScript `strictest`; fonte factual em `src/data/site.ts`; tokens em `src/styles/tokens.css`; `BaseLayout.astro` com meta robots `noindex, nofollow` por padrão; página técnica provisória. Build sem erros e sem JavaScript no cliente. **Aprovada pelo gestor**, incluindo as escolhas técnicas: fontes pela API nativa do Astro (baixadas no build e servidas pelo próprio site, arquivo variável 400–700, subset latin, `font-display: swap`), chave `PUBLIC_ALLOW_INDEXING` e `astro check` dentro do `npm run build`. Texto com destaque provisoriamente em `#2F2F2F` até a etapa de Design System. Finais de linha padronizados em LF via `.gitattributes`
-- Conteúdo já aprovado na implementação anterior, aproveitado como referência: texto do Hero; copy de Prova rápida, Tipos de evento e Crianças + adultos
+- **Etapa 02: fundação visual do Design System** (DEC-034, aprovada pelo gestor): tokens de cor, tipografia fluida, espaçamento, containers e radius; componentes-base Container, Section, Button, TextLink e Eyebrow em src/components/ui/; CSS próprio, zero JavaScript no cliente. CTA em #B88917 com texto #282120; #8F6B16 descartado. src/pages/index.astro é página temporária de validação, não a Home. Detalhes em [design-system.md](../03-design-system/design-system.md) v2.0. Header, Footer, Hero e Home não iniciados como referência: texto do Hero; copy de Prova rápida, Tipos de evento e Crianças + adultos
 
 ## Em andamento
 
@@ -32,7 +32,7 @@
 ## Próximo (cada item depende de autorização)
 
 1. ~~Inicialização do projeto Astro~~ (feita na Etapa 01)
-2. Design system: validar tokens e o contraste final do dourado escuro (DEC-022)
+2. ~~Design system: validar tokens e o contraste final do dourado escuro (DEC-022)~~ (feito na Etapa 02, DEC-034)
 3. Header
 4. Footer
 5. Hero (conteúdo já aprovado; implementação nova)

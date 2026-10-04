@@ -160,7 +160,7 @@ Data: 03/10/2026
 Decisão: `#B88917` continua sendo a **cor institucional/acento**. Em **texto pequeno, botões e elementos que exijam contraste WCAG**, usar uma versão validada mais escura, **inicialmente `#8F6B16`**, sujeita à validação no design system.
 Motivo: `#B88917` tem contraste 3,03:1 sobre `#FFF9F2` e 3,17:1 com texto branco, abaixo do AA (4,5:1) para texto normal.
 Impacto: Ver [`design-system.md`](../03-design-system/design-system.md) §2. Observação: `#8F6B16` sobre `#F8F3E8` dá 4,43:1, ainda abaixo de 4,5:1 para texto pequeno, o que deve ser tratado na validação.
-Status: Aprovada (valor final sujeito à validação no design system)
+Status: Aprovada. **Valor final de #8F6B16 superado pela DEC-034** (a regra de que #B88917 não serve para texto pequeno sobre fundo claro continua valendo)
 
 ## DEC-023
 Data: 03/10/2026
@@ -572,4 +572,21 @@ Ambiente oficial de desenvolvimento e validação. Deve:
 
 Motivo: Concentrar frontend e backend no mesmo fornecedor já usado (Hostinger, com DNS e VPS), mantendo o frontend como build estático portável e desacoplado da VPS, conforme a DEC-028. O Cloudflare passa a ser camada opcional, não requisito.
 Impacto: Atualiza a L-11 (subdomínio `dev` agora na Hostinger) e a L-22 (domínio principal na Hostinger; a separação DEV/PROD com builds distintos substitui o problema de "`main` publica o `dev`"). Corrige os textos operacionais que tratavam o Cloudflare Pages como destino ativo. O código não muda: a meta robots já é `noindex` por padrão e só a produção define `PUBLIC_ALLOW_INDEXING=true`. **Hostinger e Cloudflare não configurados, DNS não alterado, deploy não automatizado: tudo depende de nova autorização.**
+Status: Aprovada
+
+## DEC-034
+Data: 04/10/2026
+Decisão: **Fundação visual do Design System implementada e aprovada** (Astro static-first, CSS próprio, zero JavaScript no cliente, sem biblioteca de UI nem framework JS). O ID DEC-031 continua sem uso.
+
+- **Cores e superfícies:** `default` `#FFFFFF` · `soft` `#FFF9F2` · `warm` `#F8F3E8` · `dark` `#282120`; dourado principal `#B88917`; marrom `#6F5426`; texto forte `#282120`; texto `#2F2F2F`; texto secundário `#6B6B6B`; borda neutra `#DED5C8`. **`#8F6B16` deixa de ser cor vigente** de texto e de CTA.
+- **CTA principal:** fundo `#B88917`, texto `#282120`.
+- **Tipografia:** Familjen Grotesk (headings) e Source Sans 3 (corpo e interface). Escala fluida com `clamp()`: H1 38→56 · H2 30→40 · H3 24→30 · H4 20→22 · Lead 18→20 · Body large 17→18 · Body 16→17 · Small 14→15 · Eyebrow 12→13 px.
+- **Espaçamento:** 4, 8, 12, 16, 24, 32, 48, 64, 80, 96, 120 px. **Section:** compact 48→64 · default 64→96 · spacious 80→120 px.
+- **Containers:** default 1200 px, narrow 768 px, gutter fluido de 20→40 px.
+- **Radius:** sm 6 px · md 10 px · lg 16 px.
+- **Breakpoints de referência:** 48rem (768 px), 64rem (1024 px) e 80rem (1280 px) só se necessário.
+- **Componentes-base aprovados:** Container, Section, Button, TextLink, Eyebrow. Header, Footer, Hero e Home não fazem parte desta decisão.
+
+Motivo: A validação visual da fundação foi aprovada pelo gestor. Fecha a pendência da DEC-022 (dourado escuro para texto pequeno): o CTA usa `#B88917` com texto `#282120` (4,99:1) e o texto pequeno sobre fundo claro usa `#282120`, `#2F2F2F`, `#6F5426` ou `#6B6B6B`.
+Impacto: Atualiza [`design-system.md`](../03-design-system/design-system.md) (v2.0), que passa a ser a referência detalhada dos valores; os tokens ficam em `src/styles/tokens.css` e os componentes em `src/components/ui/`. Substitui, no design system, a paleta com `#8F6B16`, a escala por faixa (56/46/38), o fundo base creme, o radius de 4–8 px e a escala de espaçamento com 128. A página `src/pages/index.astro` é **temporária** (validação visual) e será substituída pela Home.
 Status: Aprovada
