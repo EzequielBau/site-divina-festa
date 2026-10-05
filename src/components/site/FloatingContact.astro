@@ -1,0 +1,103 @@
+---
+// Botão flutuante de contato: discreto, no canto inferior direito, em todos os tamanhos de tela.
+// Leva ao formulário de proposta (site.links.proposal; provisório até o formulário existir).
+// Sem JavaScript. Mobile: círculo só com o ícone; a partir de 48rem: ícone + rótulo curto.
+// Respeita as áreas seguras (iPhone) e não depende de hover.
+import { site } from '../../data/site';
+---
+
+<a class="fab" href={site.links.proposal} aria-label="Fale conosco: solicitar proposta">
+  <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+    <path
+      d="M20 3H4a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h3v3.2a.5.5 0 0 0 .8.4L12.7 18H20a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1Z"
+    ></path>
+    <path d="M7.5 8.5h9M7.5 12h6" class="lines"></path>
+  </svg>
+  <span class="label">Fale conosco</span>
+</a>
+
+<style>
+  .fab {
+    position: fixed;
+    z-index: 40;
+    right: max(var(--space-16), env(safe-area-inset-right));
+    bottom: max(var(--space-16), env(safe-area-inset-bottom));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    min-width: 3.5rem;
+    min-height: 3.5rem;
+    padding: 0;
+    border: var(--border-width) solid color-mix(in srgb, var(--color-ink-strong) 14%, var(--color-gold));
+    border-radius: 999px;
+    background: var(--color-gold);
+    color: var(--color-ink-strong);
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    text-decoration: none;
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--color-ink-strong) 28%, transparent);
+    transition:
+      background-color var(--motion-duration) var(--motion-ease),
+      color var(--motion-duration) var(--motion-ease);
+  }
+
+  .fab svg {
+    flex: none;
+    fill: currentColor;
+  }
+
+  /* Linhas de texto do balão, em negativo sobre o preenchimento. */
+  .fab .lines {
+    fill: none;
+    stroke: var(--color-gold);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  .label {
+    display: none;
+  }
+
+  .fab:active {
+    transform: translateY(1px);
+  }
+
+  /* Anel escuro + halo branco: visível sobre o rodapé escuro e sobre fundos claros. */
+  .fab:focus-visible {
+    outline: 3px solid var(--color-ink-strong);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 7px var(--color-white);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .fab:hover {
+      background: var(--color-gold-dark);
+      color: var(--color-white);
+    }
+
+    .fab:hover .lines {
+      stroke: var(--color-gold-dark);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .fab {
+      right: max(var(--space-24), env(safe-area-inset-right));
+      bottom: max(var(--space-24), env(safe-area-inset-bottom));
+      padding-inline: var(--space-16) var(--space-24);
+    }
+
+    .label {
+      display: inline;
+    }
+  }
+
+  @media print {
+    .fab {
+      display: none;
+    }
+  }
+</style>

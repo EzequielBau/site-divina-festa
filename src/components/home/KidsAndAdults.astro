@@ -9,7 +9,7 @@ import TextLink from '../ui/TextLink.astro';
 import tirolesa from '../../assets/images/home/area-kids-vista-salao.jpg';
 ---
 
-<Section class="kids home-section" aria-labelledby="kids-adults-title">
+<Section tone="soft" class="kids home-section" aria-labelledby="kids-adults-title">
   <Container class="kids__grid">
     <div class="kids__content">
       <Eyebrow>Para crianças e adultos</Eyebrow>
@@ -40,15 +40,20 @@ import tirolesa from '../../assets/images/home/area-kids-vista-salao.jpg';
 </Section>
 
 <style>
+  /* Padding vertical menor que o padrão da Home: a seção tinha respiro demais. */
+  section.kids.home-section.section {
+    padding-block: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+  }
+
   .kids :global(.kids__grid) {
     display: grid;
-    gap: var(--space-24);
+    gap: var(--space-16);
   }
 
   .kids__content {
     display: grid;
     justify-items: start;
-    gap: var(--space-12);
+    gap: var(--space-8);
   }
 
   .kids__content :global(h2),
@@ -67,7 +72,7 @@ import tirolesa from '../../assets/images/home/area-kids-vista-salao.jpg';
   /* Recorte vertical que mantém a criança na tirolesa (topo) e os adultos no salão (centro), sem o piso vazio e a criança ao pé do quadro original. */
   .kids :global(.kids__image) {
     width: 100%;
-    max-width: 30rem;
+    max-width: 16rem;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     object-position: 50% 20%;
@@ -76,27 +81,25 @@ import tirolesa from '../../assets/images/home/area-kids-vista-salao.jpg';
 
   @media (min-width: 48rem) {
     .kids :global(.kids__grid) {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.6fr);
       align-items: center;
       gap: var(--space-32);
     }
 
+    /* Foto menor: 4:5, no máximo ~19 rem de largura (~380 px de altura). */
     .kids :global(.kids__image) {
       justify-self: end;
+      max-width: 19rem;
     }
 
     .kids__content {
-      gap: var(--space-16);
+      gap: var(--space-12);
     }
   }
 
   @media (min-width: 64rem) {
     .kids :global(.kids__grid) {
-      gap: var(--space-64);
-    }
-
-    .kids :global(.kids__image) {
-      max-width: 30rem;
+      gap: var(--space-48);
     }
   }
 </style>

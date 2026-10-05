@@ -25,7 +25,7 @@ const proofs = [
 ];
 ---
 
-<Section tone="soft" class="gastro home-section" aria-labelledby="gastronomy-title">
+<Section class="gastro home-section" aria-labelledby="gastronomy-title">
   <Container class="gastro__grid">
     <div class="gastro__content">
       <Eyebrow>Gastronomia</Eyebrow>
@@ -118,11 +118,19 @@ const proofs = [
   /* Recorte 4:5 do original 2:3: mantém a mesa de buffet em primeiro plano e o salão ao fundo. */
   .gastro :global(.gastro__image) {
     width: 100%;
-    max-width: 26rem;
+    max-width: 20rem;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     object-position: 50% 60%;
     border-radius: var(--radius-md);
+  }
+
+  /* Tablet em uma coluna: foto horizontal, na largura do texto, para não alongar a seção. */
+  @media (min-width: 40rem) and (max-width: 55.99rem) {
+    .gastro :global(.gastro__image) {
+      max-width: 34rem;
+      aspect-ratio: 3 / 2;
+    }
   }
 
   /* Duas colunas só quando o texto ainda tem largura confortável (~340px+). */

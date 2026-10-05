@@ -50,6 +50,13 @@ export interface SiteFacts {
      */
     readonly mapsUrl: string;
   };
+  readonly links: {
+    /**
+     * Destino de "Solicitar proposta" e do botão flutuante de contato: o formulário (a criar).
+     * Provisório: âncora do bloco final da Home até a página do formulário existir.
+     */
+    readonly proposal: string;
+  };
   readonly capacity: {
     /** Texto da Home (DEC-017). */
     readonly home: string;
@@ -101,6 +108,9 @@ export const site = {
     country: 'BR',
     mapsUrl:
       'https://www.google.com/maps/search/?api=1&query=Divina%20Festa%20Buffet%2C%20Rua%20Marcelino%20Champagnat%2C%20122%2C%20Merc%C3%AAs%2C%20Curitiba%20-%20PR',
+  },
+  links: {
+    proposal: '#contato',
   },
   capacity: {
     home: 'até 150 convidados',

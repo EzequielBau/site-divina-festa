@@ -1,10 +1,10 @@
 ---
 // Tipos de evento: navegador visual para as quatro jornadas principais (prévia das futuras páginas).
-// Cada item tem foto real, título, descrição curta e link editorial; o item inteiro é clicável por
-// um único link (::after esticado), sem links aninhados e sem JavaScript. Hover discreto.
+// Cada item tem foto real, título e descrição curta. O título é o link e cobre o item inteiro (::before
+// esticado): um único alvo de clique, sem links aninhados, sem texto "Conhecer…" repetido e sem JavaScript.
 // Os destinos são âncoras temporárias; trocar pelas rotas reais quando as páginas existirem.
-// PROVISÓRIO: a foto de Eventos corporativos (#50) não é evento real do Divina; trocar quando
-// chegarem as fotos reais (a foto de Eventos familiares também é provisória).
+// Eventos corporativos usa a #51 (evento real no Divina; L-08 e logo de terceiro ao fundo).
+// PROVISÓRIO: a foto de Eventos familiares (bolo com a família) é a melhor disponível, mas não ideal.
 import { Picture } from 'astro:assets';
 import Container from '../ui/Container.astro';
 import Eyebrow from '../ui/Eyebrow.astro';
@@ -12,13 +12,12 @@ import Section from '../ui/Section.astro';
 import infantil from '../../assets/images/home/festa-infantil-decoracao-sininho.png';
 import familiar from '../../assets/images/home/evento-familiar-parabens-familia.jpeg';
 import quinze from '../../assets/images/home/festa-15-anos-neon.png';
-import corporativo from '../../assets/images/home/evento-corporativo-gastronomia.png';
+import corporativo from '../../assets/images/home/evento-corporativo-confraternizacao.jpg';
 
 const eventTypes = [
   {
     title: 'Festas infantis',
     text: 'Área infantil integrada, buffet e equipe para crianças e adultos.',
-    linkLabel: 'Conhecer festas infantis',
     href: '#festas-infantis',
     image: infantil,
     alt: 'Cenário de festa infantil com tema de fadas, painel de folhagens, cogumelos, balões verdes e dourados e letreiro luminoso com o número 5',
@@ -27,7 +26,6 @@ const eventTypes = [
   {
     title: 'Eventos familiares',
     text: 'Aniversários, batizados e encontros para reunir diferentes gerações.',
-    linkLabel: 'Conhecer eventos familiares',
     href: '#eventos-familiares',
     image: familiar,
     alt: 'Pais e criança soprando a vela de um bolo de aniversário em uma comemoração em família',
@@ -36,7 +34,6 @@ const eventTypes = [
   {
     title: 'Festa de 15 anos',
     text: 'Festa organizada de acordo com o estilo da debutante.',
-    linkLabel: 'Conhecer festa de 15 anos',
     href: '#15-anos',
     image: quinze,
     alt: 'Debutante com coroa e vestido de festa diante de arranjos de flores, mesa de doces e letreiro luminoso com o número 15',
@@ -44,17 +41,16 @@ const eventTypes = [
   },
   {
     title: 'Eventos corporativos',
-    text: 'Confraternizações, encontros e eventos empresariais com estrutura, gastronomia e atendimento.',
-    linkLabel: 'Conhecer eventos corporativos',
+    text: 'Confraternizações, encontros e eventos empresariais para celebrar seu negócio.',
     href: '#corporativo',
     image: corporativo,
-    alt: 'Mesa de coquetel com canapés, taças de sobremesa, tortinhas e pratos empilhados e, desfocados ao fundo, convidados de roupa social conversando',
-    position: '50% 62%',
+    alt: 'Equipe de uma empresa comemorando com confete no salão do Divina Festa, com arco de balões azuis e verdes ao fundo',
+    position: '50% 58%',
   },
 ];
 ---
 
-<Section tone="soft" class="types home-section" aria-labelledby="event-types-title">
+<Section class="types home-section" aria-labelledby="event-types-title">
   <Container>
     <header class="types__header">
       <Eyebrow>Eventos no Divina Festa</Eyebrow>
@@ -81,13 +77,13 @@ const eventTypes = [
               class="types__image"
               style={`object-position: ${type.position}`}
             />
-
             <div class="types__body">
-              <h3 class="types__title">{type.title}</h3>
+              <h3 class="types__title">
+                <a class="types__link" href={type.href}>
+                  {type.title}
+                </a>
+              </h3>
               <p class="types__text">{type.text}</p>
-              <a class="types__link" href={type.href}>
-                {type.linkLabel}
-              </a>
             </div>
           </li>
         ))
@@ -163,13 +159,10 @@ const eventTypes = [
     color: var(--color-fg-muted);
   }
 
-  /* Link editorial (mesmo desenho do TextLink). O ::after cobre o item inteiro: um só alvo de clique. */
+  /* O título é o link; o ::before cobre o item inteiro (um só alvo de clique). */
   .types__link {
-    display: inline-block;
-    padding-block: var(--space-4);
-    white-space: nowrap;
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-semibold);
+    color: inherit;
+    text-decoration: none;
   }
 
   .types__link::before {
@@ -178,25 +171,28 @@ const eventTypes = [
     inset: 0;
   }
 
-  /* Seta em linha com o texto, para acompanhar a quebra quando o link ocupa duas linhas. */
+  /* Seta em linha com o título, para acompanhar a quebra de linha. */
   .types__link::after {
     content: '';
     display: inline-block;
-    width: 0.42em;
-    height: 0.42em;
+    width: 0.4em;
+    height: 0.4em;
     margin-left: 0.5em;
     border-top: 2px solid currentColor;
     border-right: 2px solid currentColor;
-    transform: rotate(45deg);
+    transform: translateY(-0.08em) rotate(45deg);
     transition: transform var(--motion-duration) var(--motion-ease);
   }
 
   .types__item:hover .types__link {
     text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
   }
 
   .types__item:hover .types__link::after {
-    transform: translateX(2px) rotate(45deg);
+    transform: translate(2px, -0.08em) rotate(45deg);
   }
 
   .types__link:focus-visible {
@@ -213,7 +209,7 @@ const eventTypes = [
   @media (min-width: 40rem) {
     .types__list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-24) var(--space-24);
+      gap: var(--space-24);
     }
 
     .types__item {
@@ -233,11 +229,6 @@ const eventTypes = [
       font-size: var(--font-size-body);
       line-height: var(--line-height-body);
     }
-
-    .types__link {
-      white-space: normal;
-      font-size: var(--font-size-body);
-    }
   }
 
   /* Quatro lado a lado: fotos compactas (~200 a 300 px) e textos curtos. */
@@ -251,21 +242,14 @@ const eventTypes = [
       aspect-ratio: 4 / 3;
     }
 
-    /* Colunas estreitas (~215 px): texto menor e link em uma linha, sem seta órfã. */
-    .types__text,
-    .types__link {
+    .types__text {
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);
-    }
-
-    .types__link {
-      white-space: nowrap;
     }
   }
 
   @media (min-width: 80rem) {
-    .types__text,
-    .types__link {
+    .types__text {
       font-size: var(--font-size-body);
       line-height: var(--line-height-body);
     }

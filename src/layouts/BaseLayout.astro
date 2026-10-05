@@ -1,6 +1,7 @@
 ---
 import { Font } from 'astro:assets';
 import { PUBLIC_ALLOW_INDEXING } from 'astro:env/client';
+import FloatingContact from '../components/site/FloatingContact.astro';
 import Footer from '../components/site/Footer.astro';
 import Header from '../components/site/Header.astro';
 import { site } from '../data/site';
@@ -51,5 +52,6 @@ const canonicalHref = canonical ? new URL(canonical).href : undefined;
     <Header />
     <slot />
     <Footer />
+    <FloatingContact />
   </body>
 </html>

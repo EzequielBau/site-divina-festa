@@ -163,6 +163,17 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
     font-style: normal;
   }
 
+  /* Reserva a área do botão flutuante (canto inferior direito) para ele não cobrir endereço e copyright. */
+  .bottom {
+    padding-right: 4.75rem;
+  }
+
+  @media (min-width: 48rem) {
+    .bottom {
+      padding-right: 10.5rem;
+    }
+  }
+
   /* Mobile: o link fica em linha própria, sem o separador sobrando no fim da linha anterior. */
   .sep {
     display: none;
