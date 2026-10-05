@@ -648,6 +648,7 @@ Decisão: **Fotos melhoradas (tom quente) passam a ser as preferenciais; versõe
 Motivo: Manter a identidade atemporal, quente, clara e comercial (madeira, dourado, luz âmbar), coerente entre Hero e seções seguintes.
 Impacto: Atualiza [`inventario-imagens.md`](../99-referencias/inventario-imagens.md) e `KidsAndAdults.astro`. `Festa no Átrio com Fotógrafa e Convidados.png` foi citada mas não existe no repositório. Pessoas identificáveis em #44 e #45 seguem sujeitas à L-08.
 Status: Aprovada
+
 ## DEC-039
 Data: 05/10/2026
 Decisão: **Capacidade no contexto Espaço e Estrutura (complementa a DEC-017).** Atualização factual explícita do gestor:
