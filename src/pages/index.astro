@@ -1,6 +1,6 @@
 ---
-// Página TEMPORÁRIA de validação visual do Design System. Não é a Home.
-// Será substituída quando o desenvolvimento da Home começar.
+// Home. A indexação segue a configuração global (PUBLIC_ALLOW_INDEXING, DEC-030).
+// A página de validação do Design System foi movida para /design-system.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/home/Hero.astro';
 import QuickFacts from '../components/home/QuickFacts.astro';
@@ -9,19 +9,14 @@ import KidsAndAdults from '../components/home/KidsAndAdults.astro';
 import Gastronomy from '../components/home/Gastronomy.astro';
 import SpaceAndStructure from '../components/home/SpaceAndStructure.astro';
 import HowItWorks from '../components/home/HowItWorks.astro';
-import Button from '../components/ui/Button.astro';
-import Container from '../components/ui/Container.astro';
-import Eyebrow from '../components/ui/Eyebrow.astro';
-import Section from '../components/ui/Section.astro';
-import TextLink from '../components/ui/TextLink.astro';
+import FinalCta from '../components/home/FinalCta.astro';
 import { site } from '../data/site';
 import '../styles/home.css';
 ---
 
 <BaseLayout
-  title={`${site.business.name} — validação do Design System`}
-  description="Página técnica temporária para validação visual do Design System."
-  noindex
+  title={`${site.business.name} — espaço de eventos e buffet em ${site.address.city}`}
+  description={`Espaço de eventos e buffet no bairro ${site.address.neighborhood}, em ${site.address.city}: salão, área infantil, gastronomia própria, estacionamento privativo e equipe para festas infantis, eventos familiares, 15 anos e corporativos.`}
 >
   <main>
     <Hero />
@@ -31,99 +26,6 @@ import '../styles/home.css';
     <Gastronomy />
     <SpaceAndStructure />
     <HowItWorks />
-
-    <Section aria-labelledby="ds-estrutura">
-      <Container size="narrow">
-        <p class="spec">Section default · tone default · Container narrow</p>
-        <div class="stack">
-          <Eyebrow>Espaço e estrutura</Eyebrow>
-          <h2 id="ds-estrutura">Estrutura própria para receber seus convidados</h2>
-          <p class="text-large">
-            Body large: {site.business.category} no bairro {site.address.neighborhood}, com
-            capacidade para {site.capacity.home} e estacionamento privativo.
-          </p>
-          <p>
-            Body: Buffet, estrutura, gastronomia e organização para você aproveitar seu evento com
-            mais tranquilidade. Este parágrafo serve para avaliar a largura de leitura, o
-            espaçamento entre linhas e o peso regular da Source Sans 3 em texto corrido.
-          </p>
-          <p class="text-small muted">
-            {`Small: ${site.address.street}, ${site.address.number} — ${site.address.neighborhood}, ${site.address.city}/${site.address.state}. Atendimento comercial das ${site.contact.commercialHours}.`}
-          </p>
-          <div class="actions">
-            <Button href="#hero-title">Solicitar proposta</Button>
-            <Button href="#hero-title" variant="secondary">Conhecer o espaço</Button>
-            <Button href="#hero-title" variant="outline">Botão outline</Button>
-          </div>
-          <TextLink href="#ds-tipografia">Conhecer nossa estrutura</TextLink>
-        </div>
-      </Container>
-    </Section>
-
-    <Section tone="warm" spacing="compact" aria-labelledby="ds-tipografia">
-      <Container>
-        <p class="spec">Section compact · tone warm · Container default</p>
-        <div class="stack">
-          <h2 id="ds-tipografia">H2 — Familjen Grotesk 600, 30 → 40px</h2>
-          <h3>H3 — Familjen Grotesk 600, 24 → 30px</h3>
-          <h4>H4 — Familjen Grotesk 600, 20 → 22px</h4>
-          <p class="text-lead">Lead — Source Sans 3 400, 18 → 20px</p>
-          <p class="text-large">Body large — Source Sans 3 400, 17 → 18px</p>
-          <p>Body — Source Sans 3 400, 16 → 17px</p>
-          <p class="text-small">Small — Source Sans 3 400, 14 → 15px</p>
-          <Eyebrow>Eyebrow — Source Sans 3 600, 12 → 13px</Eyebrow>
-        </div>
-      </Container>
-    </Section>
-
-    <Section tone="dark" aria-labelledby="ds-dark">
-      <Container>
-        <p class="spec">Section default · tone dark · Container default</p>
-        <div class="stack">
-          <Eyebrow>Eventos corporativos</Eyebrow>
-          <h2 id="ds-dark">Contraste em fundo escuro</h2>
-          <p class="text-lead measure">
-            Títulos, texto, links, foco e botões herdam as cores corretas do tom escuro.
-          </p>
-          <p class="text-small muted">Texto secundário em fundo escuro.</p>
-          <div class="actions">
-            <Button href="#hero-title">Solicitar proposta</Button>
-            <Button variant="secondary">Conhecer o espaço</Button>
-          </div>
-          <TextLink href="#hero-title">Conhecer nossa estrutura</TextLink>
-        </div>
-      </Container>
-    </Section>
+    <FinalCta />
   </main>
 </BaseLayout>
-
-<style>
-  /* Estilos locais só desta página de validação. */
-  .spec {
-    margin-bottom: var(--space-24);
-    padding-bottom: var(--space-8);
-    border-bottom: var(--border-width) solid var(--color-border);
-    font-size: var(--font-size-small);
-    color: var(--color-fg-muted);
-  }
-
-  .stack {
-    display: grid;
-    justify-items: start;
-    gap: var(--space-24);
-  }
-
-  .measure {
-    max-width: 40rem;
-  }
-
-  .muted {
-    color: var(--color-fg-muted);
-  }
-
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-12);
-  }
-</style>

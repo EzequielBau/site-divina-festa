@@ -1,0 +1,79 @@
+---
+// Fechamento: principal ponto de decisão antes do rodapé. Sem formulário e sem backend nesta etapa.
+// O fluxo futuro (tipo de evento → data → convidados → nome → WhatsApp) substituirá este botão.
+// Enquanto isso, o botão abre o WhatsApp geral com mensagem pré-preenchida, o mesmo caminho de
+// contato previsto como fallback (DEC-032). O id #contato é o destino do CTA do Hero.
+import Button from '../ui/Button.astro';
+import Container from '../ui/Container.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import Section from '../ui/Section.astro';
+import { site } from '../../data/site';
+
+const message = 'Olá! Gostaria de solicitar uma proposta para um evento no Divina Festa.';
+const whatsappUrl = `https://wa.me/${site.contact.whatsappGeneral.e164.replace('+', '')}?text=${encodeURIComponent(message)}`;
+---
+
+<Section id="contato" tone="warm" class="cta home-section" aria-labelledby="cta-title">
+  <Container class="cta__grid">
+    <div class="cta__content">
+      <Eyebrow>Planeje seu evento com o Divina</Eyebrow>
+      <h2 id="cta-title">Conte-nos o que você está planejando</h2>
+      <p class="text-large">
+        Informe o tipo de evento, a data e o número aproximado de convidados. A partir dessas
+        informações, podemos entender melhor o que você precisa e apresentar as opções mais
+        adequadas.
+      </p>
+    </div>
+
+    <div class="cta__action">
+      <Button href={whatsappUrl} target="_blank" rel="noopener">Solicitar proposta</Button>
+    </div>
+  </Container>
+</Section>
+
+<style>
+  .cta :global(.cta__grid) {
+    display: grid;
+    gap: var(--space-24);
+  }
+
+  .cta__content {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-12);
+  }
+
+  .cta__content :global(h2),
+  .cta__content p {
+    margin: 0;
+  }
+
+  .cta__content p {
+    max-width: 38rem;
+  }
+
+  .cta__action {
+    display: grid;
+    justify-items: stretch;
+    gap: var(--space-12);
+  }
+
+  @media (min-width: 40rem) {
+    .cta__action {
+      justify-items: start;
+    }
+  }
+
+  /* Texto à esquerda, ação à direita, alinhados pelo centro. */
+  @media (min-width: 56rem) {
+    .cta :global(.cta__grid) {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      column-gap: var(--space-64);
+    }
+
+    .cta__action {
+      justify-items: start;
+    }
+  }
+</style>

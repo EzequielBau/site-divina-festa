@@ -1,15 +1,14 @@
 ---
-// Espaço / Estrutura: texto no topo, foto principal ampla (salão) + foto de apoio vertical (recepção)
-// e, abaixo, seis fatos em filete. Sem cards, sem ícones, sem JavaScript, sem texto sobre a imagem.
-// A foto de apoio só aparece a partir de 48rem (no mobile fica oculta e, por ser lazy, não é baixada).
+// Espaço / Estrutura: texto no topo, uma foto ampla do salão e, abaixo, seis fatos em filete.
+// Sem cards, sem ícones, sem JavaScript, sem texto sobre a imagem. A foto de apoio (recepção, #48)
+// saiu da Home e continua no acervo para a futura página O Espaço.
 // O destino do CTA é temporário (#espaco); o id da seção também serve ao item "O Espaço" do menu.
-import { Picture, getImage } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Container from '../ui/Container.astro';
 import Eyebrow from '../ui/Eyebrow.astro';
 import Section from '../ui/Section.astro';
 import TextLink from '../ui/TextLink.astro';
 import salao from '../../assets/images/home/salao-vista-ampla.png';
-import recepcao from '../../assets/images/home/recepcao-circulacao.jpg';
 import { site } from '../../data/site';
 
 // Capacidade da seção Espaço e Estrutura (DEC-017 e DEC-039): 150 sentadas; até 190 conforme a
@@ -21,89 +20,43 @@ const facts = [
     text: 'Para eventos com mesas e lugares definidos.',
   },
   {
-    title: `Até ${site.capacity.standingMax} pessoas conforme o formato`,
-    text: `A capacidade pode chegar a ${site.capacity.standingMax} pessoas conforme a montagem e o uso conjunto do salão e da área infantil.`,
+    title: `Até ${site.capacity.standingMax} pessoas conforme a montagem`,
+    text: 'A capacidade varia conforme o formato do evento e o uso dos ambientes.',
   },
   {
     title: 'Climatização',
     text: 'Ambientes preparados para receber os convidados com conforto.',
   },
-  {
-    title: 'Estacionamento privativo',
-    text: 'Mais praticidade na chegada e na saída do evento.',
-  },
+  { title: 'Estacionamento privativo', text: 'No próprio local.' },
   {
     title: 'Acessibilidade',
-    text: 'Estrutura preparada para facilitar a circulação dos convidados.',
+    text: 'Estrutura preparada para facilitar a circulação.',
   },
 ];
-
-// A foto de apoio só existe a partir de 48rem. Em vez de esconder com CSS (o navegador ainda
-// baixaria o arquivo), as fontes do <picture> só valem nessa largura; abaixo dela a <img> usa um
-// GIF transparente de 1 px e nada é requisitado. Mesmas larguras e qualidade (DEC-037).
-const supportWidths = [360, 480, 720, 960];
-const supportFormats = [
-  { format: 'avif', type: 'image/avif' },
-  { format: 'webp', type: 'image/webp' },
-  { format: 'jpeg', type: 'image/jpeg' },
-] as const;
-const supportSources = await Promise.all(
-  supportFormats.map(async ({ format, type }) => {
-    const variants = await Promise.all(
-      supportWidths.map((width) => getImage({ src: recepcao, width, format, quality: 90 })),
-    );
-    return { type, srcset: variants.map((v) => `${v.src} ${v.options.width}w`).join(', ') };
-  }),
-);
-const blankPixel = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 ---
 
 <Section id="espaco" class="space home-section" aria-labelledby="space-title">
   <Container class="space__inner">
     <header class="space__intro">
       <Eyebrow>O Espaço</Eyebrow>
-      <h2 id="space-title">Estrutura para diferentes formatos de evento</h2>
+      <h2 id="space-title">Estrutura para receber seu evento com conforto e tranquilidade</h2>
       <p class="text-large">
-        O Divina Festa reúne salão, área infantil e ambientes de apoio em aproximadamente 700 m²,
-        com diferentes possibilidades de montagem conforme o tipo de celebração e o número de
-        convidados.
+        São aproximadamente 700 m² com salão, área infantil e ambientes de apoio integrados para
+        receber diferentes tipos de celebração.
       </p>
     </header>
 
-    <div class="space__media">
-      <Picture
-        src={salao}
-        alt="Salão do Divina Festa com mesas de madeira postas, pista ao fundo, cortinas e lustres, e amplo piso livre para circulação entre as mesas"
-        formats={['avif', 'webp']}
-        fallbackFormat="png"
-        quality={90}
-        widths={[480, 720, 960, 1200, 1672]}
-        sizes="(min-width: 80rem) 770px, (min-width: 48rem) 62vw, calc(100vw - 2.5rem)"
-        loading="lazy"
-        class="space__image"
-      />
-      <picture class="space__support">
-        {
-          supportSources.map((source) => (
-            <source
-              media="(min-width: 48rem)"
-              type={source.type}
-              srcset={source.srcset}
-              sizes="(min-width: 80rem) 410px, 33vw"
-            />
-          ))
-        }
-        <img
-          src={blankPixel}
-          alt="Corredor de recepção do Divina Festa com cortinas, parede verde, mesas de madeira e piso claro livre para circulação"
-          width="960"
-          height="1705"
-          loading="lazy"
-          decoding="async"
-          class="space__support-image"
-        />
-      </picture>
-    </div>
+    <Picture
+      src={salao}
+      alt="Salão do Divina Festa com mesas de madeira postas, pista ao fundo, cortinas e lustres, e amplo piso livre para circulação entre as mesas"
+      formats={['avif', 'webp']}
+      fallbackFormat="png"
+      quality={90}
+      widths={[480, 720, 960, 1200, 1672]}
+      sizes="(min-width: 80rem) 1200px, calc(100vw - 2.5rem)"
+      loading="lazy"
+      class="space__image"
+    />
 
     <ul class="space__facts">
       {
@@ -138,27 +91,21 @@ const blankPixel = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAA
     margin: 0;
   }
 
+  .space__intro h2 {
+    max-width: 40rem;
+  }
+
   .space__intro p {
     max-width: 42rem;
   }
 
-  .space__media {
-    display: grid;
-    width: 100%;
-  }
-
-  /* Foto principal em 3:2, recortada do 16:9 original; mantém mesas, pista e janelas. */
+  /* Foto única em 3:2, recortada do 16:9 original; mantém mesas, pista e janelas. */
   .space :global(.space__image) {
     width: 100%;
     aspect-ratio: 3 / 2;
     object-fit: cover;
     object-position: 50% 50%;
     border-radius: var(--radius-md);
-  }
-
-  /* Apoio vertical: oculto no mobile. Com display:none e loading lazy o navegador não baixa a imagem. */
-  .space :global(.space__support) {
-    display: none;
   }
 
   .space__facts {
@@ -199,52 +146,27 @@ const blankPixel = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAA
       gap: var(--space-32);
     }
 
-    /* ~65% / ~35%: a altura da foto principal define a da linha; o apoio preenche essa altura. */
-    .space__media {
-      grid-template-columns: minmax(0, 13fr) minmax(0, 7fr);
-      gap: var(--space-16);
-    }
-
-    .space :global(.space__support) {
-      position: relative;
-      display: block;
-    }
-
-    .space :global(.space__support-image) {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: 50% 55%;
-      border-radius: var(--radius-md);
+    /* Foto mais baixa que no mobile para não dominar a seção. */
+    .space :global(.space__image) {
+      aspect-ratio: 2 / 1;
     }
 
     .space__facts {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-16) var(--space-48);
     }
-
-    .space__fact {
-      padding-top: var(--space-8);
-    }
   }
 
   @media (min-width: 64rem) {
-    .space__media {
-      gap: var(--space-24);
-    }
-
     .space__facts {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--space-24) var(--space-48);
     }
   }
 
-  /* Desktop largo: foto principal em 16:9 (proporção do original) → ~430px de altura. */
   @media (min-width: 80rem) {
     .space :global(.space__image) {
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 16 / 7;
     }
   }
 </style>

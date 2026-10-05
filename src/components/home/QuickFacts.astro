@@ -10,7 +10,7 @@ const facts = [
   {
     // Copy local, baseada no fato canônico de aproximadamente 700 m² (site.business.areaDisplay).
     title: '~700 m²',
-    text: 'Espaço para diferentes formatos',
+    text: 'Salão, área infantil e ambientes de apoio',
     show: true,
   },
   {
@@ -35,9 +35,9 @@ const facts = [
     show: site.services.ownBuffet && site.services.ownKitchen,
   },
   {
-    title: 'Um evento por vez',
-    text: 'O espaço fica dedicado à sua celebração',
-    show: !site.business.simultaneousEvents,
+    title: 'Climatização',
+    text: 'Conforto para os convidados durante o evento',
+    show: site.amenities.airConditioning,
   },
 ].filter((fact) => fact.show);
 ---

@@ -1,36 +1,55 @@
 ---
-// Tipos de evento logo após QuickFacts: identificação rápida + caminho para as futuras páginas
-// específicas. Sem fotos, sem CTA de proposta, sem JavaScript.
+// Tipos de evento: navegador visual para as quatro jornadas principais (prévia das futuras páginas).
+// Cada item tem foto real, título, descrição curta e link editorial; o item inteiro é clicável por
+// um único link (::after esticado), sem links aninhados e sem JavaScript. Hover discreto.
 // Os destinos são âncoras temporárias; trocar pelas rotas reais quando as páginas existirem.
+// PROVISÓRIO: a foto de Eventos corporativos (#50) não é evento real do Divina; trocar quando
+// chegarem as fotos reais (a foto de Eventos familiares também é provisória).
+import { Picture } from 'astro:assets';
 import Container from '../ui/Container.astro';
 import Eyebrow from '../ui/Eyebrow.astro';
 import Section from '../ui/Section.astro';
-import TextLink from '../ui/TextLink.astro';
+import infantil from '../../assets/images/home/festa-infantil-decoracao-sininho.png';
+import familiar from '../../assets/images/home/evento-familiar-parabens-familia.jpeg';
+import quinze from '../../assets/images/home/festa-15-anos-neon.png';
+import corporativo from '../../assets/images/home/evento-corporativo-gastronomia.png';
 
 const eventTypes = [
   {
     title: 'Festas infantis',
-    text: 'Área infantil integrada, buffet, decoração e equipe para as crianças se divertirem enquanto os adultos aproveitam a celebração.',
+    text: 'Área infantil integrada, buffet e equipe para crianças e adultos.',
     linkLabel: 'Conhecer festas infantis',
     href: '#festas-infantis',
+    image: infantil,
+    alt: 'Cenário de festa infantil com tema de fadas, painel de folhagens, cogumelos, balões verdes e dourados e letreiro luminoso com o número 5',
+    position: '50% 55%',
   },
   {
     title: 'Eventos familiares',
-    text: 'Aniversários, batizados, chás e encontros para reunir diferentes gerações com conforto, gastronomia e organização.',
+    text: 'Aniversários, batizados e encontros para reunir diferentes gerações.',
     linkLabel: 'Conhecer eventos familiares',
     href: '#eventos-familiares',
+    image: familiar,
+    alt: 'Pais e criança soprando a vela de um bolo de aniversário em uma comemoração em família',
+    position: '50% 35%',
   },
   {
     title: 'Festa de 15 anos',
-    text: 'Ambientação, gastronomia e estrutura para uma festa de 15 anos organizada de acordo com o estilo da debutante.',
+    text: 'Festa organizada de acordo com o estilo da debutante.',
     linkLabel: 'Conhecer festa de 15 anos',
     href: '#15-anos',
+    image: quinze,
+    alt: 'Debutante com coroa e vestido de festa diante de arranjos de flores, mesa de doces e letreiro luminoso com o número 15',
+    position: '42% 30%',
   },
   {
     title: 'Eventos corporativos',
-    text: 'Confraternizações, encontros e eventos empresariais com estrutura, gastronomia e atendimento para equipes e convidados.',
+    text: 'Confraternizações, encontros e eventos empresariais com estrutura, gastronomia e atendimento.',
     linkLabel: 'Conhecer eventos corporativos',
     href: '#corporativo',
+    image: corporativo,
+    alt: 'Mesa de coquetel com canapés, taças de sobremesa, tortinhas e pratos empilhados e, desfocados ao fundo, convidados de roupa social conversando',
+    position: '50% 62%',
   },
 ];
 ---
@@ -39,10 +58,10 @@ const eventTypes = [
   <Container>
     <header class="types__header">
       <Eyebrow>Eventos no Divina Festa</Eyebrow>
-      <h2 id="event-types-title">Um espaço preparado para diferentes tipos de evento</h2>
+      <h2 id="event-types-title">Encontre o formato para o seu evento</h2>
       <p class="types__intro">
-        Festas infantis, eventos familiares, 15 anos e eventos corporativos em Curitiba, com
-        estrutura, gastronomia e organização adaptadas a cada celebração.
+        Festas infantis, encontros em família, 15 anos e eventos corporativos. Conheça cada
+        possibilidade.
       </p>
     </header>
 
@@ -50,9 +69,26 @@ const eventTypes = [
       {
         eventTypes.map((type) => (
           <li class="types__item">
-            <h3 class="types__title">{type.title}</h3>
-            <p class="types__text">{type.text}</p>
-            <TextLink href={type.href}>{type.linkLabel}</TextLink>
+            <Picture
+              src={type.image}
+              alt={type.alt}
+              formats={['avif', 'webp']}
+              fallbackFormat="jpg"
+              quality={90}
+              widths={[240, 360, 480, 720]}
+              sizes="(min-width: 64rem) 300px, (min-width: 40rem) 45vw, 104px"
+              loading="lazy"
+              class="types__image"
+              style={`object-position: ${type.position}`}
+            />
+
+            <div class="types__body">
+              <h3 class="types__title">{type.title}</h3>
+              <p class="types__text">{type.text}</p>
+              <a class="types__link" href={type.href}>
+                {type.linkLabel}
+              </a>
+            </div>
           </li>
         ))
       }
@@ -66,7 +102,7 @@ const eventTypes = [
     justify-items: start;
     gap: var(--space-12);
     max-width: 44rem;
-    margin-bottom: var(--space-32);
+    margin-bottom: var(--space-24);
   }
 
   .types__header :global(h2),
@@ -82,19 +118,35 @@ const eventTypes = [
 
   .types__list {
     display: grid;
-    gap: var(--space-24);
+    gap: var(--space-16);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
+  /* Mobile: miniatura à esquerda e texto à direita, para não empilhar quatro fotos grandes. */
   .types__item {
+    position: relative;
     display: grid;
-    gap: var(--space-8);
-    align-content: start;
-    justify-items: start;
+    grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr);
+    gap: var(--space-12);
+    align-items: center;
     padding-top: var(--space-12);
     border-top: var(--border-width) solid var(--color-border);
+  }
+
+  .types :global(.types__image) {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+  }
+
+  .types__body {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-4);
+    align-content: center;
   }
 
   .types__title {
@@ -106,22 +158,116 @@ const eventTypes = [
   .types__text {
     margin: 0;
     max-width: 30rem;
-    font-size: var(--font-size-body);
-    line-height: var(--line-height-body);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+    color: var(--color-fg-muted);
   }
 
-  @media (min-width: 48rem) {
+  /* Link editorial (mesmo desenho do TextLink). O ::after cobre o item inteiro: um só alvo de clique. */
+  .types__link {
+    display: inline-block;
+    padding-block: var(--space-4);
+    white-space: nowrap;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .types__link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Seta em linha com o texto, para acompanhar a quebra quando o link ocupa duas linhas. */
+  .types__link::after {
+    content: '';
+    display: inline-block;
+    width: 0.42em;
+    height: 0.42em;
+    margin-left: 0.5em;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform var(--motion-duration) var(--motion-ease);
+  }
+
+  .types__item:hover .types__link {
+    text-decoration: underline;
+  }
+
+  .types__item:hover .types__link::after {
+    transform: translateX(2px) rotate(45deg);
+  }
+
+  .types__link:focus-visible {
+    outline: none;
+  }
+
+  .types__item:has(.types__link:focus-visible) {
+    outline: 2px solid var(--color-focus, currentColor);
+    outline-offset: 4px;
+    border-radius: var(--radius-md);
+  }
+
+  /* Tablet: 2 × 2, foto horizontal acima do texto. */
+  @media (min-width: 40rem) {
     .types__list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-32) var(--space-32);
+      gap: var(--space-24) var(--space-24);
+    }
+
+    .types__item {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+      align-content: start;
+      gap: var(--space-12);
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .types :global(.types__image) {
+      aspect-ratio: 16 / 9;
+    }
+
+    .types__text {
+      font-size: var(--font-size-body);
+      line-height: var(--line-height-body);
+    }
+
+    .types__link {
+      white-space: normal;
+      font-size: var(--font-size-body);
     }
   }
 
-  /* Quatro colunas só em desktop largo, onde o texto não fica estreito. */
-  @media (min-width: 80rem) {
+  /* Quatro lado a lado: fotos compactas (~200 a 300 px) e textos curtos. */
+  @media (min-width: 64rem) {
     .types__list {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: var(--space-32);
+      gap: var(--space-24);
+    }
+
+    .types :global(.types__image) {
+      aspect-ratio: 4 / 3;
+    }
+
+    /* Colunas estreitas (~215 px): texto menor e link em uma linha, sem seta órfã. */
+    .types__text,
+    .types__link {
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+
+    .types__link {
+      white-space: nowrap;
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .types__text,
+    .types__link {
+      font-size: var(--font-size-body);
+      line-height: var(--line-height-body);
     }
   }
 </style>

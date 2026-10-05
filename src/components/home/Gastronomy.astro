@@ -10,11 +10,17 @@ import TextLink from '../ui/TextLink.astro';
 import buffet from '../../assets/images/home/buffet-feijoada-salao.jpg';
 
 const proofs = [
-  { title: 'Cozinha própria', text: 'Preparo realizado no próprio espaço.' },
-  { title: 'Diferentes formatos', text: 'Opções para festas, encontros e outros tipos de evento.' },
+  {
+    title: 'Preparo no próprio espaço',
+    text: 'A cozinha própria permite integrar preparo, serviço e operação do evento.',
+  },
+  {
+    title: 'Opções para diferentes ocasiões',
+    text: 'Cardápios e formatos para festas, encontros familiares e eventos corporativos.',
+  },
   {
     title: 'Serviço integrado',
-    text: 'Buffet, equipe e estrutura funcionando juntos durante a celebração.',
+    text: 'Gastronomia, equipe e estrutura trabalhando juntas durante a celebração.',
   },
 ];
 ---
@@ -22,11 +28,11 @@ const proofs = [
 <Section tone="soft" class="gastro home-section" aria-labelledby="gastronomy-title">
   <Container class="gastro__grid">
     <div class="gastro__content">
-      <Eyebrow>Gastronomia no Divina</Eyebrow>
-      <h2 id="gastronomy-title">Buffet e cozinha próprios para servir bem o seu evento</h2>
+      <Eyebrow>Gastronomia</Eyebrow>
+      <h2 id="gastronomy-title">Gastronomia para servir bem cada celebração</h2>
       <p class="text-large">
-        A gastronomia faz parte da experiência no Divina Festa. Os alimentos são preparados no
-        próprio espaço, com opções que se adaptam ao formato e ao momento de cada celebração.
+        O buffet faz parte da experiência no Divina Festa, com opções preparadas no próprio espaço
+        e pensadas de acordo com o formato de cada evento.
       </p>
 
       <ul class="gastro__proofs">
