@@ -19,7 +19,7 @@ const proofs = [
 ];
 ---
 
-<Section tone="soft" class="gastro" aria-labelledby="gastronomy-title">
+<Section tone="soft" class="gastro home-section" aria-labelledby="gastronomy-title">
   <Container class="gastro__grid">
     <div class="gastro__content">
       <Eyebrow>Gastronomia no Divina</Eyebrow>
@@ -50,7 +50,7 @@ const proofs = [
       fallbackFormat="jpg"
       quality={90}
       widths={[480, 720, 960, 1200, 1500]}
-      sizes="(min-width: 80rem) 650px, (min-width: 56rem) 50vw, (min-width: 30rem) 480px, calc(100vw - 2.5rem)"
+      sizes="(min-width: 56rem) min(45vw, 512px), (min-width: 30rem) 480px, calc(100vw - 2.5rem)"
       loading="lazy"
       class="gastro__image"
     />
@@ -60,13 +60,13 @@ const proofs = [
 <style>
   .gastro :global(.gastro__grid) {
     display: grid;
-    gap: var(--space-32);
+    gap: var(--space-24);
   }
 
   .gastro__content {
     display: grid;
     justify-items: start;
-    gap: var(--space-16);
+    gap: var(--space-12);
   }
 
   .gastro__content :global(h2),
@@ -80,7 +80,7 @@ const proofs = [
 
   .gastro__proofs {
     display: grid;
-    gap: var(--space-12);
+    gap: var(--space-8);
     width: 100%;
     max-width: 34rem;
     margin: 0;
@@ -98,7 +98,7 @@ const proofs = [
   .gastro__proof-title {
     margin: 0;
     font-family: var(--font-family-heading);
-    font-size: var(--font-size-h4);
+    font-size: var(--home-fact-title-size);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-h4);
     letter-spacing: var(--tracking-snug);
@@ -112,7 +112,7 @@ const proofs = [
   /* Recorte 4:5 do original 2:3: mantém a mesa de buffet em primeiro plano e o salão ao fundo. */
   .gastro :global(.gastro__image) {
     width: 100%;
-    max-width: 30rem;
+    max-width: 26rem;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     object-position: 50% 60%;
@@ -124,27 +124,28 @@ const proofs = [
     .gastro :global(.gastro__grid) {
       grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
       align-items: center;
-      gap: var(--space-48);
+      gap: var(--space-32);
     }
 
     .gastro__content {
       grid-column: 2;
       grid-row: 1;
-      gap: var(--space-24);
+      gap: var(--space-16);
     }
 
+    /* Foto limitada a ~512px e encostada no texto, para a seção não dominar a página. */
     .gastro :global(.gastro__image) {
       grid-column: 1;
       grid-row: 1;
-      max-width: none;
-      justify-self: start;
+      max-width: 32rem;
+      justify-self: end;
     }
   }
 
   @media (min-width: 64rem) {
     .gastro :global(.gastro__grid) {
       grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
-      gap: var(--space-80);
+      gap: var(--space-64);
     }
   }
 </style>

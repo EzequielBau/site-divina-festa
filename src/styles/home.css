@@ -1,0 +1,19 @@
+/* Densidade visual da Home. Escopo local: só as seções que recebem a classe .home-section
+   (importado por pages/index.astro). Não altera tokens globais nem o componente Section. */
+:root {
+  /* Padding vertical das seções intermediárias: 40px (390) → ~50px (768) → 64px (≥1280). */
+  --home-section-space: clamp(2.5rem, 1.846rem + 2.697vw, 4rem);
+  /* H2 das seções intermediárias: 28px → 36px. */
+  --home-h2-size: clamp(1.75rem, 1.531rem + 0.899vw, 2.25rem);
+  /* Título de fato/prova dentro de grids densos: 18px → 20px. */
+  --home-fact-title-size: clamp(1.125rem, 1.0761rem + 0.2174vw, 1.25rem);
+}
+
+/* Especificidade (0,2,1) para vencer o padding do Section sem !important. */
+section.home-section.section {
+  padding-block: var(--home-section-space);
+}
+
+.home-section h2 {
+  font-size: var(--home-h2-size);
+}

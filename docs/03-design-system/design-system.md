@@ -123,6 +123,8 @@ Cinco componentes em `src/components/ui/`, em Astro, com CSS escopado e sem Java
 | `TextLink` | link editorial, sublinhado e seta em CSS |
 | `Eyebrow` | rótulo curto acima do título (marrom no claro, dourado no escuro) |
 
+- **Section — classes:** `spacing` e `tone` geram classes em namespaces separados (`section--spacing-*` e `section--tone-*`). Antes ambos geravam `section--default`, e `tone="default"` anulava `spacing="compact"`/`"spacious"`. Correção de bug, sem mudança de decisão nem de tokens.
+- **Densidade da Home:** a Home tem escala própria e mais enxuta em `src/styles/home.css` (classe `home-section`: padding 40 → 64 px, H2 28 → 36 px, título de fato 18 → 20 px). É local à Home; não altera os tokens globais.
 - [aprovado] CTA principal: **"Solicitar proposta"**. Secundário: "Conhecer o espaço".
 - **Botões (DEC-036):** formato pílula (`--radius-button` 24 px), Familjen Grotesk 600, 16 px (outline 15 px), borda de 1 px, altura mínima de 48 px, sem sombra. Referência: configurações do site anterior (Kadence), adaptadas ao contraste AA.
 - **Primário:** fundo `#B88917` com texto `#282120` (4,99:1). Mouse por cima: fundo `#8E6B1F` com texto branco (4,92:1). Clicado: um tom mais escuro.

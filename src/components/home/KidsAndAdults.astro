@@ -9,7 +9,7 @@ import TextLink from '../ui/TextLink.astro';
 import tirolesa from '../../assets/images/home/area-kids-vista-salao.jpg';
 ---
 
-<Section class="kids" aria-labelledby="kids-adults-title">
+<Section class="kids home-section" aria-labelledby="kids-adults-title">
   <Container class="kids__grid">
     <div class="kids__content">
       <Eyebrow>Para crianças e adultos</Eyebrow>
@@ -42,13 +42,13 @@ import tirolesa from '../../assets/images/home/area-kids-vista-salao.jpg';
 <style>
   .kids :global(.kids__grid) {
     display: grid;
-    gap: var(--space-32);
+    gap: var(--space-24);
   }
 
   .kids__content {
     display: grid;
     justify-items: start;
-    gap: var(--space-16);
+    gap: var(--space-12);
   }
 
   .kids__content :global(h2),
@@ -78,7 +78,7 @@ import tirolesa from '../../assets/images/home/area-kids-vista-salao.jpg';
     .kids :global(.kids__grid) {
       grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
       align-items: center;
-      gap: var(--space-48);
+      gap: var(--space-32);
     }
 
     .kids :global(.kids__image) {
@@ -86,13 +86,13 @@ import tirolesa from '../../assets/images/home/area-kids-vista-salao.jpg';
     }
 
     .kids__content {
-      gap: var(--space-24);
+      gap: var(--space-16);
     }
   }
 
   @media (min-width: 64rem) {
     .kids :global(.kids__grid) {
-      gap: var(--space-80);
+      gap: var(--space-64);
     }
 
     .kids :global(.kids__image) {

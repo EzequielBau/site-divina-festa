@@ -73,7 +73,7 @@ const facts = [
 
   .facts__list {
     display: grid;
-    gap: var(--space-12) var(--space-48);
+    gap: var(--space-8) var(--space-48);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -90,7 +90,7 @@ const facts = [
   .facts__title {
     margin: 0;
     font-family: var(--font-family-heading);
-    font-size: var(--font-size-h4);
+    font-size: var(--home-fact-title-size);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-h4);
     letter-spacing: var(--tracking-snug);
@@ -112,21 +112,15 @@ const facts = [
 
     .facts__list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-24) var(--space-48);
+      gap: var(--space-16) var(--space-48);
     }
   }
 
   @media (min-width: 64rem) {
     .facts__list {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--space-32) var(--space-48);
+      gap: var(--space-24) var(--space-48);
     }
   }
 
-  /* Título maior só quando a coluna comporta sem quebrar linha. */
-  @media (min-width: 80rem) {
-    .facts__title {
-      font-size: var(--font-size-h3);
-    }
-  }
 </style>

@@ -11,7 +11,7 @@ const { spacing = 'default', tone = 'default', class: className, ...attrs } = As
 ---
 
 <section
-  class:list={['section', `section--${spacing}`, `section--${tone}`, className]}
+  class:list={['section', `section--spacing-${spacing}`, `section--tone-${tone}`, className]}
   {...attrs}
 >
   <slot />
@@ -24,29 +24,30 @@ const { spacing = 'default', tone = 'default', class: className, ...attrs } = As
     color: var(--color-fg);
   }
 
-  .section--compact {
+  /* Espaçamento e tom têm namespaces próprios: ambos aceitam "default" e não podem colidir. */
+  .section--spacing-compact {
     --section-space: var(--section-space-compact);
   }
 
-  .section--default {
+  .section--spacing-default {
     --section-space: var(--section-space-default);
   }
 
-  .section--spacious {
+  .section--spacing-spacious {
     --section-space: var(--section-space-spacious);
   }
 
-  .section--soft {
+  .section--tone-soft {
     --color-bg: var(--color-cream);
   }
 
-  .section--warm {
+  .section--tone-warm {
     --color-bg: var(--color-cream-alt);
   }
 
   /* Tom escuro: redefine os papéis de cor; títulos, links, foco e componentes
      descendentes herdam o contraste correto sem regras específicas. */
-  .section--dark {
+  .section--tone-dark {
     --color-bg: var(--color-ink-strong);
     --color-fg: var(--color-cream);
     --color-fg-muted: color-mix(in srgb, var(--color-cream) 78%, var(--color-ink-strong));
