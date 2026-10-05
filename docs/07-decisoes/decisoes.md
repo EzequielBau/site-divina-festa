@@ -602,7 +602,7 @@ Decisão: **Header e Footer implementados e aprovados, sem CTA comercial.**
 
 Motivo: O site terá botão flutuante de contato e CTAs dentro das páginas; Header e Footer ficam mais leves e institucionais.
 Impacto: Substitui o menu e o CTA do Header previstos no HANDOFF (resolve a DIV-07) e o CTA e os dados de contato do Footer previstos no HANDOFF §8. Atualiza [`home-estrutura.md`](../04-conteudo/home-estrutura.md) (seções 1 e 12). Mantém o Footer sem rota paralela de contato direto, fora do botão flutuante futuro.
-Status: Aprovada
+Status: Aprovada. **Complementada pela DEC-040** (05/10/2026): o item "Como funciona" saiu do menu e do Footer, entrou "Contato" e o Footer passou a exibir o link do Google Maps. O texto acima é mantido como histórico.
 
 ## DEC-036
 Data: 04/10/2026
@@ -665,4 +665,19 @@ Regras de comunicação:
 
 Motivo: Esclarecer a capacidade real sem prometer 190 lugares sentados e sem inventar proporções.
 Impacto: Atualiza `src/data/site.ts` (`capacity.detailed`), o documento mestre §3, a DIV-02, `arquitetura-site.md`, `home-estrutura.md` e o CONTEXTO-ATUAL. Documento Norte (§5, §22) e Síntese Estratégica ficam como estão, com a redação anterior ("conforme layout e tipo de evento"), por hierarquia (DEC-025): a redação vigente é a deste registro e deve ser incorporada ao Norte na próxima revisão. O HANDOFF de 09/09/2026 ("predominantemente em pé") é referência histórica.
+Status: Aprovada
+
+## DEC-040
+Data: 05/10/2026
+Decisão: **Navegação e localização (complementa a DEC-035).**
+
+- **Header:** logo · Eventos ▾ (Festas infantis, Eventos familiares, Festa de 15 anos, Eventos corporativos) · O Espaço · Gastronomia · **Contato**. "Contato" aponta para o bloco final da Home (`#contato`) até existir a página de Contato.
+- **Como funciona:** permanece na Home (`#como-funciona`), mas **não fica mais no menu nem no Footer**.
+- **Footer:** Eventos · O Espaço · Gastronomia · Contato; o endereço passa a vir acompanhado do link **"Ver no Google Maps"** (nova aba). Continua sem CTA comercial, telefone, WhatsApp e horário.
+- **Localização:** **deixa de ser uma seção própria da Home.** A informação fica no Footer (endereço + Maps), no Hero (eyebrow com Mercês, Curitiba) e nos fatos de estacionamento (Espaço / Estrutura). A Home termina em Como funciona → CTA final.
+- **Link do Google Maps:** o link anterior fazia busca só pelo endereço e mostrava outro imóvel. O novo busca por **nome + endereço** ("Divina Festa Buffet, Rua Marcelino Champagnat, 122, Mercês, Curitiba - PR") e foi **validado manualmente em 05/10/2026**: abre o perfil correto do Divina Festa, no endereço certo. Fica em um único lugar, `site.address.mapsUrl` (`src/data/site.ts`). **Continua provisório** até a URL oficial do perfil resolver a L-13 (que segue aberta); nenhuma nota, número de avaliações ou outro dado do perfil é usado no site.
+- **Mapa embutido:** a futura página ou bloco de Contato poderá ter mapa embutido do Google Maps apontando para o Divina Festa, preferencialmente carregado sob demanda para não pesar. **Não está implementado** e depende de aprovação própria.
+
+Motivo: A seção Localização repetia informação que o Footer e o Hero já cobrem e usava um link de Maps que apontava para o lugar errado. "Como funciona" é conteúdo de decisão da Home, não item de navegação; "Contato" é o destino que o visitante procura no menu.
+Impacto: Atualiza `Header.astro`, `Footer.astro`, `src/data/site.ts` (`address.mapsUrl`), `src/pages/index.astro`, [`home-estrutura.md`](../04-conteudo/home-estrutura.md), o CONTEXTO-ATUAL, o status e a DIV-07. Substitui, na DEC-035, o item "Como funciona" do menu e a exclusão do Google Maps no Footer (que agora usa o link provisório validado). Redes sociais continuam fora até a L-13.
 Status: Aprovada

@@ -248,7 +248,7 @@ Texto/interface:
 Aprovado:
 - logo horizontal;
 - sem CTA comercial;
-- menu: Eventos, O Espaço, Gastronomia, Como funciona;
+- menu: Eventos, O Espaço, Gastronomia, Contato (DEC-040; "Como funciona" saiu do menu e permanece na Home);
 - dropdown em Eventos;
 - sticky;
 - compacto após scroll;
@@ -271,8 +271,11 @@ Aprovado:
 - endereço;
 - copyright.
 
-Redes sociais e Google Maps:
-- adicionar somente quando URLs oficiais estiverem validadas.
+- link "Ver no Google Maps" junto ao endereço (DEC-040): busca por nome + endereço, validada manualmente, provisória até a URL oficial (L-13), em `site.address.mapsUrl`;
+- itens: Eventos, O Espaço, Gastronomia, Contato.
+
+Redes sociais:
+- adicionar somente quando URLs oficiais estiverem validadas (L-13).
 
 ---
 
@@ -340,7 +343,7 @@ Fatos:
 - área infantil integrada;
 - estacionamento no local;
 - buffet e cozinha próprios;
-- um evento por vez.
+- climatização (substituiu "um evento por vez", que não é mais argumento recorrente de venda).
 
 Regras:
 - sem CTA;
@@ -351,9 +354,9 @@ Regras:
 - zero JS.
 
 ### 4. Tipos de evento
-**Status:** concluído e aprovado.
+**Status:** concluído e aprovado; reprojetado em 05/10/2026 como navegador visual (`EventTypes.astro`).
 
-Sem fotos.
+H2: "Encontre o formato para o seu evento". Foto real por tipo, título, descrição curta e link editorial; item inteiro clicável por um único link; sem JavaScript. Fotos provisórias: Eventos corporativos (#50, não é do Divina) e Eventos familiares (melhor disponível); trocar quando chegarem fotos reais (L-07). Infantil #1, 15 anos #21 (L-08, L-09).
 
 Tipos:
 - Festas infantis;
@@ -362,7 +365,7 @@ Tipos:
 - Eventos corporativos.
 
 Função:
-- identificação rápida;
+- identificação rápida e descoberta visual;
 - futura navegação para páginas próprias.
 
 ### 5. Crianças + Adultos
@@ -392,13 +395,13 @@ Imagem:
 ### 6. Gastronomia
 **Status:** concluída e aprovada (05/10/2026, `src/components/home/Gastronomy.astro`), logo após Crianças + Adultos. Função no funil: desejo.
 
-Eyebrow: “Gastronomia no Divina”
+Eyebrow: “Gastronomia”
 
-H2: “Buffet e cozinha próprios para servir bem o seu evento”
+H2: “Gastronomia para servir bem cada celebração” (revisão estratégica, 05/10/2026)
 
 Mensagem:
-- gastronomia faz parte da experiência; alimentos preparados no próprio espaço, com opções adaptáveis ao formato do evento;
-- três provas editoriais (filete, sem cards/ícones): Cozinha própria · Diferentes formatos · Serviço integrado.
+- o buffet faz parte da experiência, com opções preparadas no próprio espaço e pensadas conforme o formato do evento;
+- três provas editoriais (filete, sem cards/ícones): Preparo no próprio espaço · Opções para diferentes ocasiões · Serviço integrado. A cozinha própria é prova, não promessa do H2.
 
 CTA editorial: `TextLink` “Conhecer a gastronomia” (destino temporário `#gastronomia`). Sem CTA comercial.
 
@@ -414,19 +417,20 @@ Imagem:
 - pendência: autorização de imagem das pessoas identificáveis antes da produção (L-08).
 
 ### 7. Espaço / Estrutura
-**Status:** ✅ **CONCLUÍDA E APROVADA — 05/10/2026.** Implementada em `src/components/home/SpaceAndStructure.astro`, logo após Gastronomia (detalhes em `home-estrutura.md` §7). Foto principal #49 `Fotos Salão quente.png` (versão quente fornecida pelo gestor, da mesma cena da #26, que fica preservada no acervo) e apoio #48 (oculta e não baixada no mobile). Capacidade detalhada conforme DEC-039. Sem pendências.
+**Status:** ✅ **CONCLUÍDA E APROVADA — 05/10/2026** (revisada na mesma data). `src/components/home/SpaceAndStructure.astro`, logo após Gastronomia (detalhes em `home-estrutura.md` §7). H2 "Estrutura para receber seu evento com conforto e tranquilidade". Foto única #49 `Fotos Salão quente.png` (versão quente do gestor, mesma cena da #26, preservada no acervo); a #48 saiu da Home e fica reservada à futura página O Espaço. Capacidade detalhada conforme DEC-039. Sem pendências.
 
 ### 8. Como funciona
 **Status:** ✅ **CONCLUÍDA E APROVADA — 05/10/2026.** `src/components/home/HowItWorks.astro`, logo após Espaço / Estrutura, `id="como-funciona"`, fundo soft. Função no funil: redução de risco / previsibilidade. H2 "Do planejamento ao dia do evento"; quatro etapas em `<ol>`: 01 Conte sobre seu evento · 02 Escolha a melhor opção · 03 Definimos os detalhes · 04 Aproveite seu evento. Layout: mobile 1 coluna compacta; 2×2 a partir de 40rem; 4 colunas a partir de 72rem. Sem CTA, sem fotografia, zero JavaScript. Sem pendências.
 
-### 9. Eventos reais / avaliações
-**Status:** pendente.
+### 9. CTA final
+**Status:** ✅ **CONCLUÍDO E APROVADO — 05/10/2026.** `FinalCta.astro`, `id="contato"`, fundo warm. Eyebrow "Planeje seu evento com o Divina"; H2 "Conte-nos o que você está planejando"; botão "Solicitar proposta" (WhatsApp geral com mensagem pré-preenchida por enquanto). Sem linha de fatos repetidos.
 
-### 10. Localização / fechamento
-**Status:** pendente.
+### Fora da Home nesta versão
+- **Eventos reais / avaliações:** retirada (sem prova social validada; `RealEvents.astro` fora da renderização). Reabrir só com prova social validada (L-02, L-03).
+- **Localização:** deixou de ser seção (DEC-040); endereço + "Ver no Google Maps" no Footer. Mapa embutido em Contato: futuro, não implementado.
 
-### 11. Footer
-**Status:** concluído e aprovado.
+### 10. Footer
+**Status:** concluído e aprovado (DEC-035), atualizado pela DEC-040.
 
 ---
 
@@ -617,9 +621,9 @@ Se houver dúvida:
 
 ## 17. PRÓXIMO PASSO ATUAL
 
-1. **Eventos reais / avaliações** (próxima seção canônica da Home; Como funciona concluída e aprovada);
-2. seguir a Home seção por seção: Localização/fechamento;
-4. pendências abertas relevantes: L-08 (autorização de imagem), L-11 (criar o DEV), L-13 (URLs de redes e Maps).
+1. **Home concluída** (8 seções: Hero → QuickFacts → Tipos de evento → Crianças + adultos → Gastronomia → Espaço / Estrutura → Como funciona → CTA final; Header e Footer conforme DEC-035 e DEC-040). Próximas etapas dependem de autorização: páginas internas (Eventos, O Espaço, Gastronomia, Contato com mapa embutido futuro), formulário e infraestrutura do DEV;
+2. substituir as fotos provisórias (Eventos corporativos #50, Eventos familiares) quando chegarem fotos reais (L-07);
+3. pendências abertas relevantes: L-08 (autorização de imagem), L-11 (criar o DEV), L-13 (URL oficial do Maps e redes). L-05 encerrada em 05/10/2026.
 
 ---
 

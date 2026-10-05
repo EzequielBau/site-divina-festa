@@ -45,6 +45,7 @@ O NORTE §10 lista 9 seções; a ETAPA 00 lista 12 (Header e Footer explícitos;
 ### DIV-07 — Menu do Header × arquitetura P0 · RESOLVIDO (DEC-035) · média
 O menu do HANDOFF (Início · Eventos · O Divina · Contato · Solicitar proposta) não inclui Espaço e Estrutura, Gastronomia e Como Funciona, que são P0 ou P0/P1, mas inclui O Divina (P2). Decidir na etapa do Header.
 **Resolvido na DEC-035 (04/10/2026):** Eventos ▾ (Festas infantis, Eventos familiares, Festa de 15 anos, Eventos corporativos) · O Espaço · Gastronomia · Como funciona. Sem Início, Contato, O Divina nem CTA "Solicitar proposta".
+**Atualizado na DEC-040 (05/10/2026):** "Como funciona" saiu do menu (continua na Home) e entrou "Contato" (`#contato`). Menu vigente: Eventos ▾ · O Espaço · Gastronomia · Contato.
 
 ### DIV-08 — CTA do Hero: primário único × dois CTAs · ABERTO · baixa
 A SÍNTESE §20 pede um CTA primário único. O Hero aprovado tem "Solicitar Proposta" + "Conhecer o Espaço". É compatível se o segundo for visualmente secundário. Validar na etapa do Hero.
@@ -76,15 +77,15 @@ Os códigos L-xx são estáveis. Itens resolvidos ficam riscados para manter a r
 | L-02 | Número de eventos realizados (o NORTE diz "em torno de 200 — confirmar"). Para uma operação desde 2005, o número parece baixo | Prova / O Divina | Gestor |
 | L-03 | Nota e volume atuais de avaliações no Google | Prova social | GBP (validar no lançamento) |
 | ~~L-04~~ | ~~Estacionamento~~ — **resolvida**: privativo, confirmado (DEC-019) | — | — |
-| L-05 | Processo comercial real (etapas do Como Funciona) | Como Funciona | Gestor/comercial |
+| ~~L-05~~ | ~~Processo comercial real (etapas do Como Funciona)~~ — **resolvida (05/10/2026)**: o gestor aprovou as quatro etapas públicas (Conte sobre seu evento · Escolha a melhor opção · Definimos os detalhes · Aproveite seu evento) na seção Como funciona da Home. A seção descreve o processo de forma geral, sem detalhar rotinas internas; novas etapas ou prazos só entram com validação do gestor | — | — |
 | L-06 | Cardápios e formatos de serviço oficiais do espaço (os folders só cobrem a Essência) | Gastronomia | Gestor/cozinha |
-| L-07 | Fotos de equipe, cozinha, estacionamento, corporativo, salão ocupado e mini wedding | Várias seções | Sessão fotográfica |
+| L-07 | Fotos de equipe, cozinha, estacionamento, corporativo, salão ocupado e mini wedding. **Na Home, Eventos corporativos usa uma foto provisória que não é do Divina (#50), e Eventos familiares usa a melhor foto disponível (bolo com a família); trocar quando chegarem fotos reais de eventos corporativos e familiares multigeracionais** | Várias seções | Sessão fotográfica |
 | L-08 | Autorização de uso de imagem (crianças, convidados) e licença ou arquivo sem marca d'água do fotógrafo (`@lucylimafotografia`) | Todas as fotos com pessoas ou marca d'água | Gestor / fotógrafo |
 | L-09 | Origem das fotos Bistrô, café colonial, capas Essência e 15 anos (reais × banco/editadas) | Gastronomia; 15 Anos | Gestor |
 | L-10 | **Não há logo em SVG confirmado** (nem favicon). Não vetorizar nem redesenhar agora (DEC-023) | Header, Footer, favicon | Designer / arquivos da marca |
 | L-11 | `dev.divinafesta.com.br` ainda precisa ser criado na Hostinger Web Hosting, com pasta própria (isolada da produção), HTTPS e `X-Robots-Tag: noindex, nofollow`, e receber a primeira publicação manual do `dist/` (DEC-033). *(Acesso ao DNS confirmado, DEC-030)* | Implantação, SEO | Etapa de infraestrutura |
 | L-12 | E-mail de contato, CNPJ/razão social e política de privacidade (LGPD) | Footer, formulários | Gestor / jurídico |
-| L-13 | URL e categoria do Google Business Profile; demais perfis sociais (Instagram, Facebook, LinkedIn) e link do Google Maps. O Footer poderá recebê-los só com URLs oficiais validadas (DEC-035) | SEO local, schema, Footer | Gestor |
+| L-13 | URL e categoria do Google Business Profile; demais perfis sociais (Instagram, Facebook, LinkedIn) e URL oficial do perfil no Google Maps. **Aberta.** O Footer já exibe um link provisório "Ver no Google Maps" (busca por nome + endereço, validado manualmente em 05/10/2026 como apontando para o perfil correto; `site.address.mapsUrl`, DEC-040) e deve trocá-lo pela URL oficial quando houver. Redes sociais seguem fora do Footer até haver URLs oficiais validadas (DEC-035) | SEO local, schema, Footer, Contato | Gestor |
 | L-14 | Existência e plano do Kommo CRM; contas de GA4/GTM/Ads/Meta já existentes | Integrações | Gestor |
 | L-15 | Horário de funcionamento dos eventos (o NORTE só traz o atendimento comercial, 9h–19h) | Localização, schema | Gestor |
 | L-16 | Destino do QR code da Essência | Materiais da linha Essência | Verificação |

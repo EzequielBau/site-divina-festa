@@ -1,6 +1,6 @@
 # Status do projeto
 
-**Atualizado em:** 05/10/2026 (Gastronomia aprovada) — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032); hospedagem do frontend na Hostinger Web Hosting (DEC-033); fundação visual do Design System implementada e aprovada (DEC-034); Header e Footer finalizados (DEC-035); botões no padrão da referência (DEC-036); imagens em alta definição (DEC-037); Hero, provas rápidas e tipos de evento aprovados.
+**Atualizado em:** 05/10/2026 (revisão estratégica da Home, Tipos de evento visual e DEC-040 de navegação e localização aprovadas) — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032); hospedagem do frontend na Hostinger Web Hosting (DEC-033); fundação visual do Design System implementada e aprovada (DEC-034); Header e Footer finalizados (DEC-035); botões no padrão da referência (DEC-036); imagens em alta definição (DEC-037); Hero, provas rápidas e tipos de evento aprovados.
 
 ## Concluído
 
@@ -32,6 +32,9 @@
 - **Gastronomia da Home** implementada e aprovada (05/10/2026, `src/components/home/Gastronomy.astro`): logo após Crianças + Adultos; foto à esquerda e texto à direita a partir de 56rem (uma coluna abaixo disso; no mobile, a foto vem por último), três provas editoriais, link "Conhecer a gastronomia" (`#gastronomia`) sem CTA comercial, zero JavaScript. Foto #45 `Mesa feijoada com salão e area kids ao fundo.jpg` (derivado `buffet-feijoada-salao.jpg`), `astro:assets` com `quality={90}` (DEC-037). #46 reservada. **Pendência:** L-08 (pessoas identificáveis). Nenhuma pendência nova.
 - **Espaço / Estrutura da Home implementado e aprovado** (05/10/2026, `src/components/home/SpaceAndStructure.astro`): logo após Gastronomia; texto no topo, foto principal #49 (`Fotos Salão quente.png`, versão quente do gestor; a #26 fica preservada) e apoio #48 (só a partir de 48rem, não baixada no mobile), seis fatos em filete (3 colunas desktop, 2 tablet, 1 mobile), `TextLink` "Conhecer o espaço" (`#espaco`), zero JavaScript. Capacidade detalhada pela **DEC-039** (150 sentadas; até 190 conforme montagem e uso conjunto de salão e área infantil). **Pendências:** nenhuma (L-08 não se aplica: sem pessoas).
 - **Como funciona da Home implementado e aprovado** (05/10/2026, `src/components/home/HowItWorks.astro`): logo após Espaço / Estrutura, `id="como-funciona"`, fundo soft; quatro etapas numeradas (01 Conte sobre seu evento · 02 Escolha a melhor opção · 03 Definimos os detalhes · 04 Aproveite seu evento) em `<ol>`; mobile 1 coluna compacta, 2×2 a partir de 40rem e 4 colunas a partir de 72rem; sem CTA, sem fotografia, zero JavaScript. Função no funil: redução de risco / previsibilidade. Nenhuma pendência nova.
+- **Revisão estratégica da Home aprovada** (05/10/2026): a Home passa a seguir o roteiro comercial Hero → QuickFacts → Tipos de evento → Crianças + adultos → Gastronomia → Espaço / Estrutura → Como funciona → CTA final. **Gastronomia** (H2 "Gastronomia para servir bem cada celebração"; cozinha própria como prova), **Espaço / Estrutura** (H2 "Estrutura para receber seu evento com conforto e tranquilidade"; foto de apoio #48 retirada e reservada à futura página O Espaço) e **QuickFacts** ("Um evento por vez" substituído por Climatização) reescritos; **CTA final** (`FinalCta.astro`, `id="contato"`) implementado, sem linha de fatos repetidos. **Eventos reais** retirada da Home (sem prova social validada; `RealEvents.astro` fora da renderização). `index.astro` agora é a Home; a página de validação do Design System foi movida para `/design-system` (noindex)
+- **Tipos de evento da Home reprojetada como navegador visual** (05/10/2026, `EventTypes.astro`): foto real por tipo, título, descrição curta e link editorial; item inteiro clicável por um único link, sem JavaScript; mobile em miniatura + texto, 2×2 no tablet, 4 colunas a partir de 64rem. H2 "Encontre o formato para o seu evento". **Fotos provisórias:** Eventos corporativos usa a #50 (não é do Divina, confirmado pelo gestor) e Eventos familiares usa a melhor foto disponível (bolo com a família); trocar quando chegarem fotos reais (L-07). Infantil #1, 15 anos #21 (L-08, L-09)
+- **Navegação e localização** (05/10/2026, **DEC-040**): Header Eventos ▾ · O Espaço · Gastronomia · Contato; "Como funciona" permanece na Home mas saiu do menu e do Footer; Localização deixou de ser seção da Home; Footer exibe endereço + "Ver no Google Maps" (`site.address.mapsUrl`, busca por nome + endereço, validado manualmente como o perfil correto; provisório até a URL oficial, L-13). Mapa embutido em Contato, futuro e não implementado. **L-05 encerrada** (etapas do Como funciona aprovadas pelo gestor)
 - **Botões no padrão da referência do site anterior** (DEC-036): pílula, Familjen Grotesk, variantes `primary` · `secondary` · `outline`, adaptados ao contraste AA.
 
 ## Em andamento
@@ -42,25 +45,25 @@
 
 1. ~~Inicialização do projeto Astro~~ (feita na Etapa 01)
 2. ~~Design system: validar tokens e o contraste final do dourado escuro (DEC-022)~~ (feito na Etapa 02, DEC-034)
-3. ~~Header~~ (feito em 04/10/2026, DEC-035)
+3. ~~Header~~ (feito em 04/10/2026, DEC-035; menu ajustado na DEC-040)
 4. ~~Footer~~ (feito em 04/10/2026, DEC-035)
 5. ~~Hero~~ (feito em 04/10/2026)
 5a. ~~Provas rápidas~~ (feito em 04/10/2026)
 5b. ~~Tipos de evento~~ (feito em 04/10/2026)
 5c. ~~Crianças + adultos~~ (feito em 05/10/2026) e ~~Gastronomia~~ (feito em 05/10/2026)
 5d. ~~Espaço / Estrutura~~ (feito em 05/10/2026) e ~~Como funciona~~ (feito em 05/10/2026)
-6. Home seção por seção, a seguir **Eventos reais / avaliações**
+6. Revisar o conteúdo e a navegação das demais páginas (Eventos, O Espaço, Gastronomia, Contato) e substituir as fotos provisórias (L-07). Eventos reais / avaliações ficam fora da Home até haver prova social validada
 7. Infraestrutura de desenvolvimento (DEC-033): criar `dev.divinafesta.com.br` na Hostinger com pasta própria e HTTPS → configurar o `X-Robots-Tag` (a meta robots já está no código) → primeira publicação manual só do `dist/` → conferir cabeçalhos e que nada fora do `dist/` está acessível
 8. Etapas próprias e posteriores: formulário (UX/CRO, com o fallback da DEC-032), backend Fastify (formulários, Kommo, Meta CAPI, webhooks, WhatsApp), tracking (GTM, GA4, Pixel, Consent Mode), monitoramento e CI/CD
 
 ## Pendências
 
-- Footer: Instagram, Facebook, LinkedIn e Google Maps só com URLs oficiais fornecidas e validadas (L-13)
+- Footer: Instagram, Facebook, LinkedIn e a URL oficial do perfil no Google Maps só com URLs oficiais fornecidas e validadas (L-13); o link atual do Maps é provisório, validado manualmente (DEC-040)
 - Confirmar os dados da fonte factual: eventos realizados, avaliações e metragem da área infantil (L-01 a L-03)
 - Autorizações de imagem (crianças, convidados) e licença ou arquivos sem marca d'água do fotógrafo `@lucylimafotografia` (L-08)
 - Origem das fotos Bistrô, café colonial, capas Essência e 15 anos (L-09)
 - Logo em SVG: não há arquivo confirmado. Não vetorizar agora (L-10, DEC-023)
-- Fotos faltantes: equipe, cozinha, estacionamento, corporativo, salão ocupado, mini wedding (L-07). Adultos + crianças agora coberto por #44, sujeito à L-08. `Festa no Átrio com Fotógrafa e Convidados.png` não está no repositório
+- Fotos faltantes: equipe, cozinha, estacionamento, corporativo (a #50 na Home é provisória e não é do Divina), familiar multigeracional (a atual é provisória), salão ocupado, mini wedding (L-07). Adultos + crianças agora coberto por #44, sujeito à L-08. `Festa no Átrio com Fotógrafa e Convidados.png` não está no repositório
 - Criar e configurar `dev.divinafesta.com.br` na Hostinger (L-11); domínio principal e configuração própria da produção no lançamento (L-22); GBP, CNPJ, política de privacidade, contas de marketing (L-11 a L-15)
 - Texto do fallback no WhatsApp, timeout da API e eventual armazenamento temporário no navegador (L-23, DEC-032)
 - Remover manualmente as pastas vazias `Imagens\` e `Documentos norteadores para montar site\` (o Windows negou a exclusão; o Git ignora pastas vazias)
@@ -82,7 +85,7 @@
 - Pontos que, se não forem resolvidos, vão travar etapas específicas mais adiante:
   - **publicação** de fotos com pessoas ou marca d'água, sem L-08 resolvida;
   - **publicação** de números como eventos realizados e avaliações, sem L-02/L-03 confirmadas;
-  - **seção Corporativo / Como Funciona** sem fotos de equipe e corporativo (L-07).
+  - **publicação** com as fotos provisórias de Eventos corporativos (#50, não é do Divina) e Eventos familiares, sem substituição (L-07).
 
 ## Decisões aguardando aprovação
 
