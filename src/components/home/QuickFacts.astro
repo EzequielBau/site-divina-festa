@@ -1,0 +1,132 @@
+---
+// Provas rápidas logo abaixo do Hero: seis fatos objetivos, sem CTA, sem JavaScript.
+// Números e fatos vêm de site.ts; os textos curtos de apoio ficam aqui.
+import Container from '../ui/Container.astro';
+import Section from '../ui/Section.astro';
+import { site } from '../../data/site';
+
+// Cada fato só aparece se o dado aprovado em site.ts continuar valendo.
+const facts = [
+  {
+    // Copy local, baseada no fato canônico de aproximadamente 700 m² (site.business.areaDisplay).
+    title: '~700 m²',
+    text: 'Espaço para diferentes formatos',
+    show: true,
+  },
+  {
+    // Home comunica o limite de 150 (DEC-017); o detalhamento até 190 fica em Espaço e Estrutura.
+    title: `Até ${site.capacity.seatedMax} convidados`,
+    text: 'Capacidade para celebrações de diferentes portes',
+    show: true,
+  },
+  {
+    title: 'Área infantil integrada',
+    text: 'Crianças se divertem perto dos adultos',
+    show: site.amenities.kidsArea,
+  },
+  {
+    title: 'Estacionamento no local',
+    text: 'Mais facilidade na chegada dos convidados',
+    show: site.amenities.privateParking,
+  },
+  {
+    title: 'Buffet e cozinha próprios',
+    text: 'Gastronomia preparada no próprio espaço',
+    show: site.services.ownBuffet && site.services.ownKitchen,
+  },
+  {
+    title: 'Um evento por vez',
+    text: 'O espaço fica dedicado à sua celebração',
+    show: !site.business.simultaneousEvents,
+  },
+].filter((fact) => fact.show);
+---
+
+<Section spacing="compact" class="facts" aria-labelledby="quick-facts-title">
+  <Container>
+    <h2 id="quick-facts-title" class="sr-only">Fatos sobre o espaço do Divina Festa</h2>
+    <ul class="facts__list">
+      {
+        facts.map((fact) => (
+          <li class="facts__item">
+            <p class="facts__title">{fact.title}</p>
+            <p class="facts__text">{fact.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</Section>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .facts__list {
+    display: grid;
+    gap: var(--space-12) var(--space-48);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .facts__item {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+    padding-top: var(--space-8);
+    border-top: var(--border-width) solid var(--color-border);
+  }
+
+  .facts__title {
+    margin: 0;
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-h4);
+    letter-spacing: var(--tracking-snug);
+    color: var(--color-heading);
+  }
+
+  .facts__text {
+    margin: 0;
+    max-width: 22rem;
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-small);
+    color: var(--color-fg-muted);
+  }
+
+  @media (min-width: 48rem) {
+    .facts__item {
+      padding-top: var(--space-12);
+    }
+
+    .facts__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-24) var(--space-48);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .facts__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-32) var(--space-48);
+    }
+  }
+
+  /* Título maior só quando a coluna comporta sem quebrar linha. */
+  @media (min-width: 80rem) {
+    .facts__title {
+      font-size: var(--font-size-h3);
+    }
+  }
+</style>

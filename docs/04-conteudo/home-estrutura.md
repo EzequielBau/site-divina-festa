@@ -11,8 +11,8 @@
 | # | Seção | Status do conteúdo | Implementação neste projeto | Etapa do funil |
 |---|---|---|---|---|
 | 1 | Header | estrutura definida | **implementado e aprovado (DEC-035)** | navegação / conversão |
-| 2 | Hero | **texto aprovado** | a fazer | descoberta → identificação |
-| 3 | Prova rápida | copy definida; capacidade conforme DEC-017 | a fazer | interesse → adequação |
+| 2 | Hero | **texto aprovado** | **implementado e aprovado** | descoberta → identificação |
+| 3 | Prova rápida (QuickFacts) | copy definida; capacidade conforme DEC-017 | **implementado e aprovado** | interesse → adequação |
 | 4 | Tipos de evento | textos criados; **fotos pendentes** | a fazer | identificação |
 | 5 | Crianças + adultos | estrutura e copy criadas | a fazer | adequação → desejo |
 | 6 | Gastronomia | **próxima seção de conteúdo** | a fazer | desejo |
@@ -53,7 +53,7 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **Evitar:** slogan abstrato antes de explicar o que é o Divina; sobrecarregar a dobra com todos os números e tipos de evento.
 - **Função no funil:** descoberta → identificação.
 
-## 3. Prova rápida — copy definida
+## 3. Prova rápida — ✅ implementada e aprovada
 
 - **Objetivo:** apresentar fatos essenciais que reduzem dúvida imediata.
 - **Mensagem principal:** seis provas, com base no HANDOFF §3.2 e ajustadas pelas decisões: **700 m² para diferentes formatos** · **Até 150 convidados** (DEC-017) · **Espaço kids** · **Estacionamento privativo no Mercês** (DEC-019) · **Equipe preparada** · **Seu evento resolvido**.
@@ -62,6 +62,7 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **Notas:**
   - Na Home, a capacidade é **sempre "até 150 convidados"**. O detalhamento sentadas/em pé (até 190) fica só na página Espaço e Estrutura (DEC-017). O "Até 190 convidados" da implementação anterior **não deve ser reproduzido**.
   - O NORTE sugere incluir "um evento por vez" como prova. Hoje não está na lista; avaliar na redação final.
+- **Implementação aprovada (04/10/2026, `src/components/home/QuickFacts.astro`):** seção imediatamente após o Hero, com seis fatos: **~700 m²** · **Até 150 convidados** · **Área infantil integrada** · **Estacionamento no local** · **Buffet e cozinha próprios** · **Um evento por vez**. "~700 m²" é copy local baseada no fato canônico de aproximadamente 700 m². A Home comunica "Até 150 convidados" (DEC-017). Sem CTA, sem ícones, zero JavaScript. Grid de 3 colunas no desktop, 2 no tablet e 1 no mobile, com filete superior em cada fato. Os fatos condicionais leem `site.ts`. Esta lista substitui, na implementação, os itens "Equipe preparada" e "Seu evento resolvido" da copy inicial e incorpora "um evento por vez" (nota acima); não gerou nova DEC.
 - **Dependências de fotografia:** nenhuma.
 - **SEO:** atributos factuais em texto (metragem, capacidade, estacionamento, bairro).
 - **Visual:** editorial, sem cards pesados, sombras ou excesso de ícones; alinhamento à esquerda.
