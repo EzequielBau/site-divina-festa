@@ -15,8 +15,8 @@
 | 3 | Prova rápida (QuickFacts) | copy definida; capacidade conforme DEC-017 | **implementado e aprovado** | interesse → adequação |
 | 4 | Tipos de evento | textos aprovados; fotos pendentes (versão atual sem fotos) | **implementado e aprovado (sem fotos)** | identificação |
 | 5 | Crianças + adultos | copy aprovada | **implementado e aprovado** | adequação → desejo |
-| 6 | Gastronomia | **próxima seção de conteúdo** | a fazer | desejo |
-| 7 | Espaço e estrutura | a definir | a fazer | adequação → confiança |
+| 6 | Gastronomia | copy aprovada | **implementado e aprovado** | desejo |
+| 7 | Espaço e estrutura | **próxima seção de conteúdo** (a definir) | a fazer | adequação → confiança |
 | 8 | Como funciona | a definir | a fazer | redução de risco |
 | 9 | Eventos reais / avaliações | a definir | a fazer | confiança |
 | 10 | Localização | a definir | a fazer | redução de atrito → contato |
@@ -95,15 +95,16 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **Visual implementado:** texto à esquerda e foto vertical (4:5) à direita a partir de 48rem; abaixo disso, texto → CTA → foto em uma coluna. Sem JavaScript.
 - **Função no funil:** adequação → desejo.
 
-## 6. Gastronomia — próxima seção
+## 6. Gastronomia — ✅ implementada e aprovada
 
-- **Objetivo:** tratar a gastronomia como produto, gerar desejo, provar qualidade com comida real, mostrar formatos de serviço e encaminhar para a página Gastronomia. *(HANDOFF §9)*
-- **Mensagem principal:** buffet e cozinha próprios demonstrados por pratos, formatos e serviço *(texto a definir)*.
-- **Prova:** pratos reais, formatos de serviço, cozinha e avaliações.
-- **CTA:** "Conhecer a gastronomia" (WIREFRAME).
-- **Dependências de fotografia:** #32–#35 (reais, de celular, verticais). #30/#31 têm origem incerta: não usar como prova real enquanto a origem não for confirmada (L-09, DEC-024). **Faltam fotos de cozinha e equipe.**
-- **SEO:** "buffet próprio", "cozinha própria", formatos de serviço.
-- **Evitar:** catálogo gigante, tabela de preços, "alta gastronomia" sem prova, frases genéricas, excesso de fotos decorativas.
+- **Objetivo:** mostrar que buffet e cozinha são próprios e que a gastronomia faz parte da solução integrada do evento (espaço, buffet, equipe e serviço funcionando juntos). Não é catálogo, restaurante, galeria de comida, pacotes nem preços.
+- **Implementação aprovada (05/10/2026, `src/components/home/Gastronomy.astro`):** logo após Crianças + Adultos, fundo `soft`.
+  - Eyebrow *Gastronomia no Divina* · H2 *Buffet e cozinha próprios para servir bem o seu evento* · texto: *A gastronomia faz parte da experiência no Divina Festa. Os alimentos são preparados no próprio espaço, com opções que se adaptam ao formato e ao momento de cada celebração.*
+  - Três provas editoriais (H3 + texto, filete superior, sem cards, ícones ou sombras): **Cozinha própria** (*Preparo realizado no próprio espaço.*) · **Diferentes formatos** (*Opções para festas, encontros e outros tipos de evento.*) · **Serviço integrado** (*Buffet, equipe e estrutura funcionando juntos durante a celebração.*).
+- **CTA:** link editorial `TextLink` "Conhecer a gastronomia" (destino temporário `#gastronomia`). **Sem CTA comercial.**
+- **Foto:** #45 `Mesa feijoada com salão e area kids ao fundo.jpg` (ver [inventário](../99-referencias/inventario-imagens.md)), pela prova simultânea de buffet real, salão em uso e contexto do evento. #46 fica reservada, não usada na Home. **Pendência de autorização (L-08):** pessoas identificáveis; confirmar antes da produção (DEV é `noindex`).
+- **Visual:** a partir de 56rem, foto à esquerda (4:5, `object-position: 50% 60%`) e conteúdo à direita (~55/45); abaixo disso, uma coluna na ordem eyebrow → H2 → texto → provas → link → foto. O breakpoint de 56rem é decisão local desta seção. Zero JavaScript.
+- **SEO:** "gastronomia", "buffet", "cozinha própria", "evento", sem repetir Curitiba; alt descreve o que a foto mostra.
 - **Função no funil:** desejo.
 
 ## 7. Espaço e estrutura

@@ -390,18 +390,31 @@ Imagem:
 - pendência: autorização de imagem das pessoas identificáveis antes da produção (L-08).
 
 ### 6. Gastronomia
-**Status:** PRÓXIMA SEÇÃO A DESENVOLVER (conteúdo em `home-estrutura.md` §6, objetivo no HANDOFF §9).
+**Status:** concluída e aprovada (05/10/2026, `src/components/home/Gastronomy.astro`), logo após Crianças + Adultos. Função no funil: desejo.
 
-Direção:
-- gastronomia deve ser tratada como produto;
-- mostrar comida real;
-- mostrar integração entre buffet, cozinha e evento;
-- evitar apenas “foto bonita de comida” sem contexto;
-- fotos reservadas pela DEC-038: #45 feijoada + salão (principal) e #46 comida e decoração (apoio), avaliar antes de definir o layout; pessoas identificáveis em #45 sujeitas à L-08;
-- se não sustentarem a seção, aplicar a regra de seleção (§8).
+Eyebrow: “Gastronomia no Divina”
+
+H2: “Buffet e cozinha próprios para servir bem o seu evento”
+
+Mensagem:
+- gastronomia faz parte da experiência; alimentos preparados no próprio espaço, com opções adaptáveis ao formato do evento;
+- três provas editoriais (filete, sem cards/ícones): Cozinha própria · Diferentes formatos · Serviço integrado.
+
+CTA editorial: `TextLink` “Conhecer a gastronomia” (destino temporário `#gastronomia`). Sem CTA comercial.
+
+Layout:
+- a partir de 56rem: foto à esquerda, conteúdo à direita (~55/45); abaixo disso, uma coluna;
+- mobile: eyebrow → H2 → texto → provas → link → foto;
+- breakpoint de 56rem é decisão local desta seção (a 768px o texto ficava apertado em duas colunas); foto não é centralizada a 768px;
+- zero JavaScript.
+
+Imagem:
+- #45 `Mesa feijoada com salão e area kids ao fundo.jpg` (derivado `buffet-feijoada-salao.jpg`), cópia sem edição, crop CSS 4:5 com `object-position: 50% 60%`, `quality={90}` (DEC-037);
+- #46 fica reservada (apoio / futura página Gastronomia), não usada na Home;
+- pendência: autorização de imagem das pessoas identificáveis antes da produção (L-08).
 
 ### 7. Espaço / Estrutura
-**Status:** pendente.
+**Status:** PRÓXIMA SEÇÃO A DESENVOLVER (conteúdo em `home-estrutura.md` §7). Fotos reservadas pela DEC-038: #47 árvore iluminada e #48 recepção (avaliar antes do layout).
 
 ### 8. Como funciona
 **Status:** pendente.
@@ -604,9 +617,9 @@ Se houver dúvida:
 
 ## 17. PRÓXIMO PASSO ATUAL
 
-1. desenvolver **Gastronomia** (depende de autorização do gestor);
-2. avaliar #45 e #46 antes de definir o layout;
-3. seguir a Home seção por seção: Espaço/Estrutura, Como funciona, Eventos reais/avaliações, Localização/fechamento;
+1. desenvolver **Espaço / Estrutura** (depende de autorização do gestor);
+2. avaliar #47 e #48 (e as demais fotos do salão) antes de definir o layout;
+3. seguir a Home seção por seção: Como funciona, Eventos reais/avaliações, Localização/fechamento;
 4. pendências abertas relevantes: L-08 (autorização de imagem), L-11 (criar o DEV), L-13 (URLs de redes e Maps).
 
 ---
