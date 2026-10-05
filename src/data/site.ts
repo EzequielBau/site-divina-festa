@@ -44,6 +44,11 @@ export interface SiteFacts {
     readonly city: string;
     readonly state: string;
     readonly country: string;
+    /**
+     * Link do Google Maps. Busca pelo nome do negócio + endereço, que abre o perfil do Divina Festa
+     * (uma busca só pelo endereço mostra outro imóvel). Provisório até a URL oficial do perfil (L-13).
+     */
+    readonly mapsUrl: string;
   };
   readonly capacity: {
     /** Texto da Home (DEC-017). */
@@ -94,6 +99,8 @@ export const site = {
     city: 'Curitiba',
     state: 'PR',
     country: 'BR',
+    mapsUrl:
+      'https://www.google.com/maps/search/?api=1&query=Divina%20Festa%20Buffet%2C%20Rua%20Marcelino%20Champagnat%2C%20122%2C%20Merc%C3%AAs%2C%20Curitiba%20-%20PR',
   },
   capacity: {
     home: 'até 150 convidados',

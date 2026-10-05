@@ -1,6 +1,7 @@
 ---
 // Rodapé institucional: faixa final discreta, sem CTA comercial nem canais de contato (o contato fica nas páginas e no botão flutuante).
-// Perfis sociais e Google Maps ficam de fora até haver URL oficial aprovada (L-13).
+// Perfis sociais ficam de fora até haver URL oficial aprovada (L-13). O link "Ver no Google Maps"
+// vem de site.address.mapsUrl (provisório até a URL oficial do perfil).
 // Ordem do DOM = ordem mobile: marca → navegação → endereço → copyright. Zero JavaScript.
 // Desktop: marca + texto | navegação em linha; divisor; endereço | copyright.
 // Links são âncoras temporárias (as páginas internas ainda não existem).
@@ -13,7 +14,7 @@ const links = [
   { label: 'Eventos', href: '#eventos' },
   { label: 'O Espaço', href: '#espaco' },
   { label: 'Gastronomia', href: '#gastronomia' },
-  { label: 'Como funciona', href: '#como-funciona' },
+  { label: 'Contato', href: '#contato' },
 ];
 
 const { address } = site;
@@ -55,6 +56,9 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
     <div class="bottom">
       <address class="place">
         {address.street}, {address.number} · {address.neighborhood} · {address.city}/{address.state}
+        <span class="sep" aria-hidden="true"> · </span>
+        <br class="br" />
+        <a class="maps" href={address.mapsUrl} target="_blank" rel="noopener">Ver no Google Maps</a>
       </address>
       <p class="copyright">© {year} {site.business.name}</p>
     </div>
@@ -157,6 +161,35 @@ const logoHeight = Math.round((logoWidth * logo.height) / logo.width);
 
   .place {
     font-style: normal;
+  }
+
+  /* Mobile: o link fica em linha própria, sem o separador sobrando no fim da linha anterior. */
+  .sep {
+    display: none;
+  }
+
+  @media (min-width: 48rem) {
+    .sep {
+      display: inline;
+    }
+
+    .br {
+      display: none;
+    }
+  }
+
+  .maps {
+    display: inline-block;
+    padding-block: var(--space-8);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .maps:hover {
+      text-decoration-color: var(--color-gold);
+      text-decoration-thickness: 2px;
+    }
   }
 
   /* Tablet em diante: marca e navegação na mesma linha. */
