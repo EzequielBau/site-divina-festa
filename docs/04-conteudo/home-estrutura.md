@@ -16,8 +16,8 @@
 | 4 | Tipos de evento | textos aprovados; fotos pendentes (versão atual sem fotos) | **implementado e aprovado (sem fotos)** | identificação |
 | 5 | Crianças + adultos | copy aprovada | **implementado e aprovado** | adequação → desejo |
 | 6 | Gastronomia | copy aprovada | **implementado e aprovado** | desejo |
-| 7 | Espaço e estrutura | **próxima seção de conteúdo** (a definir) | a fazer | adequação → confiança |
-| 8 | Como funciona | a definir | a fazer | redução de risco |
+| 7 | Espaço e estrutura | copy aprovada | **implementado e aprovado (05/10/2026)** | adequação → confiança |
+| 8 | Como funciona | **próxima seção** (a definir) | a fazer | redução de risco |
 | 9 | Eventos reais / avaliações | a definir | a fazer | confiança |
 | 10 | Localização | a definir | a fazer | redução de atrito → contato |
 | 11 | CTA final | a definir | a fazer | contato → proposta |
@@ -60,7 +60,7 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **Prova:** os próprios fatos da fonte factual.
 - **CTA:** nenhum (seção de apoio).
 - **Notas:**
-  - Na Home, a capacidade é **sempre "até 150 convidados"**. O detalhamento sentadas/em pé (até 190) fica só na página Espaço e Estrutura (DEC-017). O "Até 190 convidados" da implementação anterior **não deve ser reproduzido**.
+  - Na Home, a capacidade é **sempre "até 150 convidados"**. O detalhamento 150 sentadas / até 190 conforme a montagem (DEC-017, DEC-039) fica só na seção Espaço e Estrutura da Home (§7) e na página Espaço e Estrutura; nunca nas Provas rápidas. O "Até 190 convidados" da implementação anterior **não deve ser reproduzido**.
   - O NORTE sugere incluir "um evento por vez" como prova. Hoje não está na lista; avaliar na redação final.
 - **Implementação aprovada (04/10/2026, `src/components/home/QuickFacts.astro`):** seção imediatamente após o Hero, com seis fatos: **~700 m²** · **Até 150 convidados** · **Área infantil integrada** · **Estacionamento no local** · **Buffet e cozinha próprios** · **Um evento por vez**. "~700 m²" é copy local baseada no fato canônico de aproximadamente 700 m². A Home comunica "Até 150 convidados" (DEC-017). Sem CTA, sem ícones, zero JavaScript. Grid de 3 colunas no desktop, 2 no tablet e 1 no mobile, com filete superior em cada fato. Os fatos condicionais leem `site.ts`. Esta lista substitui, na implementação, os itens "Equipe preparada" e "Seu evento resolvido" da copy inicial e incorpora "um evento por vez" (nota acima); não gerou nova DEC.
 - **Dependências de fotografia:** nenhuma.
@@ -107,7 +107,7 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **SEO:** "gastronomia", "buffet", "cozinha própria", "evento", sem repetir Curitiba; alt descreve o que a foto mostra.
 - **Função no funil:** desejo.
 
-## 7. Espaço e estrutura
+## 7. Espaço e estrutura — ✅ implementada e aprovada (05/10/2026)
 
 - **Objetivo:** apresentar fatos físicos com imagens funcionais.
 - **Mensagem principal:** climatização, estacionamento, acessibilidade, espaço infantil, Wi-Fi e ~700 m² *(texto a definir)*.
@@ -116,6 +116,13 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **Dependências de fotografia:** salão (#26, #28), área infantil (#8, #17, #25 se atual), salão ocupado (#6, fraca). **Estacionamento: nenhuma foto.**
 - **SEO:** atributos físicos em texto.
 - **Função no funil:** adequação → confiança.
+- **Implementação (05/10/2026, `src/components/home/SpaceAndStructure.astro`) — aprovada pelo gestor em 05/10/2026:**
+  - eyebrow "O Espaço"; H2 "Estrutura para diferentes formatos de evento"; introdução com salão, área infantil e ambientes de apoio em aproximadamente 700 m²;
+  - seis fatos em filete (sem cards, sem ícones): ~700 m² · Até 150 pessoas sentadas · Até 190 pessoas conforme o formato (com uso conjunto do salão e da área infantil, DEC-039) · Climatização · Estacionamento privativo · Acessibilidade;
+  - `TextLink` "Conhecer o espaço" (`#espaco`, temporário; a seção também tem `id="espaco"`, destino do menu "O Espaço");
+  - fotos: principal #49 `Fotos Salão quente.png` (versão quente fornecida pelo gestor, mesma cena da #26; sem edição do projeto; a #26 `Fotos Salão.png` segue preservada, sem uso na Home) e apoio #48 `Visão da Recepção.jpg`; #29, #44, #47 e #25 não são usadas;
+  - desktop: texto no topo, fotos ~65/35 de mesma altura, fatos em 3 colunas; tablet: fatos em 2 colunas; mobile: foto principal e fatos, sem a foto de apoio (nem baixada);
+  - zero JavaScript.
 
 ## 8. Como funciona
 

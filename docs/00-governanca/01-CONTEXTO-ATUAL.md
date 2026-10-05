@@ -414,7 +414,7 @@ Imagem:
 - pendência: autorização de imagem das pessoas identificáveis antes da produção (L-08).
 
 ### 7. Espaço / Estrutura
-**Status:** PRÓXIMA SEÇÃO A DESENVOLVER (conteúdo em `home-estrutura.md` §7). Fotos reservadas pela DEC-038: #47 árvore iluminada e #48 recepção (avaliar antes do layout).
+**Status:** ✅ **CONCLUÍDA E APROVADA — 05/10/2026.** Implementada em `src/components/home/SpaceAndStructure.astro`, logo após Gastronomia (detalhes em `home-estrutura.md` §7). Foto principal #49 `Fotos Salão quente.png` (versão quente fornecida pelo gestor, da mesma cena da #26, que fica preservada no acervo) e apoio #48 (oculta e não baixada no mobile). Capacidade detalhada conforme DEC-039. Sem pendências.
 
 ### 8. Como funciona
 **Status:** pendente.
@@ -453,7 +453,7 @@ aproximadamente 700 m²
 Capacidade:
 - Home: até 150 convidados;
 - página Espaço/Estrutura: até 150 sentados;
-- até 190 em configuração predominantemente em pé, dependendo do layout e formato.
+- até 190 pessoas conforme a montagem e o formato, considerando o uso conjunto do salão e da área infantil (DEC-039); nunca "190 sentadas" e sem proporção em pé/sentadas.
 
 Estrutura:
 - estacionamento;
@@ -617,9 +617,8 @@ Se houver dúvida:
 
 ## 17. PRÓXIMO PASSO ATUAL
 
-1. desenvolver **Espaço / Estrutura** (depende de autorização do gestor);
-2. avaliar #47 e #48 (e as demais fotos do salão) antes de definir o layout;
-3. seguir a Home seção por seção: Como funciona, Eventos reais/avaliações, Localização/fechamento;
+1. **Como funciona** (próxima seção canônica da Home; Espaço / Estrutura concluída e aprovada);
+2. seguir a Home seção por seção: Eventos reais/avaliações, Localização/fechamento;
 4. pendências abertas relevantes: L-08 (autorização de imagem), L-11 (criar o DEV), L-13 (URLs de redes e Maps).
 
 ---

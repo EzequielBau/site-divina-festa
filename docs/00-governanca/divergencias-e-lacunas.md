@@ -22,7 +22,7 @@ Fontes citadas:
 | ID | Tema | Resolução | Decisão |
 |---|---|---|---|
 | DIV-01 | Stack: WordPress × stack não escolhida | Este repositório é o **projeto paralelo programado** do novo site. WordPress/Kadence pertence à implementação anterior. Stack depois decidida: **Astro static-first + backend independente na VPS** | DEC-016 (substitui DEC-010) · DEC-026 |
-| DIV-02 | Capacidade na Home | **Home: "até 150 convidados".** **Espaço e Estrutura: "até 150 pessoas sentadas ou até 190 em configuração predominantemente em pé, conforme layout e formato do evento".** O "Até 190" da Prova rápida da implementação anterior não vale para este projeto | DEC-017 |
+| DIV-02 | Capacidade na Home | **Home: "até 150 convidados".** **Espaço e Estrutura (incluindo a seção da Home): "até 150 pessoas sentadas ou até 190 pessoas, conforme a montagem e o formato do evento", com uso conjunto do salão e da área infantil** (redação ajustada pela DEC-039; antes: "predominantemente em pé"). O "Até 190" da Prova rápida da implementação anterior não vale para este projeto | DEC-017, DEC-039 |
 | DIV-03 | Telefones nos materiais | Telefones oficiais do site principal: **comercial geral (41) 99247-0605** e **Royal/corporativo (41) 99262-0604**. O (41) 9 8535-0605 fica registrado **apenas como dado da linha Divina Essência**, fora da fonte factual principal | DEC-018 |
 | DIV-09 | Estacionamento privativo | **Confirmado: estacionamento privativo** | DEC-019 |
 | DIV-10 | Divina Essência fora da arquitetura | **Linha/produto separado, a avaliar no futuro.** Não entra na arquitetura principal da primeira versão | DEC-020 |

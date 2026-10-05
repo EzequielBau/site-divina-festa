@@ -50,7 +50,7 @@ A fonte factual é a tabela do **Documento Norte §5**, **atualizada pelas decis
 | Endereço | Rua Marcelino Champagnat, 122 — Mercês — Curitiba/PR | |
 | Área | Aproximadamente 700 m² | |
 | Capacidade — **Home** | "até 150 convidados" | DEC-017 |
-| Capacidade — **Espaço e Estrutura** | "até 150 pessoas sentadas ou até 190 em configuração predominantemente em pé, conforme layout e formato do evento" | DEC-017 |
+| Capacidade — **Espaço e Estrutura** | "até 150 pessoas sentadas ou até 190 pessoas, conforme a montagem e o formato do evento"; a capacidade máxima considera o uso conjunto do salão e da área infantil. Sem proporção documentada entre pessoas em pé e sentadas | DEC-017, DEC-039 |
 | Estacionamento | **Privativo** | DEC-019 |
 | Climatização, espaço infantil, acessibilidade, Wi-Fi, segurança, emergência médica | Sim | |
 | Buffet próprio, cozinha própria, decoração, coordenação, equipe incluída | Sim | |

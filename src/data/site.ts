@@ -98,7 +98,7 @@ export const site = {
   capacity: {
     home: 'até 150 convidados',
     detailed:
-      'até 150 pessoas sentadas ou até 190 em configuração predominantemente em pé, conforme layout e formato do evento',
+      'até 150 pessoas sentadas ou até 190 pessoas, conforme a montagem e o formato do evento; a capacidade máxima considera o uso conjunto do salão e da área infantil',
     seatedMax: 150,
     standingMax: 190,
   },

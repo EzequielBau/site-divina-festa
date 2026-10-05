@@ -125,7 +125,7 @@ Decisão: Capacidade, com texto canônico por contexto:
 - **Espaço e Estrutura:** "até 150 pessoas sentadas ou até 190 em configuração predominantemente em pé, conforme layout e formato do evento".
 Motivo: Clareza na Home sem negar a flexibilidade real do espaço. Oficializa o critério sentadas/em pé.
 Impacto: Atualiza a fonte factual de trabalho (documento mestre §3). Deve ser incorporada ao NORTE §22 na próxima revisão do Documento Norte. Resolve a DIV-02.
-Status: Aprovada
+Status: Aprovada. **Complementada pela DEC-039** (05/10/2026): a redação "predominantemente em pé" foi substituída por "conforme a montagem e o formato", com a informação de uso conjunto do salão e da área infantil. O texto original acima é mantido como histórico.
 
 ## DEC-018
 Data: 03/10/2026
@@ -647,4 +647,21 @@ Decisão: **Fotos melhoradas (tom quente) passam a ser as preferenciais; versõe
 
 Motivo: Manter a identidade atemporal, quente, clara e comercial (madeira, dourado, luz âmbar), coerente entre Hero e seções seguintes.
 Impacto: Atualiza [`inventario-imagens.md`](../99-referencias/inventario-imagens.md) e `KidsAndAdults.astro`. `Festa no Átrio com Fotógrafa e Convidados.png` foi citada mas não existe no repositório. Pessoas identificáveis em #44 e #45 seguem sujeitas à L-08.
+Status: Aprovada
+## DEC-039
+Data: 05/10/2026
+Decisão: **Capacidade no contexto Espaço e Estrutura (complementa a DEC-017).** Atualização factual explícita do gestor:
+
+- até **150 pessoas sentadas**;
+- até **190 pessoas**, dependendo do formato e da montagem;
+- a capacidade máxima considera o **uso conjunto do salão e da área infantil**.
+
+Regras de comunicação:
+- **QuickFacts e mensagem geral da Home:** continuam "Até 150 convidados" (DEC-017).
+- **Seção Home › Espaço / Estrutura e página Espaço e Estrutura:** podem detalhar 150 sentadas e até 190 conforme montagem e formato, sempre explicando a dependência de layout. A seção da Home é um contexto de Espaço e Estrutura; não há conflito com a DEC-017 nem com o QuickFacts.
+- **Nunca** comunicar "190 pessoas sentadas" nem "capacidade para 190 pessoas" isoladamente.
+- **Não afirmar proporção** entre pessoas em pé e sentadas: ela não está documentada. A expressão "predominantemente em pé" (DEC-017) deixa de ser usada.
+
+Motivo: Esclarecer a capacidade real sem prometer 190 lugares sentados e sem inventar proporções.
+Impacto: Atualiza `src/data/site.ts` (`capacity.detailed`), o documento mestre §3, a DIV-02, `arquitetura-site.md`, `home-estrutura.md` e o CONTEXTO-ATUAL. Documento Norte (§5, §22) e Síntese Estratégica ficam como estão, com a redação anterior ("conforme layout e tipo de evento"), por hierarquia (DEC-025): a redação vigente é a deste registro e deve ser incorporada ao Norte na próxima revisão. O HANDOFF de 09/09/2026 ("predominantemente em pé") é referência histórica.
 Status: Aprovada
