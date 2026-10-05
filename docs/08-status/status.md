@@ -31,6 +31,7 @@
 - **Crianças + adultos da Home** implementada e aprovada (05/10/2026, `src/components/home/KidsAndAdults.astro`): texto à esquerda e foto vertical à direita, link editorial "Conhecer o espaço" sem CTA comercial, zero JavaScript. Foto #44 `Vista Área kids para o salão.jpg` (direção visual quente, DEC-038), processada pelo `astro:assets` com `quality={90}` (DEC-037). **Pendência:** confirmar autorização de uso de imagem das pessoas identificáveis antes da publicação em produção (L-08).
 - **Gastronomia da Home** implementada e aprovada (05/10/2026, `src/components/home/Gastronomy.astro`): logo após Crianças + Adultos; foto à esquerda e texto à direita a partir de 56rem (uma coluna abaixo disso; no mobile, a foto vem por último), três provas editoriais, link "Conhecer a gastronomia" (`#gastronomia`) sem CTA comercial, zero JavaScript. Foto #45 `Mesa feijoada com salão e area kids ao fundo.jpg` (derivado `buffet-feijoada-salao.jpg`), `astro:assets` com `quality={90}` (DEC-037). #46 reservada. **Pendência:** L-08 (pessoas identificáveis). Nenhuma pendência nova.
 - **Espaço / Estrutura da Home implementado e aprovado** (05/10/2026, `src/components/home/SpaceAndStructure.astro`): logo após Gastronomia; texto no topo, foto principal #49 (`Fotos Salão quente.png`, versão quente do gestor; a #26 fica preservada) e apoio #48 (só a partir de 48rem, não baixada no mobile), seis fatos em filete (3 colunas desktop, 2 tablet, 1 mobile), `TextLink` "Conhecer o espaço" (`#espaco`), zero JavaScript. Capacidade detalhada pela **DEC-039** (150 sentadas; até 190 conforme montagem e uso conjunto de salão e área infantil). **Pendências:** nenhuma (L-08 não se aplica: sem pessoas).
+- **Como funciona da Home implementado e aprovado** (05/10/2026, `src/components/home/HowItWorks.astro`): logo após Espaço / Estrutura, `id="como-funciona"`, fundo soft; quatro etapas numeradas (01 Conte sobre seu evento · 02 Escolha a melhor opção · 03 Definimos os detalhes · 04 Aproveite seu evento) em `<ol>`; mobile 1 coluna compacta, 2×2 a partir de 40rem e 4 colunas a partir de 72rem; sem CTA, sem fotografia, zero JavaScript. Função no funil: redução de risco / previsibilidade. Nenhuma pendência nova.
 - **Botões no padrão da referência do site anterior** (DEC-036): pílula, Familjen Grotesk, variantes `primary` · `secondary` · `outline`, adaptados ao contraste AA.
 
 ## Em andamento
@@ -47,7 +48,8 @@
 5a. ~~Provas rápidas~~ (feito em 04/10/2026)
 5b. ~~Tipos de evento~~ (feito em 04/10/2026)
 5c. ~~Crianças + adultos~~ (feito em 05/10/2026) e ~~Gastronomia~~ (feito em 05/10/2026)
-6. Home seção por seção, a seguir **Como funciona**
+5d. ~~Espaço / Estrutura~~ (feito em 05/10/2026) e ~~Como funciona~~ (feito em 05/10/2026)
+6. Home seção por seção, a seguir **Eventos reais / avaliações**
 7. Infraestrutura de desenvolvimento (DEC-033): criar `dev.divinafesta.com.br` na Hostinger com pasta própria e HTTPS → configurar o `X-Robots-Tag` (a meta robots já está no código) → primeira publicação manual só do `dist/` → conferir cabeçalhos e que nada fora do `dist/` está acessível
 8. Etapas próprias e posteriores: formulário (UX/CRO, com o fallback da DEC-032), backend Fastify (formulários, Kommo, Meta CAPI, webhooks, WhatsApp), tracking (GTM, GA4, Pixel, Consent Mode), monitoramento e CI/CD
 

@@ -417,7 +417,7 @@ Imagem:
 **Status:** ✅ **CONCLUÍDA E APROVADA — 05/10/2026.** Implementada em `src/components/home/SpaceAndStructure.astro`, logo após Gastronomia (detalhes em `home-estrutura.md` §7). Foto principal #49 `Fotos Salão quente.png` (versão quente fornecida pelo gestor, da mesma cena da #26, que fica preservada no acervo) e apoio #48 (oculta e não baixada no mobile). Capacidade detalhada conforme DEC-039. Sem pendências.
 
 ### 8. Como funciona
-**Status:** pendente.
+**Status:** ✅ **CONCLUÍDA E APROVADA — 05/10/2026.** `src/components/home/HowItWorks.astro`, logo após Espaço / Estrutura, `id="como-funciona"`, fundo soft. Função no funil: redução de risco / previsibilidade. H2 "Do planejamento ao dia do evento"; quatro etapas em `<ol>`: 01 Conte sobre seu evento · 02 Escolha a melhor opção · 03 Definimos os detalhes · 04 Aproveite seu evento. Layout: mobile 1 coluna compacta; 2×2 a partir de 40rem; 4 colunas a partir de 72rem. Sem CTA, sem fotografia, zero JavaScript. Sem pendências.
 
 ### 9. Eventos reais / avaliações
 **Status:** pendente.
@@ -617,8 +617,8 @@ Se houver dúvida:
 
 ## 17. PRÓXIMO PASSO ATUAL
 
-1. **Como funciona** (próxima seção canônica da Home; Espaço / Estrutura concluída e aprovada);
-2. seguir a Home seção por seção: Eventos reais/avaliações, Localização/fechamento;
+1. **Eventos reais / avaliações** (próxima seção canônica da Home; Como funciona concluída e aprovada);
+2. seguir a Home seção por seção: Localização/fechamento;
 4. pendências abertas relevantes: L-08 (autorização de imagem), L-11 (criar o DEV), L-13 (URLs de redes e Maps).
 
 ---

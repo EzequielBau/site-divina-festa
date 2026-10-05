@@ -17,8 +17,8 @@
 | 5 | Crianças + adultos | copy aprovada | **implementado e aprovado** | adequação → desejo |
 | 6 | Gastronomia | copy aprovada | **implementado e aprovado** | desejo |
 | 7 | Espaço e estrutura | copy aprovada | **implementado e aprovado (05/10/2026)** | adequação → confiança |
-| 8 | Como funciona | **próxima seção** (a definir) | a fazer | redução de risco |
-| 9 | Eventos reais / avaliações | a definir | a fazer | confiança |
+| 8 | Como funciona | copy aprovada | **implementado e aprovado (05/10/2026)** | redução de risco |
+| 9 | Eventos reais / avaliações | **próxima seção** (a definir) | a fazer | confiança |
 | 10 | Localização | a definir | a fazer | redução de atrito → contato |
 | 11 | CTA final | a definir | a fazer | contato → proposta |
 | 12 | Footer | estrutura definida | a fazer | confiança / navegação |
@@ -124,15 +124,22 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
   - desktop: texto no topo, fotos ~65/35 de mesma altura, fatos em 3 colunas; tablet: fatos em 2 colunas; mobile: foto principal e fatos, sem a foto de apoio (nem baixada);
   - zero JavaScript.
 
-## 8. Como funciona
+## 8. Como funciona — ✅ implementada e aprovada (05/10/2026)
 
-- **Objetivo:** transformar organização em tranquilidade.
-- **Mensagem principal:** contato → entendimento → proposta/visita → reserva → (definições) → preparação → evento. *"Organização que reduz preocupação."* (WIREFRAME). **As etapas precisam ser ajustadas à operação real antes de publicar** (L-05).
-- **Prova:** processo, responsável por etapa e "um evento por vez".
-- **CTA:** "Entender como funciona" ou "Solicitar proposta" *(a definir)*.
-- **Dependências de fotografia:** equipe e coordenação (**nenhuma foto disponível**).
-- **SEO:** perguntas de contratação.
-- **Função no funil:** redução de risco.
+- **Objetivo:** transformar organização em tranquilidade; faixa informativa, secundária e compacta.
+- **Mensagem principal:** existe um processo organizado e o cliente é acompanhado do planejamento ao dia do evento, sem explicar processos internos.
+- **Prova:** processo em quatro etapas curtas.
+- **CTA:** nenhum (a conversão fica em outros pontos da Home e no fechamento).
+- **Dependências de fotografia:** nenhuma (sem fotografia).
+- **SEO:** H2 e H3 semânticos em lista ordenada, sem repetir "Curitiba" artificialmente.
+- **Função no funil:** redução de risco / previsibilidade.
+- **Implementação (05/10/2026, `src/components/home/HowItWorks.astro`) — aprovada pelo gestor em 05/10/2026:**
+  - logo após Espaço / Estrutura; `id="como-funciona"` (destino do menu "Como funciona"); fundo `soft` (creme);
+  - eyebrow "Como funciona"; H2 "Do planejamento ao dia do evento"; introdução "Um processo simples para organizar cada etapa com mais tranquilidade.";
+  - quatro etapas em `<ol>` com H3: 01 Conte sobre seu evento · 02 Escolha a melhor opção · 03 Definimos os detalhes · 04 Aproveite seu evento (cada uma com uma frase curta); números como elemento gráfico (Familjen Grotesk, marrom, sem animação);
+  - mobile: 1 coluna compacta (número ao lado do texto); a partir de 40rem: 2×2; a partir de 72rem: 4 colunas; filetes finos, sem cards, sem ícones;
+  - altura aproximada: ~536 px (390), ~401 px (768), ~386 px (1024), ~367 px (1440); padding vertical local compacto;
+  - sem CTA, sem fotografia, zero JavaScript.
 
 ## 9. Eventos reais / avaliações
 
