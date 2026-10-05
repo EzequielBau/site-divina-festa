@@ -1,0 +1,131 @@
+---
+// Tipos de evento logo após QuickFacts: identificação rápida + caminho para as futuras páginas
+// específicas. Sem fotos, sem CTA de proposta, sem JavaScript.
+// Os destinos são âncoras temporárias; trocar pelas rotas reais quando as páginas existirem.
+import Container from '../ui/Container.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import Section from '../ui/Section.astro';
+import TextLink from '../ui/TextLink.astro';
+
+const eventTypes = [
+  {
+    title: 'Festas infantis',
+    text: 'Área infantil integrada, buffet, decoração e equipe para as crianças se divertirem enquanto os adultos aproveitam a celebração.',
+    linkLabel: 'Conhecer festas infantis',
+    href: '#festas-infantis',
+  },
+  {
+    title: 'Eventos familiares',
+    text: 'Aniversários, batizados, chás e encontros para reunir diferentes gerações com conforto, gastronomia e organização.',
+    linkLabel: 'Conhecer eventos familiares',
+    href: '#eventos-familiares',
+  },
+  {
+    title: 'Festa de 15 anos',
+    text: 'Ambientação, gastronomia e estrutura para uma festa de 15 anos organizada de acordo com o estilo da debutante.',
+    linkLabel: 'Conhecer festa de 15 anos',
+    href: '#15-anos',
+  },
+  {
+    title: 'Eventos corporativos',
+    text: 'Confraternizações, encontros e eventos empresariais com estrutura, gastronomia e atendimento para equipes e convidados.',
+    linkLabel: 'Conhecer eventos corporativos',
+    href: '#corporativo',
+  },
+];
+---
+
+<Section tone="soft" class="types" aria-labelledby="event-types-title">
+  <Container>
+    <header class="types__header">
+      <Eyebrow>Eventos no Divina Festa</Eyebrow>
+      <h2 id="event-types-title">Um espaço preparado para diferentes tipos de evento</h2>
+      <p class="types__intro">
+        Festas infantis, eventos familiares, 15 anos e eventos corporativos em Curitiba, com
+        estrutura, gastronomia e organização adaptadas a cada celebração.
+      </p>
+    </header>
+
+    <ul class="types__list">
+      {
+        eventTypes.map((type) => (
+          <li class="types__item">
+            <h3 class="types__title">{type.title}</h3>
+            <p class="types__text">{type.text}</p>
+            <TextLink href={type.href}>{type.linkLabel}</TextLink>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</Section>
+
+<style>
+  .types__header {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-16);
+    max-width: 44rem;
+    margin-bottom: var(--space-48);
+  }
+
+  .types__header :global(h2),
+  .types__header p {
+    margin: 0;
+  }
+
+  .types__intro {
+    font-size: var(--font-size-large);
+    line-height: var(--line-height-body);
+    color: var(--color-fg-muted);
+  }
+
+  .types__list {
+    display: grid;
+    gap: var(--space-32);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .types__item {
+    display: grid;
+    gap: var(--space-12);
+    align-content: start;
+    justify-items: start;
+    padding-top: var(--space-16);
+    border-top: var(--border-width) solid var(--color-border);
+  }
+
+  .types__title {
+    margin: 0;
+    font-size: var(--font-size-h4);
+    line-height: var(--line-height-h4);
+  }
+
+  .types__text {
+    margin: 0;
+    max-width: 30rem;
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+  }
+
+  @media (min-width: 48rem) {
+    .types__header {
+      margin-bottom: var(--space-64);
+    }
+
+    .types__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-48) var(--space-48);
+    }
+  }
+
+  /* Quatro colunas só em desktop largo, onde o texto não fica estreito. */
+  @media (min-width: 80rem) {
+    .types__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-48) var(--space-32);
+    }
+  }
+</style>

@@ -1,6 +1,6 @@
 # Status do projeto
 
-**Atualizado em:** 04/10/2026 — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032); hospedagem do frontend na Hostinger Web Hosting (DEC-033); fundação visual do Design System implementada e aprovada (DEC-034); Header e Footer finalizados (DEC-035); botões no padrão da referência (DEC-036); imagens em alta definição (DEC-037); Hero e provas rápidas aprovados.
+**Atualizado em:** 04/10/2026 — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032); hospedagem do frontend na Hostinger Web Hosting (DEC-033); fundação visual do Design System implementada e aprovada (DEC-034); Header e Footer finalizados (DEC-035); botões no padrão da referência (DEC-036); imagens em alta definição (DEC-037); Hero, provas rápidas e tipos de evento aprovados.
 
 ## Concluído
 
@@ -27,6 +27,7 @@
 - **Header e Footer finalizados e aprovados** (04/10/2026, DEC-035): `Header.astro` (logo, Eventos ▾ com 4 tipos, O Espaço, Gastronomia, Como funciona; sticky, compacto, menu lateral abaixo de 64rem) e `Footer.astro` (institucional, ~133 px no desktop, endereço uma única vez). Nenhum dos dois tem CTA comercial, telefone, WhatsApp ou horário. Redes sociais e Google Maps aguardam URLs oficiais (L-13)
 - **Hero da Home** implementado e aprovado (04/10/2026, `src/components/home/Hero.astro`): foto #29 `Salão Divina Social2.png` processada pelo `astro:assets` (AVIF/WebP/JPEG, 480–1306 px, qualidade 90 — DEC-037), 2 colunas a partir de 64rem, sem JavaScript.
 - **Provas rápidas (QuickFacts) da Home** implementadas e aprovadas (04/10/2026, `src/components/home/QuickFacts.astro`): seção logo após o Hero, seis fatos (~700 m², até 150 convidados, área infantil integrada, estacionamento no local, buffet e cozinha próprios, um evento por vez), sem CTA e sem ícones, 3 colunas no desktop, 2 no tablet e 1 no mobile, zero JavaScript.
+- **Tipos de evento da Home** implementados e aprovados (04/10/2026, `src/components/home/EventTypes.astro`): seção após as provas rápidas, fundo soft, sem fotos nem cards, quatro blocos (festas infantis, eventos familiares, festa de 15 anos, eventos corporativos) com H3 e `TextLink` para destinos temporários (`#festas-infantis`, `#eventos-familiares`, `#15-anos`, `#corporativo`), 4 colunas a partir de 1280px, 2 no tablet e 1 no mobile, zero JavaScript.
 - **Botões no padrão da referência do site anterior** (DEC-036): pílula, Familjen Grotesk, variantes `primary` · `secondary` · `outline`, adaptados ao contraste AA.
 
 ## Em andamento
@@ -41,6 +42,7 @@
 4. ~~Footer~~ (feito em 04/10/2026, DEC-035)
 5. ~~Hero~~ (feito em 04/10/2026)
 5a. ~~Provas rápidas~~ (feito em 04/10/2026)
+5b. ~~Tipos de evento~~ (feito em 04/10/2026)
 6. Home seção por seção, começando por **Gastronomia** no conteúdo
 7. Infraestrutura de desenvolvimento (DEC-033): criar `dev.divinafesta.com.br` na Hostinger com pasta própria e HTTPS → configurar o `X-Robots-Tag` (a meta robots já está no código) → primeira publicação manual só do `dist/` → conferir cabeçalhos e que nada fora do `dist/` está acessível
 8. Etapas próprias e posteriores: formulário (UX/CRO, com o fallback da DEC-032), backend Fastify (formulários, Kommo, Meta CAPI, webhooks, WhatsApp), tracking (GTM, GA4, Pixel, Consent Mode), monitoramento e CI/CD

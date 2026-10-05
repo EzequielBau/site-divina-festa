@@ -13,7 +13,7 @@
 | 1 | Header | estrutura definida | **implementado e aprovado (DEC-035)** | navegação / conversão |
 | 2 | Hero | **texto aprovado** | **implementado e aprovado** | descoberta → identificação |
 | 3 | Prova rápida (QuickFacts) | copy definida; capacidade conforme DEC-017 | **implementado e aprovado** | interesse → adequação |
-| 4 | Tipos de evento | textos criados; **fotos pendentes** | a fazer | identificação |
+| 4 | Tipos de evento | textos aprovados; fotos pendentes (versão atual sem fotos) | **implementado e aprovado (sem fotos)** | identificação |
 | 5 | Crianças + adultos | estrutura e copy criadas | a fazer | adequação → desejo |
 | 6 | Gastronomia | **próxima seção de conteúdo** | a fazer | desejo |
 | 7 | Espaço e estrutura | a definir | a fazer | adequação → confiança |
@@ -68,7 +68,12 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **Visual:** editorial, sem cards pesados, sombras ou excesso de ícones; alinhamento à esquerda.
 - **Função no funil:** interesse → adequação.
 
-## 4. Tipos de evento — textos criados, fotos pendentes
+## 4. Tipos de evento — ✅ implementada e aprovada (sem fotos)
+
+- **Implementação aprovada (04/10/2026, `src/components/home/EventTypes.astro`):** seção imediatamente após as provas rápidas, fundo `soft` (cream), sem fotos, sem cards, sem sombras e zero JavaScript. Eyebrow *Eventos no Divina Festa* · H2 *Um espaço preparado para diferentes tipos de evento* · introdução (menciona Curitiba uma vez) · quatro blocos com H3, texto curto e `TextLink` editorial, separados por filete superior: **Festas infantis**, **Eventos familiares**, **Festa de 15 anos** e **Eventos corporativos**. Layout: 4 colunas a partir de 80rem (1280px), 2 colunas em tablet e intermediário, 1 coluna no mobile.
+- **Links (destinos temporários):** `#festas-infantis`, `#eventos-familiares`, `#15-anos` e `#corporativo`; trocar pelas rotas reais quando as páginas de evento existirem. Sem "Solicitar proposta" nesta seção.
+- **Divergência consciente com o texto abaixo:** a versão implementada usa links "Conhecer…" e não tem fotos nem cards; o H2 e as descrições substituem o texto do HANDOFF §3.3. Não gerou nova DEC. As fotos continuam pendentes (regras da DEC-024) e podem ser reavaliadas em etapa própria.
+- **Texto original planejado (referência):**
 
 - **Objetivo:** permitir identificação sem virar catálogo.
 - **Mensagem principal (criada):** Eyebrow *EVENTOS NO DIVINA FESTA* · H2 *O formato ideal para o seu evento* · introdução e 4 cards: **Festas Infantis**, **Eventos Familiares**, **Festa de 15 Anos** e **Eventos Corporativos** (textos completos no HANDOFF §3.3).
