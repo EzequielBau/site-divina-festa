@@ -14,7 +14,7 @@
 | 2 | Hero | **texto aprovado** | **implementado e aprovado** | descoberta → identificação |
 | 3 | Prova rápida (QuickFacts) | copy definida; capacidade conforme DEC-017 | **implementado e aprovado** | interesse → adequação |
 | 4 | Tipos de evento | textos aprovados; fotos pendentes (versão atual sem fotos) | **implementado e aprovado (sem fotos)** | identificação |
-| 5 | Crianças + adultos | estrutura e copy criadas | a fazer | adequação → desejo |
+| 5 | Crianças + adultos | copy aprovada | **implementado e aprovado** | adequação → desejo |
 | 6 | Gastronomia | **próxima seção de conteúdo** | a fazer | desejo |
 | 7 | Espaço e estrutura | a definir | a fazer | adequação → confiança |
 | 8 | Como funciona | a definir | a fazer | redução de risco |
@@ -84,15 +84,15 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **Responsivo:** 4 colunas no desktop, 2×2 no tablet, 1 coluna no celular.
 - **Função no funil:** identificação → encaminhamento para a jornada própria.
 
-## 5. Crianças + adultos — copy criada
+## 5. Crianças + adultos — ✅ implementada e aprovada
 
 - **Objetivo:** materializar o território multigeracional.
-- **Mensagem principal (criada):** Eyebrow *PARA CRIANÇAS E ADULTOS* · H2 *Crianças se divertem. Adultos aproveitam.* · texto sobre o salão integrado à área infantil · complemento *Mais tranquilidade para quem organiza e uma experiência melhor para todos os convidados.*
+- **Mensagem implementada (aprovada, `src/components/home/KidsAndAdults.astro`):** Eyebrow *Para crianças e adultos* · H2 *Crianças se divertem. Adultos aproveitam a celebração.* · texto: área infantil integrada ao salão, crianças aproveitam as atrações e adultos permanecem próximos · complemento *Mais tranquilidade para quem organiza e uma experiência melhor para diferentes gerações.* O H2 e o complemento diferem da copy criada anteriormente; não geraram nova DEC.
 - **Prova:** foto real de adultos e crianças no mesmo evento.
-- **CTA:** "Conhecer o espaço".
-- **Dependências de fotografia:** a única candidata clara é a #11 (exige autorização de imagem). Esta é uma **lacuna crítica de acervo**.
+- **CTA:** link editorial "Conhecer o espaço" (`TextLink`, destino temporário `#espaco`). **Sem CTA comercial** nesta seção.
+- **Foto:** #44 `Vista Área kids para o salão.jpg` (ver [inventário](../99-referencias/inventario-imagens.md)). **Pendência de autorização (L-08):** confirmar autorização de uso de imagem das pessoas identificáveis antes da publicação em produção. O ambiente DEV é `noindex`, então não bloqueia o desenvolvimento.
 - **SEO:** "espaço infantil integrado", "festa para crianças e adultos".
-- **Visual:** cerca de 55% foto / 45% texto no desktop; fundo `#F8F3E8`; no mobile, texto → CTA → foto.
+- **Visual implementado:** texto à esquerda e foto vertical (4:5) à direita a partir de 48rem; abaixo disso, texto → CTA → foto em uma coluna. Sem JavaScript.
 - **Função no funil:** adequação → desejo.
 
 ## 6. Gastronomia — próxima seção

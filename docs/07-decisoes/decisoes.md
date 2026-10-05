@@ -634,3 +634,17 @@ Decisão: **Imagens em alta definição.** As fotos do site devem ser exibidas n
 Motivo: Determinação do gestor: a fotografia real é a principal prova visual do site e precisa ser exibida com a melhor definição possível.
 Impacto: Atualiza o §10 de [`design-system.md`](../03-design-system/design-system.md). Substitui a meta de peso orientativo (~200 KB no Hero, ~120 KB em cards), que deixa de ser limite.
 Status: Aprovada
+
+## DEC-038
+Data: 05/10/2026
+Decisão: **Fotos melhoradas (tom quente) passam a ser as preferenciais; versões antigas de dominante azulada saem das seções principais.**
+
+- **Hero:** mantido `Salão Divina Social2.png` (#29). Quente, sem pessoas e institucional; as novas fotos são verticais e quase todas têm pessoas.
+- **Crianças + adultos:** `Vista Área kids para o salão.jpg` (#44) substitui `area-infantil-tirolesa-salao.jpg`, que tinha tom azulado/roxo e o rodapé "Conteúdo gerado por IA". Mesma cena, com enquadramento melhor e luz âmbar.
+- **Quick facts e Tipos de evento:** sem foto, como definido.
+- **Reservadas para as próximas seções** (ainda não existem na Home): #45 feijoada + salão (Gastronomia), #46 comida e decoração (apoio), #47 árvore iluminada e #48 recepção (O Espaço).
+- Sem edição, geração ou alteração estrutural das fotos; só substituição, reorganização e registro.
+
+Motivo: Manter a identidade atemporal, quente, clara e comercial (madeira, dourado, luz âmbar), coerente entre Hero e seções seguintes.
+Impacto: Atualiza [`inventario-imagens.md`](../99-referencias/inventario-imagens.md) e `KidsAndAdults.astro`. `Festa no Átrio com Fotógrafa e Convidados.png` foi citada mas não existe no repositório. Pessoas identificáveis em #44 e #45 seguem sujeitas à L-08.
+Status: Aprovada

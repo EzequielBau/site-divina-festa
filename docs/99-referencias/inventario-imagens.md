@@ -146,6 +146,24 @@ Mesmo motivo dos logos: passam pelo `astro:assets`, que gera AVIF/WebP/JPEG redi
 | Derivado | Original | Dimensão | Tamanho | Uso |
 |---|---|---|---|---|
 | `home/salao-divina-social-panoramico.png` | #29 Salão Divina Social2.png (SHA256 `679F0521…2D68`) | 1306×714 | 1,7 MB | Hero da Home: larguras 480, 720, 960 e 1306 px; `quality={90}` validado por conferência visual (DEC-037); maior versão ≈ 274 KB AVIF, 229 KB WebP |
+| `home/area-kids-vista-salao.jpg` | #44 Vista Área kids para o salão.jpg (SHA256 `ECC9456A…3ADE`) | 2252×3616 | 2,1 MB | Home › Crianças + adultos — demonstrar a integração entre a área infantil e o salão principal. Cópia byte a byte do original (mesmo SHA256), sem edição; recorte só por CSS (4:5, `object-position: 50% 20%`). Larguras 480–1200 px, `quality={90}` (DEC-037), sem ampliar além do original. Substitui `home/area-infantil-tirolesa-salao.jpg` (ver DEC-038) |
+
+`home/area-infantil-tirolesa-salao.jpg` (versão anterior da mesma cena, tom azulado/roxo e rodapé "Conteúdo gerado por IA") **não é mais usada**. Foi mantida no disco, sem apagar, até autorização.
+
+## Fotos melhoradas (tom quente) — imagens preferenciais (DEC-038)
+
+Adicionadas em `assets/images/source/Divina Festa/` porque várias fotos anteriores tinham dominante azulada. Sem edição; somente leitura. Dimensões 2252 px de largura. Todas passam pela regra DEC-024 antes de publicar.
+
+| # | Arquivo | Dimensão | Seção preferencial | Status na Home | Observações |
+|---|---|---|---|---|---|
+| 44 | Vista Área kids para o salão.jpg | 2252×3616 | Crianças + adultos | **Em uso** | **Mesma cena** da foto anterior (`area-infantil-tirolesa-salao.jpg`), não é outro evento: versão com correção de cor/temperatura mais quente, sem alteração estrutural, fornecida pelo gestor. A versão anterior à correção não está registrada como original separado no repositório. Luz âmbar, sem marca d'água. Pessoas identificáveis (adultos, jovem na tirolesa, criança ao pé do quadro — fora do recorte 4:5): **L-08 — confirmar autorização de uso de imagem das pessoas identificáveis antes da publicação em produção** (nenhuma autorização está documentada; DEV é `noindex`) |
+| 45 | Mesa feijoada com salão e area kids ao fundo.jpg | 2252×3338 | Gastronomia (buffet) | Reservada | Melhor prova real de buffet + salão + área kids. Janela ao fundo com tom ciano e convidados identificáveis: **L-08** |
+| 46 | Comida e decoração ao fundo.jpg | 2252×3881 | Gastronomia (apoio) / Festa infantil | Reservada | Boa mesa com doces e bebidas, mas decoração pastel de festa infantil domina; usar só como apoio. Cartão com QR visível |
+| 47 | Detalhe arvore iluminada salão.jpg | 2252×4000 | O Espaço (detalhe) | Reservada | Limpa, madeira + árvore iluminada, sem pessoas. Piso/paredes brancos, menos calor que o Hero |
+| 48 | Visão da Recepção.jpg | 2252×4000 | O Espaço (recepção/ambiente) | Reservada | Sem pessoas, madeira, cortinas e parede verde. Mostra ar-condicionado e câmeras; avaliar recorte |
+| — | Festa no Átrio com Fotógrafa e Convidados.png | — | — | **Não encontrada** | Citada na solicitação, mas não existe no repositório. Não considerada |
+
+**Hero:** mantido `#29 Salão Divina Social2.png` (quente, sem pessoas, 1306 px). Nenhuma nova foto o supera: todas as novas são verticais e a maioria tem pessoas.
 
 ## `assets/images/source/Material Publicitário/`
 

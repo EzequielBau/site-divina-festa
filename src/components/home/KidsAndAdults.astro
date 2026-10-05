@@ -1,0 +1,102 @@
+---
+// Convivência entre crianças e adultos: texto de um lado, foto vertical real do outro.
+// Sem JavaScript, sem texto sobre a imagem. O destino do CTA é temporário (#espaco).
+import { Picture } from 'astro:assets';
+import Container from '../ui/Container.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import Section from '../ui/Section.astro';
+import TextLink from '../ui/TextLink.astro';
+import tirolesa from '../../assets/images/home/area-kids-vista-salao.jpg';
+---
+
+<Section class="kids" aria-labelledby="kids-adults-title">
+  <Container class="kids__grid">
+    <div class="kids__content">
+      <Eyebrow>Para crianças e adultos</Eyebrow>
+      <h2 id="kids-adults-title">Crianças se divertem. Adultos aproveitam a celebração.</h2>
+      <p class="text-large">
+        A área infantil fica integrada ao salão principal, facilitando acompanhar as crianças sem
+        sair da celebração. Enquanto elas aproveitam as atrações, os adultos permanecem próximos
+        para conversar, comer e aproveitar o evento.
+      </p>
+      <p class="kids__complement">
+        Mais tranquilidade para quem organiza e uma experiência melhor para diferentes gerações.
+      </p>
+      <TextLink href="#espaco">Conhecer o espaço</TextLink>
+    </div>
+
+    <Picture
+      src={tirolesa}
+      alt="Criança na tirolesa da área infantil e, ao fundo, adultos sentados às mesas e conversando no salão principal do Divina Festa"
+      formats={['avif', 'webp']}
+      fallbackFormat="jpg"
+      quality={90}
+      widths={[480, 720, 960, 1200]}
+      sizes="(min-width: 80rem) 480px, (min-width: 48rem) 40vw, calc(100vw - 2.5rem)"
+      loading="lazy"
+      class="kids__image"
+    />
+  </Container>
+</Section>
+
+<style>
+  .kids :global(.kids__grid) {
+    display: grid;
+    gap: var(--space-32);
+  }
+
+  .kids__content {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-16);
+  }
+
+  .kids__content :global(h2),
+  .kids__content p {
+    margin: 0;
+  }
+
+  .kids__content p {
+    max-width: 34rem;
+  }
+
+  .kids__complement {
+    color: var(--color-fg-muted);
+  }
+
+  /* Recorte vertical que mantém a criança na tirolesa (topo) e os adultos no salão (centro), sem o piso vazio e a criança ao pé do quadro original. */
+  .kids :global(.kids__image) {
+    width: 100%;
+    max-width: 30rem;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 20%;
+    border-radius: var(--radius-md);
+  }
+
+  @media (min-width: 48rem) {
+    .kids :global(.kids__grid) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+      align-items: center;
+      gap: var(--space-48);
+    }
+
+    .kids :global(.kids__image) {
+      justify-self: end;
+    }
+
+    .kids__content {
+      gap: var(--space-24);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .kids :global(.kids__grid) {
+      gap: var(--space-80);
+    }
+
+    .kids :global(.kids__image) {
+      max-width: 30rem;
+    }
+  }
+</style>

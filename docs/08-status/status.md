@@ -28,6 +28,7 @@
 - **Hero da Home** implementado e aprovado (04/10/2026, `src/components/home/Hero.astro`): foto #29 `Salão Divina Social2.png` processada pelo `astro:assets` (AVIF/WebP/JPEG, 480–1306 px, qualidade 90 — DEC-037), 2 colunas a partir de 64rem, sem JavaScript.
 - **Provas rápidas (QuickFacts) da Home** implementadas e aprovadas (04/10/2026, `src/components/home/QuickFacts.astro`): seção logo após o Hero, seis fatos (~700 m², até 150 convidados, área infantil integrada, estacionamento no local, buffet e cozinha próprios, um evento por vez), sem CTA e sem ícones, 3 colunas no desktop, 2 no tablet e 1 no mobile, zero JavaScript.
 - **Tipos de evento da Home** implementados e aprovados (04/10/2026, `src/components/home/EventTypes.astro`): seção após as provas rápidas, fundo soft, sem fotos nem cards, quatro blocos (festas infantis, eventos familiares, festa de 15 anos, eventos corporativos) com H3 e `TextLink` para destinos temporários (`#festas-infantis`, `#eventos-familiares`, `#15-anos`, `#corporativo`), 4 colunas a partir de 1280px, 2 no tablet e 1 no mobile, zero JavaScript.
+- **Crianças + adultos da Home** implementada e aprovada (05/10/2026, `src/components/home/KidsAndAdults.astro`): texto à esquerda e foto vertical à direita, link editorial "Conhecer o espaço" sem CTA comercial, zero JavaScript. Foto #44 `Vista Área kids para o salão.jpg` (direção visual quente, DEC-038), processada pelo `astro:assets` com `quality={90}` (DEC-037). **Pendência:** confirmar autorização de uso de imagem das pessoas identificáveis antes da publicação em produção (L-08).
 - **Botões no padrão da referência do site anterior** (DEC-036): pílula, Familjen Grotesk, variantes `primary` · `secondary` · `outline`, adaptados ao contraste AA.
 
 ## Em andamento
@@ -54,7 +55,7 @@
 - Autorizações de imagem (crianças, convidados) e licença ou arquivos sem marca d'água do fotógrafo `@lucylimafotografia` (L-08)
 - Origem das fotos Bistrô, café colonial, capas Essência e 15 anos (L-09)
 - Logo em SVG: não há arquivo confirmado. Não vetorizar agora (L-10, DEC-023)
-- Fotos faltantes: equipe, cozinha, estacionamento, corporativo, salão ocupado, adultos + crianças (L-07)
+- Fotos faltantes: equipe, cozinha, estacionamento, corporativo, salão ocupado, mini wedding (L-07). Adultos + crianças agora coberto por #44, sujeito à L-08. `Festa no Átrio com Fotógrafa e Convidados.png` não está no repositório
 - Criar e configurar `dev.divinafesta.com.br` na Hostinger (L-11); domínio principal e configuração própria da produção no lançamento (L-22); GBP, CNPJ, política de privacidade, contas de marketing (L-11 a L-15)
 - Texto do fallback no WhatsApp, timeout da API e eventual armazenamento temporário no navegador (L-23, DEC-032)
 - Remover manualmente as pastas vazias `Imagens\` e `Documentos norteadores para montar site\` (o Windows negou a exclusão; o Git ignora pastas vazias)
