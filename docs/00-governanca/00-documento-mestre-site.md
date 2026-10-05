@@ -188,7 +188,7 @@ Toda seção ou página só é aprovada se passar nas duas listas:
 
 | Pasta | Conteúdo |
 |---|---|
-| `docs/00-governanca/` | este documento · [divergências e lacunas](divergencias-e-lacunas.md) · [proposta de prevalência](proposta-ordem-prevalencia.md) (aprovada como DEC-025) |
+| `docs/00-governanca/` | este documento · [contexto atual](01-CONTEXTO-ATUAL.md) (memória operacional viva e ponto de entrada; síntese, não autoridade superior; atualização obrigatória após cada aprovação, conforme `AGENTS.md`) · [divergências e lacunas](divergencias-e-lacunas.md) · [proposta de prevalência](proposta-ordem-prevalencia.md) (aprovada como DEC-025) |
 | `docs/01-estrategia/` | Documento Norte e Síntese Estratégica (`.docx` originais + transcrições `.md`) |
 | `docs/02-arquitetura/` | [arquitetura do site](../02-arquitetura/arquitetura-site.md) (páginas e arquitetura técnica) · [infraestrutura](../02-arquitetura/infraestrutura.md) (Hostinger, ambientes dev e produção, publicação, indexação e segurança operacional) · [comparativo de stack](../02-arquitetura/proposta-comparativo-stack.md) (base da DEC-026) |
 | `docs/03-design-system/` | [design system](../03-design-system/design-system.md) |

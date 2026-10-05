@@ -4,9 +4,37 @@ Este arquivo vale para qualquer assistente de IA ou agente automatizado que trab
 
 ## Antes de começar
 
+0. Leia [`docs/00-governanca/01-CONTEXTO-ATUAL.md`](docs/00-governanca/01-CONTEXTO-ATUAL.md) (ver "Memória operacional obrigatória").
 1. Leia [`docs/00-governanca/00-documento-mestre-site.md`](docs/00-governanca/00-documento-mestre-site.md), que é o índice central.
 2. Consulte a fonte factual (Documento Norte §5) antes de escrever qualquer dado.
 3. Veja [`docs/08-status/status.md`](docs/08-status/status.md) e [`docs/00-governanca/divergencias-e-lacunas.md`](docs/00-governanca/divergencias-e-lacunas.md).
+
+## Memória operacional obrigatória
+
+[`docs/00-governanca/01-CONTEXTO-ATUAL.md`](docs/00-governanca/01-CONTEXTO-ATUAL.md) é a memória operacional viva e o ponto de entrada do projeto.
+
+**Leitura:** todo agente, antes de começar uma tarefa relevante, deve ler esse arquivo e depois os documentos canônicos que ele indicar.
+
+- Não pedir ao gestor informações que já estão registradas.
+- Não reabrir decisões aprovadas sem evidência ou contradição real.
+- Consultar decisões e documentos antes de assumir qualquer coisa.
+- O CONTEXTO-ATUAL é síntese operacional, **não** autoridade superior às DECs e aos documentos canônicos (vale a hierarquia da seção "Prevalência das fontes"). Se divergir, corrija-o.
+
+**Atualização após aprovação:** sempre que o gestor aprovar explicitamente uma seção, página, componente, decisão, imagem definitiva, arquitetura ou alteração relevante, o fechamento da tarefa **deve** incluir a atualização da memória operacional. Fluxo obrigatório:
+
+1. atualizar o documento canônico afetado;
+2. atualizar `docs/00-governanca/01-CONTEXTO-ATUAL.md`;
+3. atualizar `docs/08-status/status.md`;
+4. atualizar `docs/04-conteudo/home-estrutura.md`, se a Home mudou;
+5. atualizar `docs/07-decisoes/decisoes.md` somente se houver decisão global nova;
+6. atualizar `docs/99-referencias/inventario-imagens.md` quando houver imagem selecionada, derivada, substituída ou descartada;
+7. rodar os testes;
+8. apresentar o diff/status;
+9. fazer commit quando a tarefa tiver autorização para commit.
+
+A atualização documental não é opcional nem etapa futura: faz parte da definição de "concluído".
+
+**Síntese:** o CONTEXTO-ATUAL mostra o presente, não o histórico. Ao mudar o estado de uma etapa, troque o estado (ex.: "em validação" → "concluída"); não acrescente versões anteriores. O Git guarda o histórico.
 
 ## Regras obrigatórias
 
