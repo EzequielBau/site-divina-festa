@@ -681,3 +681,16 @@ Decisão: **Navegação e localização (complementa a DEC-035).**
 Motivo: A seção Localização repetia informação que o Footer e o Hero já cobrem e usava um link de Maps que apontava para o lugar errado. "Como funciona" é conteúdo de decisão da Home, não item de navegação; "Contato" é o destino que o visitante procura no menu.
 Impacto: Atualiza `Header.astro`, `Footer.astro`, `src/data/site.ts` (`address.mapsUrl`), `src/pages/index.astro`, [`home-estrutura.md`](../04-conteudo/home-estrutura.md), o CONTEXTO-ATUAL, o status e a DIV-07. Substitui, na DEC-035, o item "Como funciona" do menu e a exclusão do Google Maps no Footer (que agora usa o link provisório validado). Redes sociais continuam fora até a L-13.
 Status: Aprovada
+
+## DEC-041
+Data: 05/10/2026
+Decisão: **"Solicitar proposta" leva ao formulário e a Home ganha botão flutuante de contato (complementa as DEC-032 e DEC-035).**
+
+- **CTAs "Solicitar proposta"** (Hero e bloco final) **não vão mais ao WhatsApp**: levam ao **formulário de proposta**, que será criado em etapa própria (tipo de evento → data → convidados → nome). O WhatsApp com mensagem pré-preenchida continua apenas como **fallback do formulário** (DEC-032).
+- **Botão flutuante de contato** (estilo botão de chat), discreto e evidente, no **canto inferior direito em todos os formatos** (desktop, tablet e smartphone), em todas as páginas. Também leva ao formulário. É o "botão flutuante de contato" previsto na DEC-035; Header e Footer continuam sem CTA comercial.
+- **Destino único:** `site.links.proposal` (`src/data/site.ts`). Provisório (`#contato`, o bloco final da Home) até a página do formulário existir; trocar só esse valor quando existir.
+- **Faixa de fatos (QuickFacts) retirada da Home**, por repetir o que Espaço / Estrutura já mostra.
+
+Motivo: O contato comercial deve passar pelo formulário, que qualifica o pedido e preserva os dados (DEC-032), em vez de abrir uma conversa solta no WhatsApp.
+Impacto: Atualiza `Hero.astro`, `FinalCta.astro`, `FloatingContact.astro` (novo), `BaseLayout.astro`, `Footer.astro` (espaço reservado ao botão), `site.ts`, [`home-estrutura.md`](../04-conteudo/home-estrutura.md) (§11 e §13) e o CONTEXTO-ATUAL. O formulário, o backend e o fallback seguem sem implementação.
+Status: Aprovada

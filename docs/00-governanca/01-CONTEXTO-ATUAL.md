@@ -315,8 +315,12 @@ Essa confirmação vale antes da produção das imagens. O ambiente DEV pode con
 
 ## 9. HOME — ORDEM E ESTADO ATUAL
 
+**Ordem vigente (7 seções entre Header e Footer):** Hero → Tipos de evento → Crianças + adultos → Gastronomia → Espaço / Estrutura → Como funciona → CTA final. Narrativa: o que é → serve para o meu evento? → como é a experiência? → a gastronomia é boa? → o espaço atende? → é organizado? → quero conversar. Ritmo alternando imagem e informação; fundos alternados (Hero e Crianças + adultos em creme `soft`; Tipos de evento, Gastronomia e Como funciona em branco; Espaço / Estrutura `soft`; CTA final `warm`). **Home concluída e aprovada em 05/10/2026.**
+
+Regras de redação aprovadas: fato → significado → benefício; evitar frases publicitárias sem prova ("celebrações de verdade", "chegada prática", "experiência inesquecível" etc.); "um evento por vez" não é argumento recorrente de venda.
+
 ### 1. Header
-**Status:** concluído e aprovado.
+**Status:** concluído e aprovado (DEC-035, DEC-040). Sem CTA comercial.
 
 ### 2. Hero
 **Status:** concluído e aprovado.
@@ -325,51 +329,31 @@ Conteúdo:
 - eyebrow: “Buffet e espaço de eventos · Mercês, Curitiba”;
 - H1: “Um espaço completo para celebrar em Curitiba”;
 - texto: “Buffet, estrutura, gastronomia e organização para você aproveitar seu evento com mais tranquilidade.”;
-- CTA principal: “Solicitar proposta”;
+- CTA principal: “Solicitar proposta” → **formulário** (DEC-041; destino `site.links.proposal`, provisório `#contato`);
 - CTA secundário: “Conhecer o espaço”.
 
 Imagem:
-- salão real;
+- salão real (#29);
 - imagem responsiva;
 - alta qualidade;
 - política DEC-037.
 
-### 3. Provas rápidas / QuickFacts
-**Status:** concluído e aprovado.
+### Provas rápidas / QuickFacts — retirada da Home (05/10/2026)
+Repetia fatos já presentes em Espaço / Estrutura. `QuickFacts.astro` fica no repositório, sem uso.
 
-Fatos:
-- ~700 m²;
-- até 150 convidados;
-- área infantil integrada;
-- estacionamento no local;
-- buffet e cozinha próprios;
-- climatização (substituiu "um evento por vez", que não é mais argumento recorrente de venda).
-
-Regras:
-- sem CTA;
-- sem ícones;
-- 3 colunas desktop;
-- 2 tablet;
-- 1 mobile;
-- zero JS.
-
-### 4. Tipos de evento
+### 3. Tipos de evento
 **Status:** concluído e aprovado; reprojetado em 05/10/2026 como navegador visual (`EventTypes.astro`).
 
-H2: "Encontre o formato para o seu evento". Foto real por tipo, título, descrição curta e link editorial; item inteiro clicável por um único link; sem JavaScript. Fotos provisórias: Eventos corporativos (#50, não é do Divina) e Eventos familiares (melhor disponível); trocar quando chegarem fotos reais (L-07). Infantil #1, 15 anos #21 (L-08, L-09).
+- Eyebrow “Eventos no Divina Festa”; H2 "Encontre o formato para o seu evento".
+- Quatro itens com foto real, título e descrição curta. **O título é o link** e cobre o item inteiro (sem links aninhados, sem “Conhecer…” repetido, sem JavaScript); hover discreto.
+- Layout: mobile = miniatura + texto; 2×2 a partir de 40rem; 4 colunas a partir de 64rem.
+- Fotos: infantil #1; familiar = “soprar bolo” (**provisória**, melhor disponível; trocar por foto real multigeracional, L-07); 15 anos #21 (L-08, L-09); **corporativo = #51, evento corporativo real realizado no Divina** (confirmado pelo gestor; L-08 e logo de terceiro ao fundo).
+- Descrição de corporativos: “Confraternizações, encontros e eventos empresariais para celebrar seu negócio.”
 
-Tipos:
-- Festas infantis;
-- Eventos familiares;
-- Festa de 15 anos;
-- Eventos corporativos.
+Função: identificação rápida e descoberta visual; futura navegação para páginas próprias (destinos temporários `#festas-infantis`, `#eventos-familiares`, `#15-anos`, `#corporativo`).
 
-Função:
-- identificação rápida e descoberta visual;
-- futura navegação para páginas próprias.
-
-### 5. Crianças + Adultos
-**Status:** concluída e aprovada (05/10/2026, `src/components/home/KidsAndAdults.astro`).
+### 4. Crianças + Adultos
+**Status:** concluída e aprovada (05/10/2026, `src/components/home/KidsAndAdults.astro`), ajustada na mesma data.
 
 Eyebrow:
 “Para crianças e adultos”
@@ -386,13 +370,15 @@ Mensagem:
 CTA editorial:
 “Conhecer o espaço”
 
+Layout (ajuste de 05/10/2026): foto menor (máx. ~19 rem; 16 rem no mobile), padding vertical e gaps reduzidos, fundo `soft`; ~791 px no mobile e ~476 px no desktop.
+
 Imagem:
 - #44 `Vista Área kids para o salão.jpg` (tom quente, DEC-038), substitui a versão azulada;
 - `quality={90}` (DEC-037);
 - sem edição de rostos/estrutura;
 - pendência: autorização de imagem das pessoas identificáveis antes da produção (L-08).
 
-### 6. Gastronomia
+### 5. Gastronomia
 **Status:** concluída e aprovada (05/10/2026, `src/components/home/Gastronomy.astro`), logo após Crianças + Adultos. Função no funil: desejo.
 
 Eyebrow: “Gastronomia”
@@ -407,33 +393,36 @@ CTA editorial: `TextLink` “Conhecer a gastronomia” (destino temporário `#ga
 
 Layout:
 - a partir de 56rem: foto à esquerda, conteúdo à direita (~55/45); abaixo disso, uma coluna;
-- mobile: eyebrow → H2 → texto → provas → link → foto;
-- breakpoint de 56rem é decisão local desta seção (a 768px o texto ficava apertado em duas colunas); foto não é centralizada a 768px;
-- zero JavaScript.
+- mobile: eyebrow → H2 → texto → provas → link → foto (máx. 20 rem); tablet em uma coluna: foto horizontal 3:2 na largura do texto;
+- breakpoint de 56rem é decisão local desta seção (a 768px o texto ficava apertado em duas colunas);
+- fundo branco; zero JavaScript.
 
 Imagem:
 - #45 `Mesa feijoada com salão e area kids ao fundo.jpg` (derivado `buffet-feijoada-salao.jpg`), cópia sem edição, crop CSS 4:5 com `object-position: 50% 60%`, `quality={90}` (DEC-037);
 - #46 fica reservada (apoio / futura página Gastronomia), não usada na Home;
 - pendência: autorização de imagem das pessoas identificáveis antes da produção (L-08).
 
-### 7. Espaço / Estrutura
-**Status:** ✅ **CONCLUÍDA E APROVADA — 05/10/2026** (revisada na mesma data). `src/components/home/SpaceAndStructure.astro`, logo após Gastronomia (detalhes em `home-estrutura.md` §7). H2 "Estrutura para receber seu evento com conforto e tranquilidade". Foto única #49 `Fotos Salão quente.png` (versão quente do gestor, mesma cena da #26, preservada no acervo); a #48 saiu da Home e fica reservada à futura página O Espaço. Capacidade detalhada conforme DEC-039. Sem pendências.
+### 6. Espaço / Estrutura
+**Status:** ✅ **CONCLUÍDA E APROVADA — 05/10/2026** (revisada na mesma data). `src/components/home/SpaceAndStructure.astro`, logo após Gastronomia (detalhes em `home-estrutura.md` §7). H2 "Estrutura para receber seu evento com conforto e tranquilidade"; fatos: ~700 m² · até 150 sentadas · até 190 conforme a montagem · climatização · estacionamento privativo · acessibilidade. Foto única #49 `Fotos Salão quente.png` (versão quente do gestor, mesma cena da #26, preservada no acervo); a #48 saiu da Home e fica reservada à futura página O Espaço. Fundo `soft`. Capacidade detalhada conforme DEC-039. Sem pendências.
 
-### 8. Como funciona
-**Status:** ✅ **CONCLUÍDA E APROVADA — 05/10/2026.** `src/components/home/HowItWorks.astro`, logo após Espaço / Estrutura, `id="como-funciona"`, fundo soft. Função no funil: redução de risco / previsibilidade. H2 "Do planejamento ao dia do evento"; quatro etapas em `<ol>`: 01 Conte sobre seu evento · 02 Escolha a melhor opção · 03 Definimos os detalhes · 04 Aproveite seu evento. Layout: mobile 1 coluna compacta; 2×2 a partir de 40rem; 4 colunas a partir de 72rem. Sem CTA, sem fotografia, zero JavaScript. Sem pendências.
+### 7. Como funciona
+**Status:** ✅ **CONCLUÍDA E APROVADA — 05/10/2026.** `src/components/home/HowItWorks.astro`, logo após Espaço / Estrutura, `id="como-funciona"`, fundo branco. Não é mais item do menu nem do Footer (DEC-040). Função no funil: redução de risco / previsibilidade. H2 "Do planejamento ao dia do evento"; quatro etapas em `<ol>` (aprovadas pelo gestor; L-05 encerrada): 01 Conte sobre seu evento · 02 Escolha a melhor opção · 03 Definimos os detalhes · 04 Aproveite seu evento. Layout: mobile 1 coluna compacta; 2×2 a partir de 40rem; 4 colunas a partir de 72rem. Sem CTA, sem fotografia, zero JavaScript. Sem pendências.
 
-### 9. CTA final
-**Status:** ✅ **CONCLUÍDO E APROVADO — 05/10/2026.** `FinalCta.astro`, `id="contato"`, fundo warm. Eyebrow "Planeje seu evento com o Divina"; H2 "Conte-nos o que você está planejando"; botão "Solicitar proposta" (WhatsApp geral com mensagem pré-preenchida por enquanto). Sem linha de fatos repetidos.
+### 8. CTA final
+**Status:** ✅ **CONCLUÍDO E APROVADO — 05/10/2026.** `FinalCta.astro`, `id="contato"`, fundo warm (destino do item “Contato” do menu e do Footer). Eyebrow "Planeje seu evento com o Divina"; H2 "Conte-nos o que você está planejando"; botão "Solicitar proposta" → **formulário** (DEC-041; `site.links.proposal`, provisório). **Não vai mais ao WhatsApp**; o WhatsApp é só fallback do formulário (DEC-032). Sem linha de fatos repetidos.
+
+### 9. Botão flutuante de contato
+**Status:** ✅ **IMPLEMENTADO — 05/10/2026 (DEC-041).** `src/components/site/FloatingContact.astro`, incluído pelo `BaseLayout` em todas as páginas. Canto inferior direito em todos os formatos; dourado com ícone de balão; círculo no mobile, pílula “Fale conosco” a partir de 48rem; também leva ao formulário. Zero JavaScript.
 
 ### Fora da Home nesta versão
 - **Eventos reais / avaliações:** retirada (sem prova social validada; `RealEvents.astro` fora da renderização). Reabrir só com prova social validada (L-02, L-03).
 - **Localização:** deixou de ser seção (DEC-040); endereço + "Ver no Google Maps" no Footer. Mapa embutido em Contato: futuro, não implementado.
+- **QuickFacts:** retirada (ver acima).
 
 ### 10. Footer
-**Status:** concluído e aprovado (DEC-035), atualizado pela DEC-040.
+**Status:** concluído e aprovado (DEC-035), atualizado pela DEC-040; reserva espaço para o botão flutuante.
 
 ---
-
 ## 10. FATOS CANÔNICOS IMPORTANTES
 
 Nome:
@@ -554,9 +543,11 @@ O site faz parte do funil:
 
 Conversão deve se concentrar em:
 - Hero;
-- seções de decisão;
-- formulário;
-- futuro botão flutuante de contato.
+- CTA final;
+- formulário de proposta (a criar; destino de todos os “Solicitar proposta”, DEC-041);
+- botão flutuante de contato (implementado, DEC-041).
+
+Os CTAs de proposta e o botão flutuante levam ao **formulário**, não ao WhatsApp; o WhatsApp é apenas fallback do formulário (DEC-032). O destino é `site.links.proposal` (provisório `#contato` até o formulário existir).
 
 Header e Footer NÃO usam CTA comercial forte.
 
@@ -621,9 +612,9 @@ Se houver dúvida:
 
 ## 17. PRÓXIMO PASSO ATUAL
 
-1. **Home concluída** (8 seções: Hero → QuickFacts → Tipos de evento → Crianças + adultos → Gastronomia → Espaço / Estrutura → Como funciona → CTA final; Header e Footer conforme DEC-035 e DEC-040). Próximas etapas dependem de autorização: páginas internas (Eventos, O Espaço, Gastronomia, Contato com mapa embutido futuro), formulário e infraestrutura do DEV;
-2. substituir as fotos provisórias (Eventos corporativos #50, Eventos familiares) quando chegarem fotos reais (L-07);
-3. pendências abertas relevantes: L-08 (autorização de imagem), L-11 (criar o DEV), L-13 (URL oficial do Maps e redes). L-05 encerrada em 05/10/2026.
+1. **Home concluída** (7 seções: Hero → Tipos de evento → Crianças + adultos → Gastronomia → Espaço / Estrutura → Como funciona → CTA final; Header, Footer e botão flutuante conforme DEC-035, DEC-040 e DEC-041). Próximas etapas dependem de autorização: **formulário de proposta** (destino de todos os CTAs e do botão flutuante), páginas internas (Eventos, O Espaço, Gastronomia, Contato com mapa embutido futuro) e infraestrutura do DEV;
+2. substituir a foto provisória de Eventos familiares quando chegar foto real multigeracional (L-07); a de corporativo já é real (#51);
+3. pendências abertas relevantes: L-08 (autorização de imagem, incl. #51), L-11 (criar o DEV), L-13 (URL oficial do Maps e redes). L-05 encerrada em 05/10/2026.
 
 ---
 

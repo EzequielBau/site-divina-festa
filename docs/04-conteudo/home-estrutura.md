@@ -12,8 +12,8 @@
 |---|---|---|---|---|
 | 1 | Header | estrutura definida | **implementado e aprovado (DEC-035)** | navegação / conversão |
 | 2 | Hero | **texto aprovado** | **implementado e aprovado** | descoberta → identificação |
-| 3 | Prova rápida (QuickFacts) | copy definida; capacidade conforme DEC-017 | **implementado e aprovado** | interesse → adequação |
-| 4 | Tipos de evento | revisada em 05/10/2026: navegador visual com foto real por tipo | **implementado e aprovado (fotos provisórias em Familiares e Corporativos)** | identificação / descoberta |
+| 3 | ~~Prova rápida (QuickFacts)~~ | **retirada da Home (05/10/2026)**: repetia fatos já presentes em Espaço / Estrutura; `QuickFacts.astro` fora da renderização | removida | interesse → adequação |
+| 4 | Tipos de evento | revisada em 05/10/2026: navegador visual com foto real por tipo | **implementado e aprovado (foto de Familiares provisória)** | identificação / descoberta |
 | 5 | Crianças + adultos | copy aprovada | **implementado e aprovado** | adequação → desejo |
 | 6 | Gastronomia | copy aprovada | **implementado e aprovado** | desejo |
 | 7 | Espaço e estrutura | copy aprovada | **implementado e aprovado (05/10/2026)** | adequação → confiança |
@@ -23,7 +23,7 @@
 | 11 | CTA final | copy aprovada | **implementado e aprovado (05/10/2026)** | contato → proposta |
 | 12 | Footer | estrutura definida; endereço + "Ver no Google Maps" (DEC-040) | **implementado e aprovado** | confiança / navegação |
 
-**Narrativa vigente da Home (revisão estratégica, 05/10/2026):** Hero (o que é) → QuickFacts (atende o básico?) → Tipos de evento (fazem o meu evento?) → Crianças + adultos (como é a experiência?) → Gastronomia (serão bem servidos?) → Espaço / Estrutura (o espaço atende?) → Como funciona (é organizado?) → CTA final (quero conversar). Ritmo alternando imagem e informação. Não usar "um evento por vez" como argumento recorrente de venda.
+**Narrativa vigente da Home (revisão estratégica, 05/10/2026; QuickFacts retirada no mesmo dia):** Hero (o que é) → Tipos de evento (fazem o meu evento?) → Crianças + adultos (como é a experiência?) → Gastronomia (serão bem servidos?) → Espaço / Estrutura (o espaço atende?) → Como funciona (é organizado?) → CTA final (quero conversar). Ritmo alternando imagem e informação. Fundos alternados (Hero e Crianças + adultos em creme `soft`; Tipos de evento, Gastronomia e Como funciona em branco; Espaço / Estrutura em `soft`; CTA final `warm`) para que nenhuma seção fique colada a outra do mesmo tom. Não usar "um evento por vez" como argumento recorrente de venda.
 
 O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). A sequência de 12 é um refinamento (DIV-06).
 
@@ -55,7 +55,10 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **Evitar:** slogan abstrato antes de explicar o que é o Divina; sobrecarregar a dobra com todos os números e tipos de evento.
 - **Função no funil:** descoberta → identificação.
 
-## 3. Prova rápida — ✅ implementada e aprovada
+## 3. Prova rápida — ⏸ retirada da Home (05/10/2026)
+
+- **Decisão do gestor:** a faixa de seis fatos logo após o Hero sai da Home, porque os mesmos fatos (metragem, capacidade, área infantil, estacionamento, climatização) já aparecem em Espaço / Estrutura. O componente `QuickFacts.astro` fica no repositório, sem uso. O texto abaixo é o histórico da implementação.
+
 
 - **Objetivo:** apresentar fatos essenciais que reduzem dúvida imediata.
 - **Mensagem principal:** seis provas, com base no HANDOFF §3.2 e ajustadas pelas decisões: **700 m² para diferentes formatos** · **Até 150 convidados** (DEC-017) · **Espaço kids** · **Estacionamento privativo no Mercês** (DEC-019) · **Equipe preparada** · **Seu evento resolvido**.
@@ -74,11 +77,11 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 ## 4. Tipos de evento — ✅ implementada e aprovada (revisada em 05/10/2026: navegador visual com fotos)
 
 - **Versão vigente (05/10/2026, `src/components/home/EventTypes.astro`):** navegador visual compacto das quatro jornadas, com **foto real por tipo**, título, descrição curta e link editorial. Eyebrow *Eventos no Divina Festa* · H2 *Encontre o formato para o seu evento* · introdução *Festas infantis, encontros em família, 15 anos e eventos corporativos. Conheça cada possibilidade.*
-  - **Fotos:** infantil = #1 (decoração Sininho, sem pessoas); familiar = "soprar bolo com personagem" (família no bolo; **provisória**, lê também como infantil; L-08); 15 anos = #21 `15 anos b.png` (L-08, L-09); corporativo = #50 (**provisória, não é do Divina**). Detalhes e hashes no [inventário](../99-referencias/inventario-imagens.md). Trocar as provisórias quando chegarem fotos reais (L-07).
+  - **Fotos:** infantil = #1 (decoração Sininho, sem pessoas); familiar = "soprar bolo com personagem" (família no bolo; **provisória**, lê também como infantil; L-08); 15 anos = #21 `15 anos b.png` (L-08, L-09); corporativo = **#51 `Evento corporativo Popper_305.jpg`, evento corporativo real realizado no Divina** (confirmado pelo gestor em 05/10/2026; L-08, logo de terceiro ao fundo). A #50 (banco de imagem) foi descartada. Detalhes e hashes no [inventário](../99-referencias/inventario-imagens.md). Trocar a foto provisória de Familiares quando chegar foto real multigeracional (L-07).
   - **Layout:** mobile = miniatura quadrada à esquerda e texto à direita (~820 px de seção em 390); 2×2 com foto 16:9 a partir de 40rem; 4 colunas com foto 4:3 a partir de 64rem.
-  - **Interação:** o item inteiro é um único link (`::after` esticado, sem links aninhados), hover discreto (sublinha o link e desloca a seta), sem JavaScript e sem zoom. Destinos temporários: `#festas-infantis`, `#eventos-familiares`, `#15-anos`, `#corporativo`.
+  - **Interação:** **o título é o link** e cobre o item inteiro (`::before` esticado, sem links aninhados); não há mais o texto "Conhecer…" repetido. Hover discreto (sublinha o título em dourado e desloca a seta), sem JavaScript e sem zoom. Descrição de Corporativos: *Confraternizações, encontros e eventos empresariais para celebrar seu negócio.* Destinos temporários: `#festas-infantis`, `#eventos-familiares`, `#15-anos`, `#corporativo`.
   - Alturas da seção: ~822 px (390), ~942 (768), ~597 (1024), ~662 (1440).
-- **Implementação anterior (04/10/2026, sem fotos), mantida como histórico:** (04/10/2026, `src/components/home/EventTypes.astro`):** seção imediatamente após as provas rápidas, fundo `soft` (cream), sem fotos, sem cards, sem sombras e zero JavaScript. Eyebrow *Eventos no Divina Festa* · H2 *Um espaço preparado para diferentes tipos de evento* · introdução (menciona Curitiba uma vez) · quatro blocos com H3, texto curto e `TextLink` editorial, separados por filete superior: **Festas infantis**, **Eventos familiares**, **Festa de 15 anos** e **Eventos corporativos**. Layout: 4 colunas a partir de 80rem (1280px), 2 colunas em tablet e intermediário, 1 coluna no mobile.
+- **Implementação anterior (04/10/2026, sem fotos), mantida como histórico (links "Conhecer…" abaixo foram removidos na versão vigente):** (04/10/2026, `src/components/home/EventTypes.astro`):** seção imediatamente após as provas rápidas, fundo `soft` (cream), sem fotos, sem cards, sem sombras e zero JavaScript. Eyebrow *Eventos no Divina Festa* · H2 *Um espaço preparado para diferentes tipos de evento* · introdução (menciona Curitiba uma vez) · quatro blocos com H3, texto curto e `TextLink` editorial, separados por filete superior: **Festas infantis**, **Eventos familiares**, **Festa de 15 anos** e **Eventos corporativos**. Layout: 4 colunas a partir de 80rem (1280px), 2 colunas em tablet e intermediário, 1 coluna no mobile.
 - **Links (destinos temporários):** `#festas-infantis`, `#eventos-familiares`, `#15-anos` e `#corporativo`; trocar pelas rotas reais quando as páginas de evento existirem. Sem "Solicitar proposta" nesta seção.
 - **Divergência consciente com o texto abaixo:** a versão implementada usa links "Conhecer…" e não tem fotos nem cards; o H2 e as descrições substituem o texto do HANDOFF §3.3. Não gerou nova DEC. As fotos continuam pendentes (regras da DEC-024) e podem ser reavaliadas em etapa própria.
 - **Texto original planejado (referência):**
@@ -100,7 +103,7 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **CTA:** link editorial "Conhecer o espaço" (`TextLink`, destino temporário `#espaco`). **Sem CTA comercial** nesta seção.
 - **Foto:** #44 `Vista Área kids para o salão.jpg` (ver [inventário](../99-referencias/inventario-imagens.md)). **Pendência de autorização (L-08):** confirmar autorização de uso de imagem das pessoas identificáveis antes da publicação em produção. O ambiente DEV é `noindex`, então não bloqueia o desenvolvimento.
 - **SEO:** "espaço infantil integrado", "festa para crianças e adultos".
-- **Visual implementado:** texto à esquerda e foto vertical (4:5) à direita a partir de 48rem; abaixo disso, texto → CTA → foto em uma coluna. Sem JavaScript.
+- **Visual vigente (revisão de 05/10/2026):** texto à esquerda e foto vertical (4:5) menor à direita a partir de 48rem (máx. ~19 rem de largura; 16 rem no mobile); abaixo disso, texto → CTA → foto em uma coluna. Padding vertical e gaps reduzidos (a seção tinha respiro demais): ~791 px no mobile e ~476 px no desktop. Fundo `soft`. Sem JavaScript.
 - **Função no funil:** adequação → desejo.
 
 ## 6. Gastronomia — ✅ implementada e aprovada
@@ -112,7 +115,7 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
   - Três provas editoriais (H3 + texto, filete superior, sem cards, ícones ou sombras): **Cozinha própria** (*Preparo realizado no próprio espaço.*) · **Diferentes formatos** (*Opções para festas, encontros e outros tipos de evento.*) · **Serviço integrado** (*Buffet, equipe e estrutura funcionando juntos durante a celebração.*).
 - **CTA:** link editorial `TextLink` "Conhecer a gastronomia" (destino temporário `#gastronomia`). **Sem CTA comercial.**
 - **Foto:** #45 `Mesa feijoada com salão e area kids ao fundo.jpg` (ver [inventário](../99-referencias/inventario-imagens.md)), pela prova simultânea de buffet real, salão em uso e contexto do evento. #46 fica reservada, não usada na Home. **Pendência de autorização (L-08):** pessoas identificáveis; confirmar antes da produção (DEV é `noindex`).
-- **Visual:** a partir de 56rem, foto à esquerda (4:5, `object-position: 50% 60%`) e conteúdo à direita (~55/45); abaixo disso, uma coluna na ordem eyebrow → H2 → texto → provas → link → foto. O breakpoint de 56rem é decisão local desta seção. Zero JavaScript.
+- **Visual:** a partir de 56rem, foto à esquerda (4:5, `object-position: 50% 60%`) e conteúdo à direita (~55/45); abaixo disso, uma coluna na ordem eyebrow → H2 → texto → provas → link → foto. O breakpoint de 56rem é decisão local desta seção. Zero JavaScript. **Ajuste de 05/10/2026:** foto menor (máx. 20 rem) e, no tablet em uma coluna (40rem a 56rem), horizontal 3:2 na largura do texto, para não alongar a seção; fundo da seção passou a branco.
 - **SEO:** "gastronomia", "buffet", "cozinha própria", "evento", sem repetir Curitiba; alt descreve o que a foto mostra.
 - **Função no funil:** desejo.
 
@@ -176,7 +179,7 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 
 ## 11. CTA final — ✅ implementado e aprovado (05/10/2026)
 
-- **Implementação (`src/components/home/FinalCta.astro`, `id="contato"`, fundo `warm`):** eyebrow *Planeje seu evento com o Divina* · H2 *Conte-nos o que você está planejando* · texto *Informe o tipo de evento, a data e o número aproximado de convidados. A partir dessas informações, podemos entender melhor o que você precisa e apresentar as opções mais adequadas.* · botão "Solicitar proposta", que por ora abre o WhatsApp geral ((41) 99247-0605) com mensagem pré-preenchida, o mesmo caminho do fallback da DEC-032; o fluxo curto abaixo substituirá o botão. Sem linha de fatos repetidos. O `id="contato"` é o destino do CTA do Hero e do item "Contato" do menu e do Footer (DEC-040). Zero JavaScript.
+- **Implementação (`src/components/home/FinalCta.astro`, `id="contato"`, fundo `warm`):** eyebrow *Planeje seu evento com o Divina* · H2 *Conte-nos o que você está planejando* · texto *Informe o tipo de evento, a data e o número aproximado de convidados. A partir dessas informações, podemos entender melhor o que você precisa e apresentar as opções mais adequadas.* · botão "Solicitar proposta" que leva ao **formulário de proposta (a criar, DEC-041)**, não ao WhatsApp. O destino vem de `site.links.proposal` e é provisório (`#contato`) até a página do formulário existir. O WhatsApp só entra como fallback do formulário (DEC-032). Sem linha de fatos repetidos. O `id="contato"` é o destino do CTA do Hero e do item "Contato" do menu e do Footer (DEC-040). Zero JavaScript.
 - **Objetivo:** converter.
 - **Mensagem principal:** *"Conte-nos sobre seu evento"* (WIREFRAME).
 - **Prova:** pode retomar os fatos-chave em uma linha.
@@ -194,3 +197,9 @@ O NORTE lista 9 seções (Localização + CTA final juntos, sem Header/Footer). 
 - **Visual:** fundo `#282120`. Não ajustar o espaço antes do footer até a Home estar completa.
 - **SEO:** NAP consistente com o GBP; links para as páginas principais e para a política de privacidade (L-12).
 - **Função no funil:** navegação e confiança.
+
+## 13. Botão flutuante de contato — ✅ implementado (05/10/2026, DEC-041)
+
+- **Componente:** `src/components/site/FloatingContact.astro`, incluído por `BaseLayout.astro` (todas as páginas).
+- **Função:** acesso discreto e constante ao contato; leva ao formulário de proposta por `site.links.proposal` (provisório até o formulário existir). Não abre WhatsApp.
+- **Visual:** canto inferior direito em todos os tamanhos; dourado `#B88917` com ícone de balão em `#282120` (contraste AA); mobile = círculo de 56 px só com o ícone; a partir de 48rem = pílula com o rótulo *Fale conosco*; sombra suave; hover só com mouse (`#8E6B1F` com texto branco); foco visível; respeita áreas seguras; oculto na impressão. Zero JavaScript. O Footer reserva espaço para o botão não cobrir endereço e copyright.
