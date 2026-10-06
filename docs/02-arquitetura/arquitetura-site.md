@@ -75,7 +75,7 @@ Prioridades conforme o NORTE §9 (a SÍNTESE tem pequenas inversões, ver DIV-15
 
 ## Arquitetura técnica (DEC-026, DEC-027, DEC-028 e DEC-033)
 
-**Status:** decidida e documentada. Existe só a base técnica (Etapa 01); **nada configurado na hospedagem.** A DEC-028 substitui parcialmente a DEC-027 nos pontos sobre hospedagem do frontend; a DEC-033 substitui o Cloudflare Pages (DEC-029/030) pela Hostinger Web Hosting.
+**Status:** decidida e documentada. Home implementada e **DEV criado e publicado na Hostinger (06/10/2026)**; produção ainda não substituída. A DEC-028 substitui parcialmente a DEC-027 nos pontos sobre hospedagem do frontend; a DEC-033 substitui o Cloudflare Pages (DEC-029/030) pela Hostinger Web Hosting.
 
 ```text
   PC local → Git → GitHub privado → npm run build → dist/

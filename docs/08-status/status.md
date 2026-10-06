@@ -1,6 +1,6 @@
 # Status do projeto
 
-**Atualizado em:** 05/10/2026 (revisão estratégica da Home, Tipos de evento visual, DEC-040 de navegação e localização, DEC-041 de botões de proposta e botão flutuante, e foto corporativa real aprovadas) — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032); hospedagem do frontend na Hostinger Web Hosting (DEC-033); fundação visual do Design System implementada e aprovada (DEC-034); Header e Footer finalizados (DEC-035); botões no padrão da referência (DEC-036); imagens em alta definição (DEC-037); Hero, provas rápidas e tipos de evento aprovados.
+**Atualizado em:** 06/10/2026 (**DEV criado e publicado; L-11 resolvida; Home publicada no DEV para revisão**) · 05/10/2026 (revisão estratégica da Home, Tipos de evento visual, DEC-040 de navegação e localização, DEC-041 de botões de proposta e botão flutuante, e foto corporativa real aprovadas) — governança, stack e arquitetura de execução decididas (DEC-025 a DEC-030); arquitetura resiliente de formulários registrada (DEC-032); hospedagem do frontend na Hostinger Web Hosting (DEC-033); fundação visual do Design System implementada e aprovada (DEC-034); Header e Footer finalizados (DEC-035); botões no padrão da referência (DEC-036); imagens em alta definição (DEC-037); Hero, provas rápidas e tipos de evento aprovados.
 
 ## Concluído
 
@@ -37,11 +37,13 @@
 - **Navegação e localização** (05/10/2026, **DEC-040**): Header Eventos ▾ · O Espaço · Gastronomia · Contato; "Como funciona" permanece na Home mas saiu do menu e do Footer; Localização deixou de ser seção da Home; Footer exibe endereço + "Ver no Google Maps" (`site.address.mapsUrl`, busca por nome + endereço, validado manualmente como o perfil correto; provisório até a URL oficial, L-13). Mapa embutido em Contato, futuro e não implementado. **L-05 encerrada** (etapas do Como funciona aprovadas pelo gestor)
 - **Ajustes finais da Home aprovados** (05/10/2026, **DEC-041**): **QuickFacts retirada da Home** (repetia Espaço / Estrutura; componente fora da renderização); Tipos de evento sem o "Conhecer…" repetido (o título é o link, cards alinhados; corporativo: "Confraternizações, encontros e eventos empresariais para celebrar seu negócio."); Crianças + adultos com foto menor e menos respiro (~791 px no mobile, ~476 no desktop); Gastronomia com foto menor e horizontal no tablet; fundos alternados entre seções; **"Solicitar proposta" agora leva ao formulário (a criar), não ao WhatsApp** (`site.links.proposal`, provisório `#contato`); **botão flutuante de contato** (`FloatingContact.astro`, canto inferior direito em todos os formatos, também para o formulário). Home com 7 seções: Hero → Tipos de evento → Crianças + adultos → Gastronomia → Espaço / Estrutura → Como funciona → CTA final
 - **Foto de Eventos corporativos agora é real** (05/10/2026): #51 `Evento corporativo Popper_305.jpg` (6000×4000), evento corporativo realizado no Divina, confirmado pelo gestor; substitui a #50 (banco de imagem, descartada). Derivado `evento-corporativo-confraternizacao.jpg`. **Pendências:** L-08 (dezenas de pessoas identificáveis) e logo de terceiro ao fundo. Em Eventos familiares a foto segue provisória
+- **Ambiente DEV criado, publicado e operacional** (06/10/2026, informado pelo gestor e validado tecnicamente): https://dev.divinafesta.com.br na Hostinger Web Hosting, SSL e CDN ativos, publicação manual do conteúdo de `dist/`, Home acessível. HTTPS 200; HTML idêntico (SHA256) ao build do commit `e650a68`; meta robots e `X-Robots-Tag: noindex, nofollow` presentes; fontes e imagens carregam; sem overflow em 390, 768 e 1440 px; `/.git/config` e `/.env` retornam 403, `/docs/` e `/src/` 404. **L-11 resolvida.** Produção (`divinafesta.com.br`) **não** foi substituída. O DEV é o ambiente oficial de revisão antes da produção. Detalhes e itens não validados em [`infraestrutura.md`](../02-arquitetura/infraestrutura.md)
+- **Home: concluída e publicada no DEV para revisão** (06/10/2026). Não significa lançamento em produção nem fim de ajustes futuros: a Home só muda por correção concreta, bug ou decisão explícita do gestor e não é reaberta durante as páginas internas
 - **Botões no padrão da referência do site anterior** (DEC-036): pílula, Familjen Grotesk, variantes `primary` · `secondary` · `outline`, adaptados ao contraste AA.
 
 ## Em andamento
 
-- Nada em execução. **Aguardando autorização** para a próxima etapa.
+- Nada em execução. **Próxima página oficial: Festa Infantil (P0), aprovada pelo gestor em 06/10/2026**; não iniciada, começa em sessão própria.
 
 ## Próximo (cada item depende de autorização)
 
@@ -55,7 +57,8 @@
 5c. ~~Crianças + adultos~~ (feito em 05/10/2026) e ~~Gastronomia~~ (feito em 05/10/2026)
 5d. ~~Espaço / Estrutura~~ (feito em 05/10/2026) e ~~Como funciona~~ (feito em 05/10/2026)
 6. Revisar o conteúdo e a navegação das demais páginas (Eventos, O Espaço, Gastronomia, Contato) e substituir as fotos provisórias (L-07). Eventos reais / avaliações ficam fora da Home até haver prova social validada
-7. Infraestrutura de desenvolvimento (DEC-033): criar `dev.divinafesta.com.br` na Hostinger com pasta própria e HTTPS → configurar o `X-Robots-Tag` (a meta robots já está no código) → primeira publicação manual só do `dist/` → conferir cabeçalhos e que nada fora do `dist/` está acessível
+7. ~~Infraestrutura de desenvolvimento (DEC-033)~~ (feito em 06/10/2026: DEV criado, HTTPS, `X-Robots-Tag`, primeira publicação manual do `dist/`; L-11 resolvida)
+7a. Primeira página interna P0: **Festa Infantil (aprovada em 06/10/2026)**, conforme a arquitetura e a ordem de implementação da SÍNTESE §29, depois Eventos Familiares, Espaço e Estrutura, Gastronomia, Localização e Contato
 8. Etapas próprias e posteriores: formulário (UX/CRO, com o fallback da DEC-032), backend Fastify (formulários, Kommo, Meta CAPI, webhooks, WhatsApp), tracking (GTM, GA4, Pixel, Consent Mode), monitoramento e CI/CD
 
 ## Pendências
@@ -67,7 +70,8 @@
 - Origem das fotos Bistrô, café colonial, capas Essência e 15 anos (L-09)
 - Logo em SVG: não há arquivo confirmado. Não vetorizar agora (L-10, DEC-023)
 - Fotos faltantes: equipe, cozinha, estacionamento, corporativo (resolvido na Home pela #51, real), familiar multigeracional (a atual na Home é provisória), salão ocupado, mini wedding (L-07). Adultos + crianças agora coberto por #44, sujeito à L-08. `Festa no Átrio com Fotógrafa e Convidados.png` não está no repositório
-- Criar e configurar `dev.divinafesta.com.br` na Hostinger (L-11); domínio principal e configuração própria da produção no lançamento (L-22); GBP, CNPJ, política de privacidade, contas de marketing (L-11 a L-15)
+- ~~Criar e configurar `dev.divinafesta.com.br` (L-11)~~ resolvida em 06/10/2026. Ajustes não bloqueantes de hospedagem do DEV (L-24); domínio principal e configuração própria da produção no lançamento (L-22); GBP, CNPJ, política de privacidade, contas de marketing (L-12 a L-15)
+- Produção oficial ainda não realizada; `divinafesta.com.br` ainda não foi substituído
 - Texto do fallback no WhatsApp, timeout da API e eventual armazenamento temporário no navegador (L-23, DEC-032)
 - Remover manualmente as pastas vazias `Imagens\` e `Documentos norteadores para montar site\` (o Windows negou a exclusão; o Git ignora pastas vazias)
 - Decidir sobre as duplicatas (3 pares). Nada foi apagado

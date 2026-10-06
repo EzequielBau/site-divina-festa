@@ -1,7 +1,8 @@
 # CONTEXTO ATUAL — SITE DIVINA FESTA
 
 **Projeto:** Novo site institucional do Divina Festa  
-**Última atualização-base:** 05/10/2026  
+**Última atualização-base:** 06/10/2026
+
 **Função deste arquivo:** memória operacional viva e ponto de entrada do projeto, obrigatório para qualquer novo chat, agente de IA ou sessão de desenvolvimento (regra em [`AGENTS.md`](../../AGENTS.md)).
 
 ---
@@ -193,8 +194,8 @@ Frontend:
 - Hostinger Web Hosting.
 
 Ambientes (DEC-033):
-- DEV: `dev.divinafesta.com.br`, noindex, HTTPS. **Ainda não criado na Hostinger** (L-11); nada publicado. Deploy manual, só do `dist/`; push em `main` não publica;
-- produção (`divinafesta.com.br`): ambiente separado, no lançamento; WordPress atual segue no ar até a aprovação final.
+- **DEV: https://dev.divinafesta.com.br — CRIADO, PUBLICADO E OPERACIONAL** (L-11 resolvida; validação técnica em 06/10/2026, ver [`infraestrutura.md`](../02-arquitetura/infraestrutura.md)). Hostinger Web Hosting, SSL e CDN ativos, `noindex` (meta + `X-Robots-Tag`). Publicação **manual**, só do conteúdo de `dist/`; push em `main` não publica. A Home publicada é idêntica (SHA256) ao build do commit `e650a68`. É o **ambiente oficial de revisão** do novo site antes da produção;
+- produção (`divinafesta.com.br`): ambiente separado, **ainda não substituído** (L-22, no lançamento); o WordPress atual segue no ar até a aprovação final.
 
 Backend futuro:
 - Node.js + TypeScript + Fastify em VPS separada.
@@ -315,7 +316,7 @@ Essa confirmação vale antes da produção das imagens. O ambiente DEV pode con
 
 ## 9. HOME — ORDEM E ESTADO ATUAL
 
-**Ordem vigente (7 seções entre Header e Footer):** Hero → Tipos de evento → Crianças + adultos → Gastronomia → Espaço / Estrutura → Como funciona → CTA final. Narrativa: o que é → serve para o meu evento? → como é a experiência? → a gastronomia é boa? → o espaço atende? → é organizado? → quero conversar. Ritmo alternando imagem e informação; fundos alternados (Hero e Crianças + adultos em creme `soft`; Tipos de evento, Gastronomia e Como funciona em branco; Espaço / Estrutura `soft`; CTA final `warm`). **Home concluída e aprovada em 05/10/2026.**
+**Ordem vigente (7 seções entre Header e Footer):** Hero → Tipos de evento → Crianças + adultos → Gastronomia → Espaço / Estrutura → Como funciona → CTA final. Narrativa: o que é → serve para o meu evento? → como é a experiência? → a gastronomia é boa? → o espaço atende? → é organizado? → quero conversar. Ritmo alternando imagem e informação; fundos alternados (Hero e Crianças + adultos em creme `soft`; Tipos de evento, Gastronomia e Como funciona em branco; Espaço / Estrutura `soft`; CTA final `warm`). **Home concluída e aprovada em 05/10/2026; publicada no DEV para revisão em 06/10/2026.** Isso **não** é lançamento em produção nem fim de todos os ajustes: a Home só muda por correção concreta, bug ou decisão explícita do gestor, e não é reaberta durante o início das páginas internas.
 
 Regras de redação aprovadas: fato → significado → benefício; evitar frases publicitárias sem prova ("celebrações de verdade", "chegada prática", "experiência inesquecível" etc.); "um evento por vez" não é argumento recorrente de venda.
 
@@ -612,9 +613,9 @@ Se houver dúvida:
 
 ## 17. PRÓXIMO PASSO ATUAL
 
-1. **Home concluída** (7 seções: Hero → Tipos de evento → Crianças + adultos → Gastronomia → Espaço / Estrutura → Como funciona → CTA final; Header, Footer e botão flutuante conforme DEC-035, DEC-040 e DEC-041). Próximas etapas dependem de autorização: **formulário de proposta** (destino de todos os CTAs e do botão flutuante), páginas internas (Eventos, O Espaço, Gastronomia, Contato com mapa embutido futuro) e infraestrutura do DEV;
+1. **Home concluída e publicada no DEV** (7 seções: Hero → Tipos de evento → Crianças + adultos → Gastronomia → Espaço / Estrutura → Como funciona → CTA final; Header, Footer e botão flutuante conforme DEC-035, DEC-040 e DEC-041). **DEV operacional.** Próximas etapas dependem de autorização: **primeira página interna** (**Festa Infantil**, P0, **aprovada pelo gestor em 06/10/2026**; ainda não iniciada, começa em sessão própria), **formulário de proposta** (destino de todos os CTAs e do botão flutuante), demais páginas P0 (Eventos Familiares, Espaço e Estrutura, Gastronomia, Localização e Contato com mapa embutido futuro);
 2. substituir a foto provisória de Eventos familiares quando chegar foto real multigeracional (L-07); a de corporativo já é real (#51);
-3. pendências abertas relevantes: L-08 (autorização de imagem, incl. #51), L-11 (criar o DEV), L-13 (URL oficial do Maps e redes). L-05 encerrada em 05/10/2026.
+3. pendências abertas relevantes: L-08 (autorização de imagem, incl. #51), L-13 (URL oficial do Maps e redes), L-22 (domínio de produção), L-24 (ajustes não bloqueantes de hospedagem do DEV). **L-11 resolvida em 06/10/2026.** L-05 encerrada em 05/10/2026.
 
 ---
 

@@ -1,7 +1,24 @@
 # Infraestrutura — frontend e ambientes
 
 **Versão:** 2.0 — 03/10/2026 (DEC-033; mantém o que segue válido das DEC-028 a DEC-030)
-**Status:** **planejamento. Nada configurado.** Hostinger e DNS não devem ser configurados ou alterados sem autorização da etapa de infraestrutura. Cloudflare não será configurado agora.
+**Status (06/10/2026):** **DEV criado, publicado e operacional** em https://dev.divinafesta.com.br (Hostinger Web Hosting, SSL e CDN ativos, publicação manual do `dist/`). **Produção (`divinafesta.com.br`) não foi substituída** e segue com o WordPress atual (L-22). Hostinger e DNS da produção não devem ser alterados sem autorização da etapa de lançamento. Cloudflare não será configurado agora.
+
+### Validação técnica do DEV (06/10/2026)
+
+| Item | Resultado |
+|---|---|
+| HTTPS | OK (200; `http://` redireciona 301) |
+| Home | OK; HTML idêntico (SHA256) ao build local do commit `e650a68` |
+| Assets, fontes e imagens | OK: todos os arquivos referenciados respondem 200; as duas fontes (Familjen Grotesk e Source Sans 3) carregam; nenhuma imagem quebrada |
+| Cache | HTML `no-cache, must-revalidate`; `/_astro/*` `max-age=31536000, immutable`; compressão Brotli |
+| Indexação | `<meta name="robots" content="noindex, nofollow">` e `X-Robots-Tag: noindex, nofollow` presentes (inclusive em `/design-system/`) |
+| Headers de segurança | `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy`, `Permissions-Policy`; CSP só `upgrade-insecure-requests` |
+| Exposição de arquivos | `/.git/config` 403, `/.env` 403, `/docs/` 404, `/src/` 404 |
+| Header, Footer, CTA, Maps | OK: H1 e seções renderizam; `#contato` existe; Footer com link "Ver no Google Maps" (`target=_blank`; destino responde 200); botão flutuante presente |
+| Overflow | Sem overflow horizontal em 390, 768 e 1440 px |
+| Console | Sem erros do site (apenas ruído de extensão do navegador) |
+| **Não validado** | isolamento da pasta do DEV em relação à produção (só pela informação do gestor); Core Web Vitals/Lighthouse; teste em dispositivos reais e em Safari/Firefox; teste de toque do menu lateral e do dropdown; conteúdo carregado da CDN em outras regiões |
+| Ajustes pendentes | MIME de `.avif` e demais itens em L-24 |
 
 > **Histórico:** a v1.0 deste documento descrevia o frontend no Cloudflare Pages (DEC-029 e DEC-030). Esse provedor foi substituído pela Hostinger Web Hosting (DEC-033). O roteiro antigo fica registrado nas DEC-029 e DEC-030, em [`decisoes.md`](../07-decisoes/decisoes.md), e no histórico do Git.
 
@@ -48,7 +65,7 @@ npm run build (local) → dist/ → envio para a pasta do dev na Hostinger
 - **Nenhuma edição manual da produção** como processo normal.
 - Automação futura, só depois de validado o processo manual: **GitHub → build → validação → deploy Hostinger**. Não automatizar agora.
 
-## Roteiro da etapa de infraestrutura (quando autorizada)
+## Roteiro da etapa de infraestrutura (executado para o DEV em 06/10/2026; L-11 resolvida)
 
 1. Criar o subdomínio `dev.divinafesta.com.br` na Hostinger, com **pasta própria**, separada da produção.
 2. Ativar **HTTPS** (certificado SSL) para o subdomínio.
