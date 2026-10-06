@@ -694,3 +694,43 @@ Decisão: **"Solicitar proposta" leva ao formulário e a Home ganha botão flutu
 Motivo: O contato comercial deve passar pelo formulário, que qualifica o pedido e preserva os dados (DEC-032), em vez de abrir uma conversa solta no WhatsApp.
 Impacto: Atualiza `Hero.astro`, `FinalCta.astro`, `FloatingContact.astro` (novo), `BaseLayout.astro`, `Footer.astro` (espaço reservado ao botão), `site.ts`, [`home-estrutura.md`](../04-conteudo/home-estrutura.md) (§11 e §13) e o CONTEXTO-ATUAL. O formulário, o backend e o fallback seguem sem implementação.
 Status: Aprovada
+
+## DEC-042
+Data: 06/10/2026
+Decisão: **Eficiência operacional: terminal/script local antes de IA para tarefas determinísticas; páginas internas pensadas como unidade completa.**
+
+### Uso de ferramentas
+
+Sempre que uma tarefa puder ser executada de forma determinística, reproduzível e segura por terminal, script local ou ferramenta do sistema, esse caminho deve ser preferido antes de chamadas adicionais de IA.
+
+Exemplos:
+- testes e builds (`npm run check`, `npm run build`, `git diff --check`);
+- inspeções Git e de arquivos;
+- hashes SHA256, dimensões e metadados;
+- organização e montagem de screenshots;
+- buscas e transformações mecânicas;
+- inspeção simples de HTML/CSS;
+- tarefas repetitivas que não exigem julgamento editorial.
+
+A IA deve ser concentrada no que realmente exige raciocínio e critério: estratégia, UX/UI, arquitetura de informação, redação, SEO, análise visual, diagnóstico e decisões comerciais.
+
+Quando ambos forem necessários, primeiro coletar e organizar os dados por terminal/script e depois fornecer à IA somente o material relevante.
+
+A regra de eficiência **não altera** os limites de segurança do repositório, as exigências de autorização, o isolamento do projeto nem as regras sobre ações destrutivas.
+
+### Fluxo das páginas internas
+
+As páginas internas devem ser concebidas inicialmente **como uma peça completa**, considerando de ponta a ponta:
+- narrativa e intenção;
+- SEO e SEO local;
+- conteúdo e cobertura semântica;
+- fotografias e lacunas do acervo;
+- layout e ritmo editorial;
+- mobile/tablet/desktop;
+- conversão e links internos.
+
+Não é necessário interromper o trabalho para validar cada seção individualmente por padrão. A divisão em seções continua útil para implementação e diagnóstico, mas a página deve ser avaliada como unidade antes de aprovação.
+
+Motivo: Evitar consumo desnecessário de IA em tarefas mecânicas, reduzir tempo e retrabalho e impedir que páginas internas sejam construídas como blocos isolados sem coerência editorial.
+Impacto: Atualiza `AGENTS.md`, substitui a regra operacional anterior de validação obrigatoriamente seção por seção e passa a orientar Claude, Codex, Astra, Copilot e demais agentes do projeto. Não altera stack, Design System, conteúdo aprovado, segurança ou governança de Git.
+Status: Aprovada
