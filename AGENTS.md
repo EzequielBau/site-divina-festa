@@ -47,7 +47,7 @@ A atualização documental não é opcional nem etapa futura: faz parte da defin
 7. Não renomear arquivos em massa sem aprovação.
 8. Não fazer push automático de alterações estruturais sem autorização.
 9. Trabalhar página por página.
-10. Trabalhar seção por seção.
+10. **Páginas internas devem ser pensadas como uma unidade completa antes da implementação**: narrativa, SEO, conteúdo, imagens, responsividade e conversão devem ser planejados de ponta a ponta. Não exigir validação seção por seção por padrão; dividir em seções apenas para execução técnica ou quando houver dúvida concreta.
 11. Consultar os documentos de governança antes de decisões.
 12. Preservar clareza, UX, SEO, SEO local, CRO, mobile e performance.
 13. Evitar modismos visuais (parallax, autoplay, animação gratuita, neon, luxo artificial).
@@ -58,6 +58,38 @@ A atualização documental não é opcional nem etapa futura: faz parte da defin
 18. Usar Git com commits pequenos e claros.
 19. Não colocar credenciais ou tokens no código.
 20. Nunca versionar `.env` ou segredos.
+
+## Uso eficiente de IA e ferramentas determinísticas
+
+**Regra permanente — terminal first (DEC-042):** sempre que uma tarefa puder ser resolvida de forma determinística, previsível e segura por terminal, script local ou ferramenta do sistema, **preferir esse caminho antes de consumir raciocínio/execução de IA**.
+
+Priorizar terminal/automação local para tarefas como:
+- `npm run check`, `npm run build`, `git diff --check`, `git status`, `git diff`, `git remote -v`;
+- busca, listagem, comparação, renomeação pontual e verificação de arquivos;
+- SHA256, dimensões, peso e metadados de imagens;
+- montagem, recorte técnico e organização de screenshots;
+- inspeção simples de HTML/CSS gerado;
+- transformações mecânicas repetitivas que não exigem julgamento editorial;
+- validações que possam ser feitas com comandos reproduzíveis.
+
+**Reservar IA para o que realmente exige julgamento**, por exemplo:
+- estratégia;
+- arquitetura de informação;
+- UX/UI;
+- redação e revisão editorial;
+- SEO e intenção de busca;
+- análise visual;
+- diagnóstico de problemas não determinísticos;
+- decisões de produto, conversão e priorização.
+
+Regras:
+- não usar uma sequência longa de chamadas de IA/navegador quando um comando ou script curto produzir o mesmo resultado;
+- reutilizar saídas já geradas em vez de refazer trabalho;
+- preferir processos reproduzíveis e auditáveis;
+- eficiência não justifica burlar regras de segurança, acessar outras pastas/repositórios ou executar ações destrutivas sem autorização;
+- se terminal/script e IA forem ambos necessários, usar primeiro o terminal para coletar/organizar dados e depois entregar à IA apenas o material relevante.
+
+Objetivo: **reduzir custo, tempo e churn de IA sem reduzir qualidade**, deixando modelos de IA concentrados nas tarefas em que acrescentam raciocínio e critério.
 
 ## Regras complementares
 
